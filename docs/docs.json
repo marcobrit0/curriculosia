@@ -1,14 +1,14 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Reactive Resume",
+  "name": "Currículos IA",
   "favicon": "/favicon.svg",
   "description": "A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever. Try it out today!",
   "seo": {
     "indexing": "all",
     "metatags": {
-      "canonical": "https://docs.rxresu.me",
-      "og:image": "https://rxresu.me/opengraph/banner.jpg"
+      "canonical": "https://docs.curriculos.ia.br",
+      "og:image": "https://curriculos.ia.br/opengraph/banner.jpg"
     }
   },
   "fonts": {
@@ -110,13 +110,13 @@
       "anchors": [
         {
           "icon": "link",
-          "anchor": "Reactive Resume",
-          "href": "https://rxresu.me"
+          "anchor": "Currículos IA",
+          "href": "https://curriculos.ia.br"
         },
         {
           "icon": "github",
           "anchor": "Source Code",
-          "href": "https://github.com/amruthpillai/reactive-resume"
+          "href": "https://github.com/marcobrit0/curriculosia"
         }
       ]
     }
@@ -129,13 +129,13 @@
     "links": [
       {
         "label": "Support",
-        "href": "https://github.com/amruthpillai/reactive-resume/issues"
+        "href": "https://github.com/marcobrit0/curriculosia/issues"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Get Started",
-      "href": "https://rxresu.me"
+      "href": "https://curriculos.ia.br"
     }
   },
   "contextual": {
@@ -143,8 +143,8 @@
   },
   "footer": {
     "socials": {
-      "website": "https://rxresu.me",
-      "github": "https://github.com/amruthpillai/reactive-resume"
+      "website": "https://curriculos.ia.br",
+      "github": "https://github.com/marcobrit0/curriculosia"
     }
   }
 }

@@ -6,13 +6,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: sr\n"
-"Project-Id-Version: reactive-resume\n"
+"Project-Id-Version: curriculosia\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2026-03-19 09:07\n"
 "Last-Translator: \n"
 "Language-Team: Serbian (Cyrillic)\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Crowdin-Project: reactive-resume\n"
+"X-Crowdin-Project: curriculosia\n"
 "X-Crowdin-Project-ID: 503410\n"
 "X-Crowdin-Language: sr\n"
 "X-Crowdin-File: /main/locales/en-US.po\n"
@@ -86,7 +86,7 @@ msgid "<0>Frequently</0><1>Asked</1><2>Questions</2>"
 msgstr "<0>Често</0><1>Постављана</1><2>Питања</2>"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "<0>Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
+msgid "<0>Thank you for using Currículos IA! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Currículos IA has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
 msgstr "<0>Хвала вам што користите Реактивни Резиме! Ова апликација је рад из љубави, настао углавном у моје слободно време, уз дивну подршку сарадника отвореног кода широм света.</0><1>Ако вам је Реактивни Резиме био од помоћи и желите да помогнете да остане бесплатан и отворен за све, размислите о донацији. Свака, па и најмања подршка, много значи!</1>"
 
 #: src/dialogs/api-key/create.tsx
@@ -123,7 +123,7 @@ msgid "A link to your resume has been copied to clipboard."
 msgstr "Веза ка вашем резимеу је копирана у привремену меморију."
 
 #: src/routes/_home/-sections/testimonials.tsx
-msgid "A lot of people have written to me over the years to share their experiences with Reactive Resume and how it has helped them, and I never get tired of reading them. If you have a story to share, let me know by sending me an email at <0>{email}</0>."
+msgid "A lot of people have written to me over the years to share their experiences with Currículos IA and how it has helped them, and I never get tired of reading them. If you have a story to share, let me know by sending me an email at <0>{email}</0>."
 msgstr "Много људи ми је током година писало да поделе своја искуства са Реактивним Резимеом и како им је помогао, и никада ми не досади да их читам. Ако и ви имате причу да поделите, јавите ми тако што ћете ми послати е-поруку на <0>{email}</0>."
 
 #: src/routes/dashboard/settings/profile.tsx
@@ -131,7 +131,7 @@ msgid "A new verification link has been sent to your email address. Please check
 msgstr "Нова веза за верификацију је послата на вашу адресу е-поште. Проверите пријемно сандуче да бисте верификовали налог."
 
 #: src/components/ui/copyright.tsx
-msgid "A passion project by <0>Amruth Pillai</0>."
+msgid "A passion project by <0>Marco Brito</0>."
 msgstr "Страстни пројекат аутора <0>Амрута Пилаија</0>."
 
 #: src/dialogs/resume/index.tsx
@@ -674,7 +674,7 @@ msgid "Continue where you left off"
 msgstr "Наставите тамо где сте стали"
 
 #: src/dialogs/resume/import.tsx
-msgid "Continue where you left off by importing an existing resume you created using Reactive Resume or any another resume builder. Supported formats include PDF, Microsoft Word, as well as JSON files from Reactive Resume."
+msgid "Continue where you left off by importing an existing resume you created using Currículos IA or any another resume builder. Supported formats include PDF, Microsoft Word, as well as JSON files from Currículos IA."
 msgstr "Наставите тамо где сте стали увозом постојећег резимеа који сте направили помоћу Реактивног Резимеа или неког другог алата за креирање резимеа. Подржани формати укључују PDF, Microsoft Word, као и JSON датотеке из Реактивног Резимеа."
 
 #: src/routes/dashboard/job-search/-components/search-filters.tsx
@@ -993,7 +993,7 @@ msgid "Don't have an account? <0/>"
 msgstr "Немате налог? <0/>"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Donate to Reactive Resume"
+msgid "Donate to Currículos IA"
 msgstr "Донирајте Реактивном Резимеу"
 
 #: src/dialogs/auth/enable-two-factor.tsx
@@ -1203,11 +1203,11 @@ msgid "Expires on {0}"
 msgstr "Истиче {0}"
 
 #: src/routes/_home/-sections/templates.tsx
-msgid "Explore our diverse selection of templates, each designed to fit different styles, professions, and personalities. Reactive Resume currently offers 12 templates, with more on the way."
+msgid "Explore our diverse selection of templates, each designed to fit different styles, professions, and personalities. Currículos IA currently offers 12 templates, with more on the way."
 msgstr "Истражите наш разноврстан избор шаблона, од којих је сваки дизајниран да одговара различитим стиловима, професијама и личностима. Реактивни Резиме тренутно нуди 12 шаблона, а још је у припреми."
 
 #: src/routes/dashboard/settings/api-keys.tsx
-msgid "Explore the API documentation to learn how to integrate Reactive Resume with your applications. Find detailed endpoints, request examples, and authentication methods."
+msgid "Explore the API documentation to learn how to integrate Currículos IA with your applications. Find detailed endpoints, request examples, and authentication methods."
 msgstr "Истражите API документацију да бисте сазнали како да интегришете Реактивни Резиме са својим апликацијама. Пронађите детаљне крајње тачке, примере захтева и методе аутентификације."
 
 #: src/utils/resume/section.tsx
@@ -1517,11 +1517,11 @@ msgid "Intern"
 msgstr "Стажиста"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Is Reactive Resume available in multiple languages?"
+msgid "Is Currículos IA available in multiple languages?"
 msgstr "Да ли је Реактивни Резиме доступан на више језика?"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Is Reactive Resume really free?"
+msgid "Is Currículos IA really free?"
 msgstr "Да ли је Реактивни Резиме заиста бесплатан?"
 
 #: src/dialogs/resume/sections/certification.tsx
@@ -2114,27 +2114,27 @@ msgid "RapidAPI Key"
 msgstr "RapidAPI кључ"
 
 #: src/routes/_home/-sections/header.tsx
-msgid "Reactive Resume - Go to homepage"
+msgid "Currículos IA - Go to homepage"
 msgstr "Реактивни Резиме - Иди на почетну страницу"
 
 #: src/routes/_home/-sections/prefooter.tsx
-msgid "Reactive Resume continues to grow thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development."
+msgid "Currículos IA continues to grow thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development."
 msgstr "Реактивни Резиме наставља да расте захваљујући својој живој заједници. Овај пројекат дугује напредак бројним појединцима који су посветили своје време и вештине да га унапреде. Славимо програмере који су побољшали његове функције на GitHub-у, лингвисте чији су преводи на Crowdin-у учинили да буде доступан широј публици и људе који су донирали да подрже његов даљи развој."
 
 #: src/routes/_home/-sections/donate.tsx
-msgid "Reactive Resume is a free and open-source project, built with love and maintained by me and a community of contributors. Your donations help keep the lights on and the code flowing."
+msgid "Currículos IA is a free and open-source project, built with love and maintained by me and a community of contributors. Your donations help keep the lights on and the code flowing."
 msgstr "Реактивни Резиме је бесплатан и отворен пројекат, направљен с љубављу и одржаван од мене и заједнице сарадника. Ваше донације помажу да светла остану упаљена, а код настави да тече."
 
 #: src/routes/_home/-sections/hero.tsx
-msgid "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
+msgid "Currículos IA is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
 msgstr "Реактивни Резиме је бесплатан и отворен алат за креирање резимеа који поједностављује процес креирања, ажурирања и дељења вашег резимеа."
 
 #: src/routes/_home/-sections/product-hunt-banner.tsx
-msgid "Reactive Resume is launching on Product Hunt today, head over to show some love!"
+msgid "Currículos IA is launching on Product Hunt today, head over to show some love!"
 msgstr "Реактивни Резиме данас се покреће на Product Hunt-у, свратите да покажете подршку!"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Reactive Resume is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall."
+msgid "Currículos IA is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall."
 msgstr "Реактивни Резиме је отвореног кода, усмерен на приватност и потпуно бесплатан. За разлику од других алата за креирање резимеа, не приказује огласе, не прати ваше податке и не ограничава функције иза платног зида."
 
 #: src/dialogs/resume/sections/cover-letter.tsx
@@ -2591,7 +2591,7 @@ msgid "Summary"
 msgstr "Сажетак"
 
 #: src/routes/_home/-sections/donate.tsx
-msgid "Support Reactive Resume"
+msgid "Support Currículos IA"
 msgstr "Подржите Реактивни Резиме"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
@@ -2773,11 +2773,11 @@ msgid "This week"
 msgstr "Ове недеље"
 
 #: src/dialogs/api-key/create.tsx
-msgid "This will generate a new API key to access the Reactive Resume API to allow machines to interact with your resume data."
+msgid "This will generate a new API key to access the Currículos IA API to allow machines to interact with your resume data."
 msgstr "Ово ће генерисати нови API кључ за приступ Реактивни Резиме API-ју како би машине могле да комуницирају са подацима вашег резимеа."
 
 #: src/routes/_home/-sections/hero.tsx
-msgid "Timelapse demonstration of building a resume with Reactive Resume"
+msgid "Timelapse demonstration of building a resume with Currículos IA"
 msgstr "Убрзана демонстрација креирања резимеа помоћу Реактивног Резимеа"
 
 #: src/dialogs/api-key/create.tsx
@@ -3108,7 +3108,7 @@ msgid "What is JSearch API?"
 msgstr "Шта је JSearch API?"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "What makes Reactive Resume different from other resume builders?"
+msgid "What makes Currículos IA different from other resume builders?"
 msgstr "По чему се Реактивни Резиме разликује од других алата за креирање резимеа?"
 
 #: src/routes/_home/-sections/hero.tsx
@@ -3126,7 +3126,7 @@ msgid "Write your own CSS (or use an AI to generate it for you) to customize you
 msgstr "Напишите сопствени CSS (или користите AI да га генерише за вас) да бисте свој резиме максимално прилагодили."
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Yes, Reactive Resume is available in multiple languages. You can choose your preferred language in the settings page, or using the language switcher in the top right corner. If you don't see your language, or you would like to improve the existing translations, you can <0>contribute to the translations on Crowdin<1> (opens in new tab)</1></0>."
+msgid "Yes, Currículos IA is available in multiple languages. You can choose your preferred language in the settings page, or using the language switcher in the top right corner. If you don't see your language, or you would like to improve the existing translations, you can <0>contribute to the translations on Crowdin<1> (opens in new tab)</1></0>."
 msgstr "Да, Реактивни Резиме је доступан на више језика. Омиљени језик можете изабрати на страници подешавања или помоћу прекидача језика у горњем десном углу. Ако не видите свој језик или желите да побољшате постојеће преводе, можете <0>допринети преводима на Crowdin-у<1> (отвара се у новом језичку)</1></0>."
 
 #: src/routes/_home/-sections/faq.tsx
@@ -3134,7 +3134,7 @@ msgid "Yes! Every template is fully customizable. You can change colors, fonts, 
 msgstr "Да! Сваки шаблон је у потпуности прилагодљив. Можете мењати боје, фонтове, размаке, па чак и писати прилагођени CSS за потпуну контролу изгледа свог резимеа."
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Yes! Reactive Resume is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free."
+msgid "Yes! Currículos IA is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free."
 msgstr "Да! Реактивни Резиме је потпуно бесплатан за коришћење, без скривених трошкова, премијум нивоа или претплата. Он је отвореног кода и увек ће остати бесплатан."
 
 #: src/routes/dashboard/job-search/-components/job-utils.ts
@@ -3183,7 +3183,7 @@ msgid "Your data is stored locally"
 msgstr "Ваши подаци се чувају локално"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Your data is stored securely and is never shared with third parties. You can also self-host Reactive Resume on your own servers for complete control over your data."
+msgid "Your data is stored securely and is never shared with third parties. You can also self-host Currículos IA on your own servers for complete control over your data."
 msgstr "Ваши подаци се чувају безбедно и никада се не деле са трећим странама. Такође можете самостално хостовати Реактивни Резиме на сопственим серверима за потпуну контролу над подацима."
 
 #: src/routes/auth/reset-password.tsx

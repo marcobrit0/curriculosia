@@ -21,7 +21,7 @@ let browserInstance: Browser | null = null;
 
 async function normalizePrinterEndpoint(printerEndpoint: string): Promise<URL> {
   // Convert endpoint hostname to IP when using chromedp
-  // https://github.com/amruthpillai/reactive-resume/issues/2681
+  // https://github.com/marcobrit0/curriculosia/issues/2681
   const endpoint = new URL(printerEndpoint);
 
   if (!isIP(endpoint.hostname) && !endpoint.protocol.startsWith("ws")) {

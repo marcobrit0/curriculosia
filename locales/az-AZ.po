@@ -6,13 +6,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: az\n"
-"Project-Id-Version: reactive-resume\n"
+"Project-Id-Version: curriculosia\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2026-03-19 09:08\n"
 "Last-Translator: \n"
 "Language-Team: Azerbaijani\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: reactive-resume\n"
+"X-Crowdin-Project: curriculosia\n"
 "X-Crowdin-Project-ID: 503410\n"
 "X-Crowdin-Language: az\n"
 "X-Crowdin-File: /main/locales/en-US.po\n"
@@ -86,8 +86,8 @@ msgid "<0>Frequently</0><1>Asked</1><2>Questions</2>"
 msgstr "<0>Tez-tez</0><1>Verilən</1><2>Suallar</2>"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "<0>Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
-msgstr "<0>Reactive Resume-dən istifadə etdiyiniz üçün təşəkkür edirəm! Bu tətbiq əsasən boş vaxtlarımda, dünyanın hər yerindən açıq mənbə iştirakçılarının möhtəşəm dəstəyi ilə sevgi ilə hazırlanmış bir layihədir.</0><1>Əgər Reactive Resume sizin üçün faydalı olubsa və onu hər kəs üçün pulsuz və açıq saxlamağa kömək etmək istəsəniz, ianə etməyi nəzərdən keçirin. Kiçik məbləğ belə çox qiymətlidir!</1>"
+msgid "<0>Thank you for using Currículos IA! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Currículos IA has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
+msgstr "<0>Currículos IA-dən istifadə etdiyiniz üçün təşəkkür edirəm! Bu tətbiq əsasən boş vaxtlarımda, dünyanın hər yerindən açıq mənbə iştirakçılarının möhtəşəm dəstəyi ilə sevgi ilə hazırlanmış bir layihədir.</0><1>Əgər Currículos IA sizin üçün faydalı olubsa və onu hər kəs üçün pulsuz və açıq saxlamağa kömək etmək istəsəniz, ianə etməyi nəzərdən keçirin. Kiçik məbləğ belə çox qiymətlidir!</1>"
 
 #: src/dialogs/api-key/create.tsx
 msgid "1 month"
@@ -123,16 +123,16 @@ msgid "A link to your resume has been copied to clipboard."
 msgstr "Özgeçmişinizə aparan link mübadilə buferinə kopyalandı."
 
 #: src/routes/_home/-sections/testimonials.tsx
-msgid "A lot of people have written to me over the years to share their experiences with Reactive Resume and how it has helped them, and I never get tired of reading them. If you have a story to share, let me know by sending me an email at <0>{email}</0>."
-msgstr "İllər ərzində bir çox insan Reactive Resume ilə bağlı təcrübələrini və onun onlara necə kömək etdiyini mənimlə bölüşmək üçün yazıb və mən bunları oxumaqdan heç vaxt yorulmuram. Əgər paylaşmaq istədiyiniz bir hekayəniz varsa, mənə <0>{email}</0> ünvanına e‑poçt göndərməklə bildirin."
+msgid "A lot of people have written to me over the years to share their experiences with Currículos IA and how it has helped them, and I never get tired of reading them. If you have a story to share, let me know by sending me an email at <0>{email}</0>."
+msgstr "İllər ərzində bir çox insan Currículos IA ilə bağlı təcrübələrini və onun onlara necə kömək etdiyini mənimlə bölüşmək üçün yazıb və mən bunları oxumaqdan heç vaxt yorulmuram. Əgər paylaşmaq istədiyiniz bir hekayəniz varsa, mənə <0>{email}</0> ünvanına e‑poçt göndərməklə bildirin."
 
 #: src/routes/dashboard/settings/profile.tsx
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
 msgstr "Hesabınızı təsdiqləmək üçün yeni təsdiq linki e‑poçt ünvanınıza göndərildi. Zəhmət olmasa, poçt qutunuzu yoxlayın."
 
 #: src/components/ui/copyright.tsx
-msgid "A passion project by <0>Amruth Pillai</0>."
-msgstr "<0>Amruth Pillai</0> tərəfindən ehtiras layihəsi."
+msgid "A passion project by <0>Marco Brito</0>."
+msgstr "<0>Marco Brito</0> tərəfindən ehtiras layihəsi."
 
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/index.tsx
@@ -674,8 +674,8 @@ msgid "Continue where you left off"
 msgstr "Dayandığınız yerdən davam edin"
 
 #: src/dialogs/resume/import.tsx
-msgid "Continue where you left off by importing an existing resume you created using Reactive Resume or any another resume builder. Supported formats include PDF, Microsoft Word, as well as JSON files from Reactive Resume."
-msgstr "Reactive Resume və ya başqa bir özgeçmiş qurucusu ilə yaratdığınız mövcud özgeçmişi idxal edərək dayandığınız yerdən davam edin. Dəstəklənən formatlara PDF, Microsoft Word və Reactive Resume‑dən JSON faylları daxildir."
+msgid "Continue where you left off by importing an existing resume you created using Currículos IA or any another resume builder. Supported formats include PDF, Microsoft Word, as well as JSON files from Currículos IA."
+msgstr "Currículos IA və ya başqa bir özgeçmiş qurucusu ilə yaratdığınız mövcud özgeçmişi idxal edərək dayandığınız yerdən davam edin. Dəstəklənən formatlara PDF, Microsoft Word və Currículos IA‑dən JSON faylları daxildir."
 
 #: src/routes/dashboard/job-search/-components/search-filters.tsx
 msgid "Contractor"
@@ -993,8 +993,8 @@ msgid "Don't have an account? <0/>"
 msgstr "Hesabınız yoxdur? <0/>"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Donate to Reactive Resume"
-msgstr "Reactive Resume‑yə ianə et"
+msgid "Donate to Currículos IA"
+msgstr "Currículos IA‑yə ianə et"
 
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/routes/$username/$slug.tsx
@@ -1203,12 +1203,12 @@ msgid "Expires on {0}"
 msgstr "{0} tarixində başa çatır"
 
 #: src/routes/_home/-sections/templates.tsx
-msgid "Explore our diverse selection of templates, each designed to fit different styles, professions, and personalities. Reactive Resume currently offers 12 templates, with more on the way."
-msgstr "Müxtəlif üslublara, peşələrə və xarakterlərə uyğun olmaq üçün hazırlanmış şablon seçimlərimizi araşdırın. Reactive Resume hazırda 12 şablon təklif edir və daha çoxu yoldadır."
+msgid "Explore our diverse selection of templates, each designed to fit different styles, professions, and personalities. Currículos IA currently offers 12 templates, with more on the way."
+msgstr "Müxtəlif üslublara, peşələrə və xarakterlərə uyğun olmaq üçün hazırlanmış şablon seçimlərimizi araşdırın. Currículos IA hazırda 12 şablon təklif edir və daha çoxu yoldadır."
 
 #: src/routes/dashboard/settings/api-keys.tsx
-msgid "Explore the API documentation to learn how to integrate Reactive Resume with your applications. Find detailed endpoints, request examples, and authentication methods."
-msgstr "Reactive Resume‑ni tətbiqlərinizlə inteqrasiya etməyi öyrənmək üçün API sənədləşməsini araşdırın. Orada ətraflı son nöqtələr, sorğu nümunələri və autentifikasiya üsullarını tapa bilərsiniz."
+msgid "Explore the API documentation to learn how to integrate Currículos IA with your applications. Find detailed endpoints, request examples, and authentication methods."
+msgstr "Currículos IA‑ni tətbiqlərinizlə inteqrasiya etməyi öyrənmək üçün API sənədləşməsini araşdırın. Orada ətraflı son nöqtələr, sorğu nümunələri və autentifikasiya üsullarını tapa bilərsiniz."
 
 #: src/utils/resume/section.tsx
 msgid "Export"
@@ -1517,12 +1517,12 @@ msgid "Intern"
 msgstr "Stajyor"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Is Reactive Resume available in multiple languages?"
-msgstr "Reactive Resume birdən çox dildə mövcuddurmu?"
+msgid "Is Currículos IA available in multiple languages?"
+msgstr "Currículos IA birdən çox dildə mövcuddurmu?"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Is Reactive Resume really free?"
-msgstr "Reactive Resume həqiqətən pulsuzdirmi?"
+msgid "Is Currículos IA really free?"
+msgstr "Currículos IA həqiqətən pulsuzdirmi?"
 
 #: src/dialogs/resume/sections/certification.tsx
 msgid "Issuer"
@@ -2114,28 +2114,28 @@ msgid "RapidAPI Key"
 msgstr "RapidAPI açarı"
 
 #: src/routes/_home/-sections/header.tsx
-msgid "Reactive Resume - Go to homepage"
-msgstr "Reactive Resume - Ana səhifəyə keç"
+msgid "Currículos IA - Go to homepage"
+msgstr "Currículos IA - Ana səhifəyə keç"
 
 #: src/routes/_home/-sections/prefooter.tsx
-msgid "Reactive Resume continues to grow thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development."
-msgstr "Reactive Resume canlı icmasına görə böyüməyə davam edir. Bu layihə onu daha yaxşı etmək üçün vaxt və bacarıqlarını sərf edən çoxsaylı insanlara borcludur. Xüsusiyyətlərini GitHub‑da təkmilləşdirən proqramçılara, tərcümələri ilə Crowdin‑də onu daha geniş auditoriya üçün əlçatan edən dilçi mütəxəssislərə və davamlı inkişafını dəstəkləmək üçün ianə edən insanlara minnətdarıq."
+msgid "Currículos IA continues to grow thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development."
+msgstr "Currículos IA canlı icmasına görə böyüməyə davam edir. Bu layihə onu daha yaxşı etmək üçün vaxt və bacarıqlarını sərf edən çoxsaylı insanlara borcludur. Xüsusiyyətlərini GitHub‑da təkmilləşdirən proqramçılara, tərcümələri ilə Crowdin‑də onu daha geniş auditoriya üçün əlçatan edən dilçi mütəxəssislərə və davamlı inkişafını dəstəkləmək üçün ianə edən insanlara minnətdarıq."
 
 #: src/routes/_home/-sections/donate.tsx
-msgid "Reactive Resume is a free and open-source project, built with love and maintained by me and a community of contributors. Your donations help keep the lights on and the code flowing."
-msgstr "Reactive Resume pulsuz və açıq mənbə layihəsidir; sevgi ilə yaradılıb və mənimlə birlikdə icma iştirakçıları tərəfindən dəstəklənir. Sizin ianələriniz layihənin davam etməsinə və kodun axmasına kömək edir."
+msgid "Currículos IA is a free and open-source project, built with love and maintained by me and a community of contributors. Your donations help keep the lights on and the code flowing."
+msgstr "Currículos IA pulsuz və açıq mənbə layihəsidir; sevgi ilə yaradılıb və mənimlə birlikdə icma iştirakçıları tərəfindən dəstəklənir. Sizin ianələriniz layihənin davam etməsinə və kodun axmasına kömək edir."
 
 #: src/routes/_home/-sections/hero.tsx
-msgid "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
-msgstr "Reactive Resume özgeçmişinizi yaratma, yeniləmə və paylaşma prosesini sadələşdirən pulsuz və açıq mənbə özgeçmiş qurucusudur."
+msgid "Currículos IA is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
+msgstr "Currículos IA özgeçmişinizi yaratma, yeniləmə və paylaşma prosesini sadələşdirən pulsuz və açıq mənbə özgeçmiş qurucusudur."
 
 #: src/routes/_home/-sections/product-hunt-banner.tsx
-msgid "Reactive Resume is launching on Product Hunt today, head over to show some love!"
-msgstr "Reactive Resume bu gün Product Hunt‑da işə salınır, keçib dəstəyinizi göstərin!"
+msgid "Currículos IA is launching on Product Hunt today, head over to show some love!"
+msgstr "Currículos IA bu gün Product Hunt‑da işə salınır, keçib dəstəyinizi göstərin!"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Reactive Resume is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall."
-msgstr "Reactive Resume açıq mənbəlidir, məxfilik yönümlüdür və tamamilə pulsuzdur. Digər özgeçmiş qurucularından fərqli olaraq, o reklamlara yer vermir, məlumatınızı izləmir və funksiyaları ödəniş divarının arxasında məhdudlaşdırmır."
+msgid "Currículos IA is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall."
+msgstr "Currículos IA açıq mənbəlidir, məxfilik yönümlüdür və tamamilə pulsuzdur. Digər özgeçmiş qurucularından fərqli olaraq, o reklamlara yer vermir, məlumatınızı izləmir və funksiyaları ödəniş divarının arxasında məhdudlaşdırmır."
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 msgid "Recipient"
@@ -2591,8 +2591,8 @@ msgid "Summary"
 msgstr "Xülasə"
 
 #: src/routes/_home/-sections/donate.tsx
-msgid "Support Reactive Resume"
-msgstr "Reactive Resume‑ni dəstəklə"
+msgid "Support Currículos IA"
+msgstr "Currículos IA‑ni dəstəklə"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Support the app by doing what you can!"
@@ -2773,12 +2773,12 @@ msgid "This week"
 msgstr "Bu həftə"
 
 #: src/dialogs/api-key/create.tsx
-msgid "This will generate a new API key to access the Reactive Resume API to allow machines to interact with your resume data."
-msgstr "Bu, maşınların özgeçmiş məlumatlarınızla qarşılıqlı əlaqədə olması üçün Reactive Resume API‑nə giriş üçün yeni API açarı yaradacaq."
+msgid "This will generate a new API key to access the Currículos IA API to allow machines to interact with your resume data."
+msgstr "Bu, maşınların özgeçmiş məlumatlarınızla qarşılıqlı əlaqədə olması üçün Currículos IA API‑nə giriş üçün yeni API açarı yaradacaq."
 
 #: src/routes/_home/-sections/hero.tsx
-msgid "Timelapse demonstration of building a resume with Reactive Resume"
-msgstr "Reactive Resume ilə özgeçmiş qurulmasının timelapse nümayişi"
+msgid "Timelapse demonstration of building a resume with Currículos IA"
+msgstr "Currículos IA ilə özgeçmiş qurulmasının timelapse nümayişi"
 
 #: src/dialogs/api-key/create.tsx
 msgid "Tip: Give your API key a name, corresponding to the purpose of the key, to help you identify it later."
@@ -3108,8 +3108,8 @@ msgid "What is JSearch API?"
 msgstr "JSearch API nədir?"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "What makes Reactive Resume different from other resume builders?"
-msgstr "Reactive Resume‑ni digər özgeçmiş qurucularından nə fərqləndirir?"
+msgid "What makes Currículos IA different from other resume builders?"
+msgstr "Currículos IA‑ni digər özgeçmiş qurucularından nə fərqləndirir?"
 
 #: src/routes/_home/-sections/hero.tsx
 msgid "What's new in the latest version?"
@@ -3126,16 +3126,16 @@ msgid "Write your own CSS (or use an AI to generate it for you) to customize you
 msgstr "Öz CSS‑inizi yazaraq (və ya sizin üçün onu yaratmaq üçün Süni İntellektdən istifadə edərək) özgeçmişinizi maksimum dərəcədə fərdiləşdirin."
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Yes, Reactive Resume is available in multiple languages. You can choose your preferred language in the settings page, or using the language switcher in the top right corner. If you don't see your language, or you would like to improve the existing translations, you can <0>contribute to the translations on Crowdin<1> (opens in new tab)</1></0>."
-msgstr "Bəli, Reactive Resume bir neçə dildə mövcuddur. Seçim etdiyiniz dili parametrlər səhifəsindən və ya sağ yuxarı küncdəki dil dəyişdiricisindən seçə bilərsiniz. Əgər dilinizi görmürsünüzsə və ya mövcud tərcümələri yaxşılaşdırmaq istəyirsinizsə, <0>Crowdin‑də tərcümələrə töhfə verə bilərsiniz<1> (yeni vərəqdə açılır)</1></0>."
+msgid "Yes, Currículos IA is available in multiple languages. You can choose your preferred language in the settings page, or using the language switcher in the top right corner. If you don't see your language, or you would like to improve the existing translations, you can <0>contribute to the translations on Crowdin<1> (opens in new tab)</1></0>."
+msgstr "Bəli, Currículos IA bir neçə dildə mövcuddur. Seçim etdiyiniz dili parametrlər səhifəsindən və ya sağ yuxarı küncdəki dil dəyişdiricisindən seçə bilərsiniz. Əgər dilinizi görmürsünüzsə və ya mövcud tərcümələri yaxşılaşdırmaq istəyirsinizsə, <0>Crowdin‑də tərcümələrə töhfə verə bilərsiniz<1> (yeni vərəqdə açılır)</1></0>."
 
 #: src/routes/_home/-sections/faq.tsx
 msgid "Yes! Every template is fully customizable. You can change colors, fonts, spacing, and even write custom CSS for complete control over your resume's appearance."
 msgstr "Bəli! Hər bir şablon tam fərdiləşdirilə bilər. Rəngləri, şriftləri, aralıqları dəyişə və hətta özgeçmişinizin görünüşünə tam nəzarət üçün xüsusi CSS yaza bilərsiniz."
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Yes! Reactive Resume is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free."
-msgstr "Bəli! Reactive Resume heç bir gizli xərc, premium səviyyə və ya abunə haqqı olmadan tamamilə pulsuzdur. O, açıq mənbəlidir və həmişə pulsuz qalacaq."
+msgid "Yes! Currículos IA is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free."
+msgstr "Bəli! Currículos IA heç bir gizli xərc, premium səviyyə və ya abunə haqqı olmadan tamamilə pulsuzdur. O, açıq mənbəlidir və həmişə pulsuz qalacaq."
 
 #: src/routes/dashboard/job-search/-components/job-utils.ts
 msgid "Yesterday"
@@ -3183,8 +3183,8 @@ msgid "Your data is stored locally"
 msgstr "Məlumatlarınız lokal olaraq saxlanılır"
 
 #: src/routes/_home/-sections/faq.tsx
-msgid "Your data is stored securely and is never shared with third parties. You can also self-host Reactive Resume on your own servers for complete control over your data."
-msgstr "Məlumatlarınız təhlükəsiz şəkildə saxlanılır və heç vaxt üçüncü tərəflərlə paylaşılmır. Məlumatlarınıza tam nəzarət üçün Reactive Resume‑ni öz serverlərinizdə də host edə bilərsiniz."
+msgid "Your data is stored securely and is never shared with third parties. You can also self-host Currículos IA on your own servers for complete control over your data."
+msgstr "Məlumatlarınız təhlükəsiz şəkildə saxlanılır və heç vaxt üçüncü tərəflərlə paylaşılmır. Məlumatlarınıza tam nəzarət üçün Currículos IA‑ni öz serverlərinizdə də host edə bilərsiniz."
 
 #: src/routes/auth/reset-password.tsx
 msgid "Your password has been reset successfully. You can now sign in with your new password."

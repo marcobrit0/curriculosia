@@ -11,7 +11,7 @@ These examples go beyond the basic setup in the [Self-Hosting with Docker](/self
 
 <Info>
   **Help others by sharing your setup!** If you have a working configuration that isn't covered here, I'd love to
-  include it. Simply [open a pull request](https://github.com/amruthpillai/reactive-resume) with your example added to
+  include it. Simply [open a pull request](https://github.com/marcobrit0/curriculosia) with your example added to
   this page. Your contribution helps the community and makes self-hosting easier for everyone.
 </Info>
 
@@ -19,7 +19,7 @@ These examples go beyond the basic setup in the [Self-Hosting with Docker](/self
 
 ## Docker with Traefik
 
-This example uses [Traefik](https://traefik.io/) as a reverse proxy with automatic SSL certificate management via Let's Encrypt. Only the Reactive Resume app is exposed through Traefik—Postgres and the printer remain on an internal network.
+This example uses [Traefik](https://traefik.io/) as a reverse proxy with automatic SSL certificate management via Let's Encrypt. Only the Currículos IA app is exposed through Traefik—Postgres and the printer remain on an internal network.
 
 <Tip>
   Traefik automatically discovers services via Docker labels and handles SSL certificates, making it ideal for setups
@@ -96,7 +96,7 @@ services:
       retries: 3
 
   reactive_resume:
-    image: amruthpillai/reactive-resume:latest
+    image: marcobrit0/curriculosia:latest
     restart: unless-stopped
     environment:
       - APP_URL=https://resume.${DOMAIN}
@@ -116,10 +116,10 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.reactive-resume.rule=Host(`resume.${DOMAIN}`)"
-      - "traefik.http.routers.reactive-resume.entrypoints=websecure"
-      - "traefik.http.routers.reactive-resume.tls.certresolver=letsencrypt"
-      - "traefik.http.services.reactive-resume.loadbalancer.server.port=3000"
+      - "traefik.http.routers.curriculosia.rule=Host(`resume.${DOMAIN}`)"
+      - "traefik.http.routers.curriculosia.entrypoints=websecure"
+      - "traefik.http.routers.curriculosia.tls.certresolver=letsencrypt"
+      - "traefik.http.services.curriculosia.loadbalancer.server.port=3000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
@@ -197,7 +197,7 @@ services:
       - reactive_resume_network
 
   reactive_resume:
-    image: amruthpillai/reactive-resume:latest
+    image: marcobrit0/curriculosia:latest
     restart: unless-stopped
     environment:
       - APP_URL=https://resume.${DOMAIN}
@@ -388,7 +388,7 @@ services:
       replicas: 1
 
   reactive_resume:
-    image: ghcr.io/amruthpillai/reactive-resume:latest
+    image: ghcr.io/marcobrit0/curriculosia:latest
     networks:
       - traefik_network
       - reactive_resume_network
@@ -427,7 +427,7 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.app.rule=Host(`rxresu.me`)"
+        - "traefik.http.routers.app.rule=Host(`curriculos.ia.br`)"
         - "traefik.http.routers.app.entrypoints=websecure"
         - "traefik.http.routers.app.tls=true"
         - "traefik.http.services.app.loadbalancer.server.port=3000"
@@ -494,7 +494,7 @@ Have a different deployment setup that works well? Consider contributing it here
 - Podman configurations
 - Cloud-specific deployments (AWS ECS, Google Cloud Run, Azure Container Apps)
 
-To contribute, [open a pull request](https://github.com/amruthpillai/reactive-resume) with your example added to this page. Include:
+To contribute, [open a pull request](https://github.com/marcobrit0/curriculosia) with your example added to this page. Include:
 
 1. A brief description of when/why someone would use this setup
 2. The complete Docker Compose (or equivalent) configuration

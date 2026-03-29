@@ -29,9 +29,8 @@ export function Prefooter() {
 
           <p className="leading-relaxed text-muted-foreground">
             <Trans>
-              Currículos IA continues to grow thanks to its vibrant community. This project owes its progress to
-              the open-source Reactive Resume project and numerous individuals who've dedicated their time and skills
-              to make it better.
+              Currículos IA continues to grow thanks to its vibrant community and the people who dedicate time, ideas,
+              and code to keep it useful for everyone.
             </Trans>
           </p>
         </motion.div>

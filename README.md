@@ -1,6 +1,6 @@
 # Currículos IA
 
-**AI-powered CV builder for Brazil** — built on top of [Reactive Resume](https://github.com/AmruthPillai/Reactive-Resume).
+**AI-powered CV builder for Brazil** — built on top of [Currículos IA](https://github.com/AmruthPillai/Reactive-Resume).
 
 Currículos IA é um criador de currículos gratuito e de código aberto, com inteligência artificial, feito para o mercado brasileiro.
 
@@ -59,7 +59,7 @@ The app will be available at `http://localhost:3000`.
 
 ## Credits
 
-This project is a fork of [Reactive Resume](https://github.com/AmruthPillai/Reactive-Resume) by [Amruth Pillai](https://amruthpillai.com), licensed under MIT.
+This project is a fork of [Currículos IA](https://github.com/AmruthPillai/Reactive-Resume) by [Marco Brito](https://curriculos.ia.br), licensed under MIT.
 
 ## License
 

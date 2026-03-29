@@ -23,7 +23,7 @@ export function Copyright({ className, ...props }: Props) {
 
       <p>
         <Trans>
-          Built by{" "}
+          Built for{" "}
           <a
             target="_blank"
             rel="noopener"
@@ -32,7 +32,7 @@ export function Copyright({ className, ...props }: Props) {
           >
             Currículos IA
           </a>
-          , based on Reactive Resume by Amruth Pillai.
+          .
         </Trans>
       </p>
 

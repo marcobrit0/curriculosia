@@ -10,7 +10,7 @@ import { BrandIcon } from "../ui/brand-icon";
 export function NotFoundScreen({ routeId }: NotFoundRouteProps) {
   return (
     <div className="mx-auto flex h-svh max-w-md flex-col items-center justify-center gap-y-4">
-      <BrandIcon variant="logo" className="size-12" />
+      <BrandIcon variant="logo" className="h-12 max-w-[12rem]" />
 
       <Alert>
         <WarningIcon />
