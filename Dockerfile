@@ -37,12 +37,12 @@ FROM node:24-slim AS runtime
 
 LABEL maintainer="marcobrit0"
 LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.title="CriarCurrículo"
+LABEL org.opencontainers.image.title="Currículos IA"
 LABEL org.opencontainers.image.description="AI-powered CV builder for Brazil."
 LABEL org.opencontainers.image.vendor="Marco Brito"
 LABEL org.opencontainers.image.url="https://curriculos.ia.br"
-LABEL org.opencontainers.image.documentation="https://github.com/marcobrit0/criarcurriculo"
-LABEL org.opencontainers.image.source="https://github.com/marcobrit0/criarcurriculo"
+LABEL org.opencontainers.image.documentation="https://github.com/marcobrit0/curriculosia"
+LABEL org.opencontainers.image.source="https://github.com/marcobrit0/curriculosia"
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*

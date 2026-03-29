@@ -10,12 +10,12 @@ import { registerTools } from "./-helpers/tools";
 
 function createMcpServer() {
   const server = new McpServer({
-    name: "criarcurriculo",
+    name: "curriculosia",
     version: "1.0.0",
-    title: "CriarCurrículo",
+    title: "Currículos IA",
     websiteUrl: "https://curriculos.ia.br",
     description:
-      "CriarCurrículo is an AI-powered CV builder for Brazil. Use this MCP server to interact with your resume using an LLM of your choice.",
+      "Currículos IA is an AI-powered CV builder for Brazil. Use this MCP server to interact with your resume using an LLM of your choice.",
     icons: [
       {
         src: "https://curriculos.ia.br/icon/light.svg",

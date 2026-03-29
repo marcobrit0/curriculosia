@@ -30,13 +30,13 @@ export function Copyright({ className, ...props }: Props) {
             href="https://curriculos.ia.br"
             className="font-medium underline underline-offset-2"
           >
-            CriarCurrículo
+            Currículos IA
           </a>
           , based on Reactive Resume by Amruth Pillai.
         </Trans>
       </p>
 
-      <p className="mt-4">CriarCurrículo v{__APP_VERSION__}</p>
+      <p className="mt-4">Currículos IA v{__APP_VERSION__}</p>
     </div>
   );
 }

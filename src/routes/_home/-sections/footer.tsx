@@ -27,16 +27,16 @@ type SocialLink = {
 };
 
 const getResourceLinks = (): FooterLinkItem[] => [
-  { url: "https://github.com/marcobrit0/criarcurriculo", label: t`Source Code` },
-  { url: "https://github.com/marcobrit0/criarcurriculo/issues", label: t`Report an issue` },
+  { url: "https://github.com/marcobrit0/curriculosia", label: t`Source Code` },
+  { url: "https://github.com/marcobrit0/curriculosia/issues", label: t`Report an issue` },
 ];
 
 const getCommunityLinks = (): FooterLinkItem[] => [
-  { url: "https://github.com/marcobrit0/criarcurriculo/issues", label: t`Report an issue` },
+  { url: "https://github.com/marcobrit0/curriculosia/issues", label: t`Report an issue` },
 ];
 
 const socialLinks: SocialLink[] = [
-  { url: "https://github.com/marcobrit0/criarcurriculo", label: "GitHub", icon: GithubLogoIcon },
+  { url: "https://github.com/marcobrit0/curriculosia", label: "GitHub", icon: GithubLogoIcon },
 ];
 
 export function Footer() {
@@ -56,7 +56,7 @@ export function Footer() {
           <BrandIcon variant="logo" className="size-10" />
 
           <div className="space-y-2">
-            <h2 className="text-lg font-bold tracking-tight">CriarCurrículo</h2>
+            <h2 className="text-lg font-bold tracking-tight">Currículos IA</h2>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
               <Trans>
                 A free and open-source resume builder that simplifies the process of creating, updating, and sharing

@@ -135,7 +135,7 @@ export function DashboardSidebar() {
               render={
                 <Link to="/">
                   <BrandIcon variant="icon" className="size-6" />
-                  <h1 className="sr-only">CriarCurrículo</h1>
+                  <h1 className="sr-only">Currículos IA</h1>
                 </Link>
               }
             />

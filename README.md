@@ -1,8 +1,8 @@
-# CriarCurrículo
+# Currículos IA
 
 **AI-powered CV builder for Brazil** — built on top of [Reactive Resume](https://github.com/AmruthPillai/Reactive-Resume).
 
-CriarCurrículo é um criador de currículos gratuito e de código aberto, com inteligência artificial, feito para o mercado brasileiro.
+Currículos IA é um criador de currículos gratuito e de código aberto, com inteligência artificial, feito para o mercado brasileiro.
 
 ## Features
 

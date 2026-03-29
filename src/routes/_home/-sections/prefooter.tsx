@@ -13,7 +13,7 @@ export function Prefooter() {
       </div>
 
       <div className="relative space-y-8">
-        <TextMaskEffect aria-hidden="true" text="CriarCurrículo" className="hidden md:block" />
+        <TextMaskEffect aria-hidden="true" text="Currículos IA" className="hidden md:block" />
 
         <motion.div
           className="mx-auto max-w-3xl space-y-8 px-6 text-center md:px-8 xl:px-0"
@@ -29,7 +29,7 @@ export function Prefooter() {
 
           <p className="leading-relaxed text-muted-foreground">
             <Trans>
-              CriarCurrículo continues to grow thanks to its vibrant community. This project owes its progress to
+              Currículos IA continues to grow thanks to its vibrant community. This project owes its progress to
               the open-source Reactive Resume project and numerous individuals who've dedicated their time and skills
               to make it better.
             </Trans>

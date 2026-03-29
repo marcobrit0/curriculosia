@@ -1,11 +1,11 @@
 ---
 name: resume-builder
-description: Generate professional resumes that conform to the CriarCurrículo schema. Use when the user wants to create, build, or generate a resume through conversational AI, or asks about resume structure, sections, or content. This skill guides the agent to ask clarifying questions, avoid hallucination, and produce valid JSON output for https://curriculos.ia.br.
+description: Generate professional resumes that conform to the Currículos IA schema. Use when the user wants to create, build, or generate a resume through conversational AI, or asks about resume structure, sections, or content. This skill guides the agent to ask clarifying questions, avoid hallucination, and produce valid JSON output for https://curriculos.ia.br.
 ---
 
-# Resume Builder for CriarCurrículo
+# Resume Builder for Currículos IA
 
-Build professional resumes through conversational AI for [CriarCurrículo](https://curriculos.ia.br), a free and open-source resume builder.
+Build professional resumes through conversational AI for [Currículos IA](https://curriculos.ia.br), a free and open-source resume builder.
 
 ## Core Principles
 
@@ -51,7 +51,7 @@ Ask about preferences:
 
 ### Step 4: Generate Valid JSON
 
-Output must conform to the CriarCurrículo schema. See [references/schema.md](references/schema.md) for the complete schema structure.
+Output must conform to the Currículos IA schema. See [references/schema.md](references/schema.md) for the complete schema structure.
 
 Key requirements:
 
@@ -102,7 +102,7 @@ For students/recent graduates:
 
 ## Output Format
 
-When generating the resume, output a complete JSON object that conforms to the CriarCurrículo schema. The user can then import this JSON directly into CriarCurrículo at https://curriculos.ia.br.
+When generating the resume, output a complete JSON object that conforms to the Currículos IA schema. The user can then import this JSON directly into Currículos IA at https://curriculos.ia.br.
 
 Example minimal structure:
 

@@ -35,11 +35,11 @@ type RouterContext = {
   flags: FeatureFlags;
 };
 
-const appName = "CriarCurrículo";
+const appName = "Currículos IA";
 const tagline = "Crie seu currículo profissional com IA";
 const title = `${appName} — ${tagline}`;
 const description =
-  "CriarCurrículo é um criador de currículos gratuito e de código aberto, com inteligência artificial, feito para o Brasil.";
+  "Currículos IA é um criador de currículos gratuito e de código aberto, com inteligência artificial, feito para o Brasil.";
 
 await loadLocale(await getLocale());
 

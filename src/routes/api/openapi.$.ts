@@ -37,14 +37,14 @@ async function handler({ request }: { request: Request }) {
   if (request.method === "GET" && request.url.endsWith("/spec.json")) {
     const spec = await openAPIGenerator.generate(router, {
       info: {
-        title: "CriarCurrículo",
+        title: "Currículos IA",
         version: __APP_VERSION__,
-        description: "CriarCurrículo API",
-        license: { name: "MIT", url: "https://github.com/marcobrit0/criarcurriculo/blob/main/LICENSE" },
+        description: "Currículos IA API",
+        license: { name: "MIT", url: "https://github.com/marcobrit0/curriculosia/blob/main/LICENSE" },
         contact: { name: "Marco Brito", email: "marconmbrito@gmail.com", url: "https://curriculos.ia.br" },
       },
       servers: [{ url: `${env.APP_URL}/api/openapi` }],
-      externalDocs: { url: "https://docs.curriculos.ia.br", description: "CriarCurrículo Documentation" },
+      externalDocs: { url: "https://docs.curriculos.ia.br", description: "Currículos IA Documentation" },
       commonSchemas: {
         ResumeData: { schema: resumeDataSchema },
       },

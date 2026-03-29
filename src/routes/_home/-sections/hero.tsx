@@ -32,7 +32,7 @@ export function Hero() {
             // @ts-expect-error - typescript doesn't know about fetchPriority for video elements
             fetchPriority="high"
             src="/videos/timelapse.mp4"
-            aria-label={t`Timelapse demonstration of building a resume with CriarCurrículo`}
+            aria-label={t`Timelapse demonstration of building a resume with Currículos IA`}
             className="pointer-events-none size-full rounded-md border object-cover"
           />
 
@@ -86,7 +86,7 @@ export function Hero() {
           style={{ willChange: "transform, opacity" }}
         >
           <Trans>
-            CriarCurrículo é um criador de currículos gratuito e de código aberto que simplifica o processo de criar,
+            Currículos IA é um criador de currículos gratuito e de código aberto que simplifica o processo de criar,
             atualizar e compartilhar seu currículo.
           </Trans>
         </motion.p>

@@ -1,7 +1,7 @@
 {
-  "name": "criarcurriculo",
+  "name": "curriculosia",
   "version": "1.0.0",
-  "description": "CriarCurrículo — AI-powered CV builder for Brazil. Based on Reactive Resume.",
+  "description": "Currículos IA — AI-powered CV builder for Brazil. Based on Reactive Resume.",
   "license": "MIT",
   "author": {
     "name": "Marco Brito",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/marcobrit0/criarcurriculo.git"
+    "url": "https://github.com/marcobrit0/curriculosia.git"
   },
   "type": "module",
   "scripts": {

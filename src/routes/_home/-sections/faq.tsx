@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/utils/style";
 
-const crowdinUrl = "https://github.com/marcobrit0/criarcurriculo";
+const crowdinUrl = "https://github.com/marcobrit0/curriculosia";
 
 type FAQItemData = {
   question: string;
@@ -15,22 +15,22 @@ type FAQItemData = {
 
 const getFaqItems = (): FAQItemData[] => [
   {
-    question: t`Is CriarCurrículo really free?`,
-    answer: t`Yes! CriarCurrículo is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free.`,
+    question: t`Is Currículos IA really free?`,
+    answer: t`Yes! Currículos IA is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free.`,
   },
   {
     question: t`How is my data protected?`,
-    answer: t`Your data is stored securely and is never shared with third parties. You can also self-host CriarCurrículo on your own servers for complete control over your data.`,
+    answer: t`Your data is stored securely and is never shared with third parties. You can also self-host Currículos IA on your own servers for complete control over your data.`,
   },
   {
     question: t`Can I export my resume to PDF?`,
     answer: t`Absolutely! You can export your resume to PDF with a single click. The exported PDF maintains all your formatting and styling perfectly.`,
   },
   {
-    question: t`Is CriarCurrículo available in multiple languages?`,
+    question: t`Is Currículos IA available in multiple languages?`,
     answer: (
       <Trans>
-        Yes, CriarCurrículo is available in multiple languages. You can choose your preferred language in the settings
+        Yes, Currículos IA is available in multiple languages. You can choose your preferred language in the settings
         page, or using the language switcher in the top right corner. If you don't see your language, or you would like
         to improve the existing translations, you can{" "}
         <a
@@ -47,8 +47,8 @@ const getFaqItems = (): FAQItemData[] => [
     ),
   },
   {
-    question: t`What makes CriarCurrículo different from other resume builders?`,
-    answer: t`CriarCurrículo is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall.`,
+    question: t`What makes Currículos IA different from other resume builders?`,
+    answer: t`Currículos IA is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall.`,
   },
   {
     question: t`Can I customize the templates?`,

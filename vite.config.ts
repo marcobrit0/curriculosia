@@ -33,8 +33,8 @@ if (!isVitest) {
         navigateFallback: null, // Disable navigation fallback for SSR
       },
       manifest: {
-        name: "CriarCurrículo",
-        short_name: "CriarCurrículo",
+        name: "Currículos IA",
+        short_name: "Currículos IA",
         description: "Crie seu currículo profissional com IA.",
         id: "/?source=pwa",
         start_url: "/?source=pwa",
