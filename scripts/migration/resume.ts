@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 import { Pool, type QueryResult } from "pg";
 
 import { schema } from "@/integrations/drizzle";
-import { ReactiveResumeV4JSONImporter } from "@/integrations/import/reactive-resume-v4-json";
+import { CurriculosIAV4JSONImporter } from "@/integrations/import/curriculos-ia-v4-json";
 import { defaultResumeData } from "@/schema/resume/data";
 import { generateId } from "@/utils/string";
 
@@ -196,7 +196,7 @@ export async function migrateResumes() {
   process.on("SIGTERM", handleShutdown);
 
   // Initialize the importer
-  const importer = new ReactiveResumeV4JSONImporter();
+  const importer = new CurriculosIAV4JSONImporter();
 
   while (hasMore) {
     // Check if shutdown was requested

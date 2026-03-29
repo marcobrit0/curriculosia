@@ -102,7 +102,7 @@ Here's what each service in the stack does:
 | `postgres`  | 5432 | PostgreSQL database for storing all application data        |
 | `seaweedfs` | 8333 | S3-compatible object storage for file uploads               |
 | `printer`   | 4000 | Headless Chromium service for PDF and screenshot generation |
-| `app`       | 3000 | The main Currículos IA application                        |
+| `app`       | 3000 | The main Currículos IA application                          |
 
 ### Health Checks
 
@@ -126,7 +126,7 @@ Here's a complete list of environment variables you can configure:
 | ------------------ | ------------------------------ | --------------------------------------- |
 | `DATABASE_URL`     | PostgreSQL connection string   | `postgresql://user:pass@host:5432/db`   |
 | `AUTH_SECRET`      | Secret key for authentication  | Generate with `openssl rand -base64 32` |
-| `APP_URL`          | Public URL of your Application | `https://curriculos.ia.br`                     |
+| `APP_URL`          | Public URL of your Application | `https://curriculos.ia.br`              |
 | `PRINTER_ENDPOINT` | URL of the printer service     | `http://printer:3000`                   |
 
 ### Optional Variables

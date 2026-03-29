@@ -157,63 +157,6 @@ if (!isVitest) {
 const config = defineConfig({
   plugins,
 
-  staged: {
-    "*": "vp check --fix",
-  },
-
-  fmt: {
-    printWidth: 120,
-    ignorePatterns: ["routeTree.gen.ts", "docs/changelog/index.mdx"],
-    sortPackageJson: {
-      sortScripts: true,
-    },
-    sortTailwindcss: {
-      stylesheet: "./src/styles/globals.css",
-      functions: ["clsx", "cva", "cn"],
-    },
-    sortImports: {
-      groups: [
-        "type-import",
-        ["value-builtin", "value-external"],
-        "type-internal",
-        "value-internal",
-        ["type-parent", "type-sibling", "type-index"],
-        ["value-parent", "value-sibling", "value-index"],
-        "unknown",
-      ],
-    },
-  },
-
-  lint: {
-    env: { builtin: true },
-    ignorePatterns: ["routeTree.gen.ts"],
-    options: { typeAware: true, typeCheck: true },
-    settings: {
-      react: {
-        version: "19",
-        linkComponents: ["Link"],
-      },
-    },
-    plugins: [
-      "eslint",
-      "typescript",
-      "unicorn",
-      "oxc",
-      "react",
-      "react-perf",
-      "import",
-      "jsdoc",
-      "node",
-      "promise",
-      "vitest",
-    ],
-    rules: {
-      "react/exhaustive-deps": "off",
-      "jest/require-to-throw-message": "off",
-      "typescript/consistent-type-imports": "error",
-    },
-  },
-
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
   },

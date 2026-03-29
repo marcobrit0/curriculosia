@@ -20,9 +20,9 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
 import { useAIStore } from "@/integrations/ai/store";
-import { JSONResumeImporter } from "@/integrations/import/json-resume";
 import { CurriculosIAJSONImporter } from "@/integrations/import/curriculos-ia-json";
 import { CurriculosIAV4JSONImporter } from "@/integrations/import/curriculos-ia-v4-json";
+import { JSONResumeImporter } from "@/integrations/import/json-resume";
 import { client, orpc } from "@/integrations/orpc/client";
 import { cn } from "@/utils/style";
 

@@ -10,7 +10,6 @@ import { ThemeToggleButton } from "@/components/theme/toggle-button";
 import { BrandIcon } from "@/components/ui/brand-icon";
 import { Button } from "@/components/ui/button";
 
-
 export function Header() {
   const y = useMotionValue(0);
   const lastScroll = useRef(0);

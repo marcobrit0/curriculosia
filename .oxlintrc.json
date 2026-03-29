@@ -1,0 +1,34 @@
+{
+  "env": {
+    "builtin": true
+  },
+  "ignorePatterns": ["routeTree.gen.ts"],
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
+  "settings": {
+    "react": {
+      "version": "19",
+      "linkComponents": ["Link"]
+    }
+  },
+  "plugins": [
+    "eslint",
+    "typescript",
+    "unicorn",
+    "oxc",
+    "react",
+    "react-perf",
+    "import",
+    "jsdoc",
+    "node",
+    "promise",
+    "vitest"
+  ],
+  "rules": {
+    "react/exhaustive-deps": "off",
+    "jest/require-to-throw-message": "off",
+    "typescript/consistent-type-imports": "error"
+  }
+}

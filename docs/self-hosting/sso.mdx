@@ -90,12 +90,12 @@ https://resume.example.com/api/auth/oauth2/callback/custom
 
 Currículos IA automatically maps user profile data from the OAuth provider. The following fields are used:
 
-| Currículos IA Field | OAuth Profile Fields (in order of preference) |
-| --------------------- | --------------------------------------------- |
-| **Email** (required)  | `email`                                       |
-| **Name**              | `name` → `preferred_username` → email prefix  |
-| **Username**          | `preferred_username` → email prefix           |
-| **Avatar**            | `image` → `picture` → `avatar_url`            |
+| Currículos IA Field  | OAuth Profile Fields (in order of preference) |
+| -------------------- | --------------------------------------------- |
+| **Email** (required) | `email`                                       |
+| **Name**             | `name` → `preferred_username` → email prefix  |
+| **Username**         | `preferred_username` → email prefix           |
+| **Avatar**           | `image` → `picture` → `avatar_url`            |
 
 <Info>
   The OAuth provider **must** return an email address. If no email is provided, authentication will fail with an error.
@@ -308,8 +308,8 @@ OAUTH_DISCOVERY_URL="https://auth.company.com/application/o/curriculosia/.well-k
 
 <CardGroup cols={2}>
   <Card title="Use HTTPS" icon="lock">
-    Always use HTTPS for both your Currículos IA instance and OAuth provider in production. OAuth tokens should never
-    be transmitted over unencrypted connections.
+    Always use HTTPS for both your Currículos IA instance and OAuth provider in production. OAuth tokens should never be
+    transmitted over unencrypted connections.
   </Card>
   <Card title="Protect secrets" icon="key">
     Never commit `OAUTH_CLIENT_SECRET` to version control. Use environment variables or a secrets manager.
