@@ -1,0 +1,30 @@
+app = "curriculosia"
+primary_region = "gru"
+
+[build]
+
+[env]
+  TZ = "Etc/UTC"
+  NODE_ENV = "production"
+  PORT = "3000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+[checks]
+  [checks.health]
+    port = 3000
+    type = "http"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "60s"
+    method = "GET"
+    path = "/api/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

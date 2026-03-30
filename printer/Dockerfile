@@ -1,0 +1,6 @@
+FROM ghcr.io/browserless/chromium:latest
+
+ENV CONNECTION_TIMEOUT=60000
+ENV MAX_CONCURRENT_SESSIONS=5
+
+EXPOSE 3000
