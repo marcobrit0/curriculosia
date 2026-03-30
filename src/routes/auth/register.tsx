@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/integrations/auth/client";
+import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 
 import { SocialAuth } from "./-components/social-auth";
 
@@ -74,6 +75,11 @@ function RouteComponent() {
       toast.error(error.message, { id: toastId });
       return;
     }
+
+    capturePostHogEvent(posthogEvents.authSignUpCompleted, {
+      email_domain: data.email.split("@")[1]?.toLowerCase(),
+      method: "email",
+    });
 
     setSubmitted(true);
     toast.dismiss(toastId);

@@ -24,6 +24,7 @@ import { CurriculosIAJSONImporter } from "@/integrations/import/curriculos-ia-js
 import { CurriculosIAV4JSONImporter } from "@/integrations/import/curriculos-ia-v4-json";
 import { JSONResumeImporter } from "@/integrations/import/json-resume";
 import { client, orpc } from "@/integrations/orpc/client";
+import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 import { cn } from "@/utils/style";
 
 import { type DialogProps, useDialogStore } from "../store";
@@ -190,6 +191,7 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
       if (!data) throw new Error("No data was returned from the AI provider.");
 
       const id = await importResume({ data });
+      capturePostHogEvent(posthogEvents.resumeImported, { format: values.type });
       toast.success(t`Your resume has been imported successfully.`, { id: toastId, description: null });
       closeDialog();
       void navigate({ to: `/builder/$resumeId`, params: { resumeId: id } });

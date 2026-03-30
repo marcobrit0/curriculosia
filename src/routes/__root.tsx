@@ -21,6 +21,7 @@ import { ConfirmDialogProvider } from "@/hooks/use-confirm";
 import { PromptDialogProvider } from "@/hooks/use-prompt";
 import { getSession } from "@/integrations/auth/functions";
 import { client, type orpc } from "@/integrations/orpc/client";
+import { PostHogProvider } from "@/integrations/posthog/provider";
 import { getLocale, isRTL, type Locale, loadLocale } from "@/utils/locale";
 import { getTheme, type Theme } from "@/utils/theme";
 
@@ -119,21 +120,23 @@ function RootDocument({ children }: Props) {
         <MotionConfig reducedMotion="user">
           <I18nProvider i18n={i18n}>
             <IconContext.Provider value={{ size: 16, weight: "regular" }}>
-              <ThemeProvider theme={theme}>
-                <TooltipProvider>
-                  <ConfirmDialogProvider>
-                    <PromptDialogProvider>
-                      {children}
+              <PostHogProvider>
+                <ThemeProvider theme={theme}>
+                  <TooltipProvider>
+                    <ConfirmDialogProvider>
+                      <PromptDialogProvider>
+                        {children}
 
-                      <DialogManager />
-                      <CommandPalette />
-                      <Toaster richColors position="bottom-right" />
+                        <DialogManager />
+                        <CommandPalette />
+                        <Toaster richColors position="bottom-right" />
 
-                      {import.meta.env.DEV && <BreakpointIndicator />}
-                    </PromptDialogProvider>
-                  </ConfirmDialogProvider>
-                </TooltipProvider>
-              </ThemeProvider>
+                        {import.meta.env.DEV && <BreakpointIndicator />}
+                      </PromptDialogProvider>
+                    </ConfirmDialogProvider>
+                  </TooltipProvider>
+                </ThemeProvider>
+              </PostHogProvider>
             </IconContext.Provider>
           </I18nProvider>
         </MotionConfig>

@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useResumeStore } from "@/components/resume/store/resume";
 import { Button } from "@/components/ui/button";
 import { orpc } from "@/integrations/orpc/client";
+import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 import { downloadFromUrl, downloadWithAnchor, generateFilename } from "@/utils/file";
 import { buildDocx } from "@/utils/resume/docx";
 
@@ -26,6 +27,7 @@ export function ExportSectionBuilder() {
     const blob = new Blob([jsonString], { type: "application/json" });
 
     downloadWithAnchor(blob, filename);
+    capturePostHogEvent(posthogEvents.resumeExported, { format: "json" });
   }, [resume]);
 
   const onDownloadDOCX = useCallback(async () => {
@@ -34,6 +36,7 @@ export function ExportSectionBuilder() {
     try {
       const blob = await buildDocx(resume.data);
       downloadWithAnchor(blob, filename);
+      capturePostHogEvent(posthogEvents.resumeExported, { format: "docx" });
     } catch {
       toast.error(t`There was a problem while generating the DOCX, please try again.`);
     }
@@ -48,6 +51,7 @@ export function ExportSectionBuilder() {
     try {
       const { url } = await printResumeAsPDF({ id: resume.id });
       await downloadFromUrl(url, filename);
+      capturePostHogEvent(posthogEvents.resumeExported, { format: "pdf" });
     } catch {
       toast.error(t`There was a problem while generating the PDF, please try again in some time.`);
     } finally {

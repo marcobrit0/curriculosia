@@ -6,6 +6,15 @@ declare module "*.css";
 declare module "@fontsource/*" {}
 declare module "@fontsource-variable/*" {}
 
+interface ImportMetaEnv {
+  readonly VITE_POSTHOG_HOST?: string;
+  readonly VITE_POSTHOG_KEY?: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
 declare namespace NodeJS {
   interface ProcessEnv {
     // Basics

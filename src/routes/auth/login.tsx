@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/integrations/auth/client";
+import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 
 import { SocialAuth } from "./-components/social-auth";
 
@@ -71,6 +72,10 @@ function RouteComponent() {
         void navigate({ to: "/auth/verify-2fa", replace: true });
         return;
       }
+
+      capturePostHogEvent(posthogEvents.authSignInCompleted, {
+        method: isEmail ? "email" : "username",
+      });
 
       // Refresh route context so protected routes can read the newly established session.
       toast.dismiss(toastId);

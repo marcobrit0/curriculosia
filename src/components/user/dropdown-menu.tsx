@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/integrations/auth/client";
+import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 import { isLocale, loadLocale, localeMap, setLocaleServerFn } from "@/utils/locale";
 import { isTheme } from "@/utils/theme";
 
@@ -52,6 +53,7 @@ export function UserDropdownMenu({ children }: Props) {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          capturePostHogEvent(posthogEvents.authSignOutCompleted, { method: "manual" });
           toast.dismiss(toastId);
           void router.invalidate();
         },

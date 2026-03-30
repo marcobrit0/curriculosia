@@ -25,6 +25,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/
 import { useFormBlocker } from "@/hooks/use-form-blocker";
 import { authClient } from "@/integrations/auth/client";
 import { orpc, type RouterInput } from "@/integrations/orpc/client";
+import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 import { generateId, generateRandomName, slugify } from "@/utils/string";
 
 import { type DialogProps, useDialogStore } from "../store";
@@ -66,6 +67,11 @@ export function CreateResumeDialog(_: DialogProps<"resume.create">) {
 
     createResume(data, {
       onSuccess: () => {
+        capturePostHogEvent(posthogEvents.resumeCreated, {
+          source: "blank",
+          tag_count: data.tags.length,
+          with_sample_data: false,
+        });
         toast.success(t`Your resume has been created successfully.`, { id: toastId });
         closeDialog();
       },
@@ -95,6 +101,11 @@ export function CreateResumeDialog(_: DialogProps<"resume.create">) {
 
     createResume(data, {
       onSuccess: () => {
+        capturePostHogEvent(posthogEvents.resumeCreated, {
+          source: "sample",
+          tag_count: data.tags.length,
+          with_sample_data: true,
+        });
         toast.success(t`Your resume has been created successfully.`, { id: toastId });
         closeDialog();
       },

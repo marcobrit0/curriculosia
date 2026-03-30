@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/integrations/auth/client";
+import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 
 export const Route = createFileRoute("/auth/verify-2fa-backup")({
   component: RouteComponent,
@@ -46,6 +47,11 @@ function RouteComponent() {
       toast.error(error.message, { id: toastId });
       return;
     }
+
+    capturePostHogEvent(posthogEvents.authSignInCompleted, {
+      method: "credential",
+      second_factor: "backup_code",
+    });
 
     toast.dismiss(toastId);
     await router.invalidate();
