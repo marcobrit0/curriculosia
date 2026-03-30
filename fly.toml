@@ -2,6 +2,7 @@ app = "curriculosia"
 primary_region = "gru"
 
 [build]
+  dockerfile = "Dockerfile"
 
 [env]
   TZ = "Etc/UTC"
@@ -14,6 +15,7 @@ primary_region = "gru"
   auto_stop_machines = "stop"
   auto_start_machines = true
   min_machines_running = 1
+  processes = ["app"]
 
 [checks]
   [checks.health]
@@ -26,5 +28,6 @@ primary_region = "gru"
     path = "/api/health"
 
 [[vm]]
-  size = "shared-cpu-1x"
   memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
