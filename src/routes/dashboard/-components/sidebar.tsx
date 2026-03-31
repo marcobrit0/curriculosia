@@ -40,6 +40,13 @@ type SidebarItem = {
   href: React.ComponentProps<typeof Link>["to"];
 };
 
+const hiddenSidebarHrefs = new Set<SidebarItem["href"]>([
+  "/dashboard/job-search",
+  "/dashboard/settings/api-keys",
+  "/dashboard/settings/ai",
+  "/dashboard/settings/job-search",
+]);
+
 const appSidebarItems = [
   {
     icon: <ReadCvLogoIcon />,
@@ -97,10 +104,11 @@ type SidebarItemListProps = {
 
 function SidebarItemList({ items }: SidebarItemListProps) {
   const { i18n } = useLingui();
+  const visibleItems = items.filter((item) => !hiddenSidebarHrefs.has(item.href));
 
   return (
     <SidebarMenu>
-      {items.map((item) => (
+      {visibleItems.map((item) => (
         <SidebarMenuItem key={item.href}>
           <SidebarMenuButton
             title={i18n.t(item.label)}
