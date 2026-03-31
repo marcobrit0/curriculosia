@@ -13,6 +13,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -115,6 +116,12 @@ export function UserDropdownMenu({ children }: Props) {
           <SignOutIcon />
           <Trans>Logout</Trans>
         </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuLabel className="px-2 py-1 text-[11px] font-normal">
+          Currículos IA v{__APP_VERSION__}
+        </DropdownMenuLabel>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -14,11 +14,9 @@ import {
   WarningIcon,
 } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "motion/react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BrandIcon } from "@/components/ui/brand-icon";
-import { Copyright } from "@/components/ui/copyright";
 import {
   Sidebar,
   SidebarContent,
@@ -32,7 +30,6 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarSeparator,
-  useSidebarState,
 } from "@/components/ui/sidebar";
 import { UserDropdownMenu } from "@/components/user/dropdown-menu";
 import { getInitials } from "@/utils/string";
@@ -123,8 +120,6 @@ function SidebarItemList({ items }: SidebarItemListProps) {
 }
 
 export function DashboardSidebar() {
-  const { state } = useSidebarState();
-
   return (
     <Sidebar variant="floating" collapsible="icon">
       <SidebarHeader>
@@ -167,7 +162,7 @@ export function DashboardSidebar() {
 
       <SidebarSeparator />
 
-      <SidebarFooter className="gap-y-0">
+      <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
             <UserDropdownMenu>
@@ -189,21 +184,6 @@ export function DashboardSidebar() {
             </UserDropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>
-
-        <AnimatePresence>
-          {state === "expanded" && (
-            <motion.div
-              key="copyright"
-              initial={{ y: 12, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 12, opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              style={{ willChange: "transform, opacity" }}
-            >
-              <Copyright className="shrink-0 p-2 wrap-break-word whitespace-normal" />
-            </motion.div>
-          )}
-        </AnimatePresence>
       </SidebarFooter>
 
       <SidebarRail />

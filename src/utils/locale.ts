@@ -66,7 +66,7 @@ const localeSchema = z.union([
 export type Locale = z.infer<typeof localeSchema>;
 
 const storageKey = "locale";
-const defaultLocale: Locale = "en-US";
+const defaultLocale: Locale = "pt-BR";
 
 export const localeMap = {
   "af-ZA": msg`Afrikaans`,
