@@ -134,10 +134,11 @@ export function DashboardSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              className="h-auto justify-center"
+              size="lg"
+              className="h-auto justify-center py-4 group-data-[collapsible=icon]:p-2!"
               render={
                 <Link to="/">
-                  <BrandIcon variant="icon" className="size-6" />
+                  <BrandIcon variant="icon" className="h-9 w-auto max-w-none group-data-[collapsible=icon]:h-8" />
                   <h1 className="sr-only">Currículos IA</h1>
                 </Link>
               }
