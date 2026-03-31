@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "motion/react";
 import type { RouterOutput } from "@/integrations/orpc/client";
 
 import { CreateResumeCard } from "./cards/create-card";
-import { ImportResumeCard } from "./cards/import-card";
 import { ResumeCard } from "./cards/resume-card";
 
 type Resume = RouterOutput["resume"]["list"][number];
@@ -25,16 +24,6 @@ export function GridView({ resumes }: Props) {
         <CreateResumeCard />
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.2, delay: 0.03, ease: "easeOut" }}
-        style={{ willChange: "transform, opacity" }}
-      >
-        <ImportResumeCard />
-      </motion.div>
-
       <AnimatePresence initial={false} mode="popLayout">
         {resumes?.map((resume, index) => (
           <motion.div
@@ -47,7 +36,7 @@ export function GridView({ resumes }: Props) {
               y: -20,
               filter: "blur(8px)",
             }}
-            transition={{ duration: 0.2, delay: Math.min(0.12, (index + 2) * 0.02), ease: "easeOut" }}
+            transition={{ duration: 0.2, delay: Math.min(0.12, (index + 1) * 0.02), ease: "easeOut" }}
             style={{ willChange: "transform, opacity" }}
           >
             <ResumeCard resume={resume} />
