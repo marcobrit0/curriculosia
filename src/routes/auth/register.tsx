@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -45,6 +45,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 function RouteComponent() {
+  const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
   const [showPassword, toggleShowPassword] = useToggle(false);
   const { flags } = Route.useRouteContext();
@@ -81,6 +82,8 @@ function RouteComponent() {
       method: "email",
     });
 
+    // Refresh route context so the post-signup navigation sees the new session.
+    await router.invalidate();
     setSubmitted(true);
     toast.dismiss(toastId);
   };
@@ -247,7 +250,7 @@ function PostSignupScreen() {
       <Button
         nativeButton={false}
         render={
-          <Link to="/dashboard">
+          <Link to="/dashboard/resumes" search={{ sort: "lastUpdatedAt", tags: [] }}>
             <Trans>Continue</Trans> <ArrowRightIcon />
           </Link>
         }
