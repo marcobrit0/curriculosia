@@ -59,8 +59,4 @@ The app will be available at `http://localhost:3000`.
 
 ## Credits
 
-This project is a fork of [Currículos IA](https://github.com/AmruthPillai/Reactive-Resume) by [Marco Brito](https://curriculos.ia.br), licensed under MIT.
-
-## License
-
-MIT
+This project is a fork of [Currículos IA](https://github.com/AmruthPillai/Reactive-Resume) by [Marco Brito](https://curriculos.ia.br).

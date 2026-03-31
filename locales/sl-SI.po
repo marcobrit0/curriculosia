@@ -1661,10 +1661,6 @@ msgstr "Raven"
 msgid "Level {level} of 5"
 msgstr "Raven {level} od 5"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "Licencirano pod <0>MIT</0>."
-
 #: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"

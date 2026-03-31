@@ -1661,10 +1661,6 @@ msgstr "레벨"
 msgid "Level {level} of 5"
 msgstr "5점 만점에 {level}점"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "<0>MIT</0> 라이선스로 배포됩니다."
-
 #: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"

@@ -1661,10 +1661,6 @@ msgstr "Cấp độ"
 msgid "Level {level} of 5"
 msgstr "Cấp độ {level} trên 5"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "Được cấp phép theo <0>MIT</0>."
-
 #: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"

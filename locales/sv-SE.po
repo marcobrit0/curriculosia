@@ -1661,10 +1661,6 @@ msgstr "Nivå"
 msgid "Level {level} of 5"
 msgstr "Nivå {level} av 5"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "Licensierat under <0>MIT</0>."
-
 #: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"

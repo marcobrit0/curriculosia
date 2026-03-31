@@ -36,7 +36,6 @@ RUN pnpm run build
 FROM node:24-slim AS runtime
 
 LABEL maintainer="marcobrit0"
-LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="Currículos IA"
 LABEL org.opencontainers.image.description="AI-powered CV builder for Brazil."
 LABEL org.opencontainers.image.vendor="Marco Brito"

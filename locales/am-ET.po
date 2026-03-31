@@ -1661,10 +1661,6 @@ msgstr "ደረጃ"
 msgid "Level {level} of 5"
 msgstr "ደረጃ {level} ከ5 ውስጥ"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "በ<0>MIT</0> ፈቃድ የተፈቀደ።"
-
 #: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"

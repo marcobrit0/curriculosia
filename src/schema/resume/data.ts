@@ -661,13 +661,13 @@ export const defaultResumeData: ResumeData = {
     },
     typography: {
       body: {
-        fontFamily: "IBM Plex Serif",
+        fontFamily: "Open Sans",
         fontWeights: ["400", "500"],
         fontSize: 10,
         lineHeight: 1.5,
       },
       heading: {
-        fontFamily: "IBM Plex Serif",
+        fontFamily: "Open Sans",
         fontWeights: ["600"],
         fontSize: 14,
         lineHeight: 1.5,

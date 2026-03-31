@@ -8,16 +8,6 @@ export function Copyright({ className, ...props }: Props) {
   return (
     <div className={cn("text-xs leading-relaxed text-muted-foreground/80", className)} {...props}>
       <p>
-        <Trans>
-          Licensed under{" "}
-          <a href="#" target="_blank" rel="noopener" className="font-medium underline underline-offset-2">
-            MIT
-          </a>
-          .
-        </Trans>
-      </p>
-
-      <p>
         <Trans>By the community, for the community.</Trans>
       </p>
 

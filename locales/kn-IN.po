@@ -1661,10 +1661,6 @@ msgstr "ಮಟ್ಟ"
 msgid "Level {level} of 5"
 msgstr "5 ರಲ್ಲಿ {level} ನೇ ಮಟ್ಟ"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "<0>MIT</0> ಅಡಿಯಲ್ಲಿ ಪರವಾನಗಿ ಪಡೆದಿದೆ."
-
 #: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"

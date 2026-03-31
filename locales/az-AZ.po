@@ -1661,10 +1661,6 @@ msgstr "Səviyyə"
 msgid "Level {level} of 5"
 msgstr "5 üzərindən {level} səviyyə"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "<0>MIT</0> lisenziyası ilə."
-
 #: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"

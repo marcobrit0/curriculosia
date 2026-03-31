@@ -1661,10 +1661,6 @@ msgstr "レベル"
 msgid "Level {level} of 5"
 msgstr "5 段階中 {level}"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "<0>MIT ライセンス</0>の下で提供されています。"
-
 #: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"

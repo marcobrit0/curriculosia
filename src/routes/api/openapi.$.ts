@@ -40,7 +40,6 @@ async function handler({ request }: { request: Request }) {
         title: "Currículos IA",
         version: __APP_VERSION__,
         description: "Currículos IA API",
-        license: { name: "MIT", url: "https://github.com/marcobrit0/curriculosia/blob/main/LICENSE" },
         contact: { name: "Marco Brito", email: "marconmbrito@gmail.com", url: "https://curriculos.ia.br" },
       },
       servers: [{ url: `${env.APP_URL}/api/openapi` }],

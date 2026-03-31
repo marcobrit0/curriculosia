@@ -3,7 +3,6 @@
     "title": "Currículos IA",
     "version": "5.0.13",
     "description": "Currículos IA API",
-    "license": { "name": "MIT", "url": "https://github.com/marcobrit0/curriculosia/blob/main/LICENSE" },
     "contact": { "name": "Marco Brito", "email": "marconmbrito@gmail.com", "url": "https://curriculos.ia.br" }
   },
   "servers": [{ "url": "http://localhost:3000/api/openapi" }],

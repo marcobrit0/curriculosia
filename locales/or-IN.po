@@ -1661,10 +1661,6 @@ msgstr "ସ୍ତର"
 msgid "Level {level} of 5"
 msgstr "5 ରୁ ସ୍ତର {level}"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "<0>MIT</0> ଲାଇସେନ୍ସ ଅଧୀନରେ ଅଛି।"
-
 #: src/components/user/dropdown-menu.tsx
 #: src/utils/theme.ts
 msgid "Light"
