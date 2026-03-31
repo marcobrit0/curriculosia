@@ -17,6 +17,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
 import { authClient } from "@/integrations/auth/client";
+import { clearSessionCache } from "@/integrations/auth/functions";
 
 import { type DialogProps, useDialogStore } from "../store";
 
@@ -106,6 +107,7 @@ export function EnableTwoFactorDialog(_: DialogProps<"auth.two-factor.enable">) 
 
   const onConfirmBackup = () => {
     toast.success(t`Two-factor authentication has been setup successfully.`);
+    clearSessionCache();
     void router.invalidate();
     closeDialog();
     onReset();

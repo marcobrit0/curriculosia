@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/integrations/auth/client";
+import { clearSessionCache } from "@/integrations/auth/functions";
 import { orpc } from "@/integrations/orpc/client";
 import { cn } from "@/utils/style";
 
@@ -28,6 +29,7 @@ export function SocialAuth() {
     }
 
     toast.dismiss(toastId);
+    clearSessionCache();
     await router.invalidate();
   };
 
@@ -45,6 +47,7 @@ export function SocialAuth() {
     }
 
     toast.dismiss(toastId);
+    clearSessionCache();
     await router.invalidate();
   };
 

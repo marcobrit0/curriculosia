@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
 import { authClient } from "@/integrations/auth/client";
+import { clearSessionCache } from "@/integrations/auth/functions";
 
 import { type DialogProps, useDialogStore } from "../store";
 
@@ -48,6 +49,7 @@ export function DisableTwoFactorDialog(_: DialogProps<"auth.two-factor.disable">
     }
 
     toast.success(t`Two-factor authentication has been disabled successfully.`, { id: toastId });
+    clearSessionCache();
     void router.invalidate();
     closeDialog();
     form.reset();

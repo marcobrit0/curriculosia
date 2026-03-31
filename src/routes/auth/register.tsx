@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/integrations/auth/client";
+import { clearSessionCache } from "@/integrations/auth/functions";
 import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 
 import { SocialAuth } from "./-components/social-auth";
@@ -83,6 +84,7 @@ function RouteComponent() {
     });
 
     // Refresh route context so the post-signup navigation sees the new session.
+    clearSessionCache();
     await router.invalidate();
     setSubmitted(true);
     toast.dismiss(toastId);

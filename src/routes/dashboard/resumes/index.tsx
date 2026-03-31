@@ -3,16 +3,15 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { GridFourIcon, ListIcon, ReadCvLogoIcon } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, stripSearchParams, useNavigate, useRouter } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
-import { getCookie, setCookie } from "@tanstack/react-start/server";
+import { createFileRoute, stripSearchParams, useNavigate } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import z from "zod";
 
 import { Combobox } from "@/components/ui/combobox";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { usePersistentState } from "@/hooks/use-persistent-state";
 import { orpc } from "@/integrations/orpc/client";
 import { cn } from "@/utils/style";
 
@@ -33,18 +32,16 @@ export const Route = createFileRoute("/dashboard/resumes/")({
   search: {
     middlewares: [stripSearchParams({ tags: [], sort: "lastUpdatedAt" })],
   },
-  loader: async () => {
-    const view = await getViewServerFn();
-    return { view };
-  },
 });
 
 function RouteComponent() {
-  const router = useRouter();
   const { i18n } = useLingui();
-  const { view } = Route.useLoaderData();
   const { tags, sort } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+  const deserializeView = useCallback((value: string) => viewSchema.parse(JSON.parse(value)), []);
+  const [view, setView] = usePersistentState<ResumeView>("resumes_view", "grid", {
+    deserialize: deserializeView,
+  });
 
   const { data: allTags } = useQuery(orpc.resume.tags.list.queryOptions());
   const { data: resumes } = useQuery(orpc.resume.list.queryOptions({ input: { tags, sort } }));
@@ -62,9 +59,8 @@ function RouteComponent() {
     ];
   }, [i18n]);
 
-  const onViewChange = async (value: string) => {
-    await setViewServerFn({ data: value as "grid" | "list" });
-    void router.invalidate();
+  const onViewChange = (value: string) => {
+    setView(value as ResumeView);
   };
 
   return (
@@ -115,18 +111,6 @@ function RouteComponent() {
   );
 }
 
-const RESUMES_VIEW_COOKIE_NAME = "resumes_view";
+type ResumeView = "grid" | "list";
 
 const viewSchema = z.enum(["grid", "list"]).catch("grid");
-
-const setViewServerFn = createServerFn({ method: "POST" })
-  .inputValidator(viewSchema)
-  .handler(async ({ data }) => {
-    setCookie(RESUMES_VIEW_COOKIE_NAME, JSON.stringify(data));
-  });
-
-const getViewServerFn = createServerFn({ method: "GET" }).handler(async () => {
-  const view = getCookie(RESUMES_VIEW_COOKIE_NAME);
-  if (!view) return "grid";
-  return viewSchema.parse(JSON.parse(view));
-});

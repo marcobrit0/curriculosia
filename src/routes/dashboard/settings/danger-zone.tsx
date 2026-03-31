@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useConfirm } from "@/hooks/use-confirm";
 import { authClient } from "@/integrations/auth/client";
+import { clearSessionCache } from "@/integrations/auth/functions";
 import { orpc } from "@/integrations/orpc/client";
 
 import { DashboardHeader } from "../-components/header";
@@ -45,6 +46,7 @@ function RouteComponent() {
       onSuccess: async () => {
         toast.success(t`Your account has been deleted successfully.`, { id: toastId });
         await authClient.signOut();
+        clearSessionCache();
         void navigate({ to: "/" });
       },
       onError: (error) => {

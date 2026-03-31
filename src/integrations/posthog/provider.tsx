@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 import type { AuthSession } from "@/integrations/auth/types";
 
-import { authClient } from "@/integrations/auth/client";
+import { useCurrentSession } from "@/integrations/auth/hooks";
 
 import { capturePostHogPageview, identifyPostHogUser, initPostHog, isPostHogEnabled, resetPostHogUser } from "./client";
 
@@ -13,7 +13,7 @@ type Props = {
 
 export function PostHogProvider({ children }: Props) {
   const router = useRouter();
-  const { data: session } = authClient.useSession();
+  const session = useCurrentSession();
   const identifiedUserIdRef = useRef<string | null>(null);
   const lastPageKeyRef = useRef<string | null>(null);
 

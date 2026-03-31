@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/integrations/auth/client";
+import { clearSessionCache } from "@/integrations/auth/functions";
 import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 
 import { SocialAuth } from "./-components/social-auth";
@@ -79,6 +80,7 @@ function RouteComponent() {
 
       // Refresh route context so protected routes can read the newly established session.
       toast.dismiss(toastId);
+      clearSessionCache();
       await router.invalidate();
       void navigate({ to: "/dashboard", replace: true });
     } catch {

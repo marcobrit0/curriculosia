@@ -9,10 +9,12 @@ import { createRootRouteWithContext, HeadContent, Scripts } from "@tanstack/reac
 import { MotionConfig } from "motion/react";
 
 import type { AuthSession } from "@/integrations/auth/types";
+import type { orpc } from "@/integrations/orpc/client";
 import type { FeatureFlags } from "@/integrations/orpc/services/flags";
 
 import { CommandPalette } from "@/components/command-palette";
 import { BreakpointIndicator } from "@/components/layout/breakpoint-indicator";
+import { NavigationProgress } from "@/components/layout/navigation-progress";
 import { ThemeProvider } from "@/components/theme/provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,7 +22,6 @@ import { DialogManager } from "@/dialogs/manager";
 import { ConfirmDialogProvider } from "@/hooks/use-confirm";
 import { PromptDialogProvider } from "@/hooks/use-prompt";
 import { getSession } from "@/integrations/auth/functions";
-import { client, type orpc } from "@/integrations/orpc/client";
 import { PostHogProvider } from "@/integrations/posthog/provider";
 import { getLocale, isRTL, type Locale, loadLocale } from "@/utils/locale";
 import { getTheme, type Theme } from "@/utils/theme";
@@ -90,15 +91,10 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       ],
     };
   },
-  beforeLoad: async () => {
-    const [theme, locale, session, flags] = await Promise.all([
-      getTheme(),
-      getLocale(),
-      getSession(),
-      client.flags.get(),
-    ]);
+  beforeLoad: async ({ context }) => {
+    const [theme, locale, session] = await Promise.all([getTheme(), getLocale(), getSession()]);
 
-    return { theme, locale, session, flags };
+    return { theme, locale, session, flags: context.flags };
   },
 });
 
@@ -127,6 +123,7 @@ function RootDocument({ children }: Props) {
                       <PromptDialogProvider>
                         {children}
 
+                        <NavigationProgress />
                         <DialogManager />
                         <CommandPalette />
                         <Toaster richColors position="bottom-right" />

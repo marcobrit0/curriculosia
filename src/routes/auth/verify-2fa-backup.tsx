@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/integrations/auth/client";
+import { clearSessionCache } from "@/integrations/auth/functions";
 import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 
 export const Route = createFileRoute("/auth/verify-2fa-backup")({
@@ -54,6 +55,7 @@ function RouteComponent() {
     });
 
     toast.dismiss(toastId);
+    clearSessionCache();
     await router.invalidate();
     void navigate({ to: "/dashboard", replace: true });
   };

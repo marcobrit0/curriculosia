@@ -1,8 +1,8 @@
-import { createFileRoute, Outlet, redirect, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
 
-import { getDashboardSidebarServerFn, setDashboardSidebarServerFn } from "./-components/functions";
+import { DashboardPendingIndicator } from "./-components/pending-indicator";
 import { DashboardSidebar } from "./-components/sidebar";
 
 export const Route = createFileRoute("/dashboard")({
@@ -11,26 +11,15 @@ export const Route = createFileRoute("/dashboard")({
     if (!context.session) throw redirect({ to: "/auth/login", replace: true });
     return { session: context.session };
   },
-  loader: async () => {
-    const sidebarState = await getDashboardSidebarServerFn();
-    return { sidebarState };
-  },
 });
 
 function RouteComponent() {
-  const router = useRouter();
-  const { sidebarState } = Route.useLoaderData();
-
-  const handleSidebarOpenChange = async (open: boolean) => {
-    await setDashboardSidebarServerFn({ data: open });
-    void router.invalidate();
-  };
-
   return (
-    <SidebarProvider open={sidebarState} onOpenChange={handleSidebarOpenChange}>
+    <SidebarProvider defaultOpen>
       <DashboardSidebar />
 
-      <main className="@container flex-1 p-4 md:ps-2">
+      <main className="@container relative flex-1 p-4 md:ps-2">
+        <DashboardPendingIndicator />
         <Outlet />
       </main>
     </SidebarProvider>

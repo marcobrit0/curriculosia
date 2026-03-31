@@ -22,6 +22,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/integrations/auth/client";
+import { clearSessionCache } from "@/integrations/auth/functions";
+import { useCurrentSession } from "@/integrations/auth/hooks";
 import { capturePostHogEvent, posthogEvents } from "@/integrations/posthog/client";
 import { isLocale, loadLocale, localeMap, setLocaleServerFn } from "@/utils/locale";
 import { isTheme } from "@/utils/theme";
@@ -34,7 +36,7 @@ export function UserDropdownMenu({ children }: Props) {
   const router = useRouter();
   const { i18n } = useLingui();
   const { theme, setTheme } = useTheme();
-  const { data: session } = authClient.useSession();
+  const session = useCurrentSession();
 
   const handleThemeChange = (value: string) => {
     if (!isTheme(value)) return;
@@ -53,6 +55,7 @@ export function UserDropdownMenu({ children }: Props) {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          clearSessionCache();
           capturePostHogEvent(posthogEvents.authSignOutCompleted, { method: "manual" });
           toast.dismiss(toastId);
           void router.invalidate();

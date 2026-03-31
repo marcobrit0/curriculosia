@@ -15,6 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/integrations/auth/client";
+import { clearSessionCache } from "@/integrations/auth/functions";
 
 import { DashboardHeader } from "../-components/header";
 
@@ -72,6 +73,7 @@ function RouteComponent() {
 
     toast.success(t`Your profile has been updated successfully.`);
     form.reset({ name: data.name, username: data.username, email: session.user.email });
+    clearSessionCache();
     void router.invalidate();
 
     if (data.email !== session.user.email) {
@@ -89,6 +91,7 @@ function RouteComponent() {
         t`A confirmation link has been sent to your current email address. Please check your inbox to confirm the change.`,
       );
       form.reset({ name: data.name, username: data.username, email: session.user.email });
+      clearSessionCache();
       void router.invalidate();
     }
   };

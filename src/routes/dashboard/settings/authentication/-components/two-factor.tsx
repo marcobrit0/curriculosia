@@ -7,14 +7,14 @@ import { match } from "ts-pattern";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useDialogStore } from "@/dialogs/store";
-import { authClient } from "@/integrations/auth/client";
+import { useCurrentSession } from "@/integrations/auth/hooks";
 
 import { useAuthAccounts } from "./hooks";
 
 export function TwoFactorSection() {
   const { openDialog } = useDialogStore();
   const { hasAccount } = useAuthAccounts();
-  const { data: session } = authClient.useSession();
+  const session = useCurrentSession();
 
   const hasPassword = useMemo(() => hasAccount("credential"), [hasAccount]);
   const hasTwoFactor = useMemo(() => session?.user.twoFactorEnabled ?? false, [session]);
