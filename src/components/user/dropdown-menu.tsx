@@ -13,7 +13,6 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -119,9 +118,7 @@ export function UserDropdownMenu({ children }: Props) {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuLabel className="px-2 py-1 text-[11px] font-normal">
-          Currículos IA v{__APP_VERSION__}
-        </DropdownMenuLabel>
+        <div className="px-2 py-1 text-[11px] text-muted-foreground">Currículos IA v{__APP_VERSION__}</div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
