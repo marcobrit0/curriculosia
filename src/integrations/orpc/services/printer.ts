@@ -15,6 +15,8 @@ import { generatePrinterToken } from "@/utils/printer-token";
 import { getStorageService, uploadFile } from "./storage";
 
 const SCREENSHOT_TTL = 1000 * 60 * 60 * 6; // 6 hours
+const SCREENSHOT_NAVIGATION_TIMEOUT_MS = 10_000;
+const SCREENSHOT_FONT_WAIT_TIMEOUT_MS = 3_000;
 
 // Singleton browser instance for connection reuse
 let browserInstance: Browser | null = null;
@@ -357,10 +359,14 @@ export const printerService = {
       await browser.setCookie({ name: "locale", value: locale, domain });
 
       page = await browser.newPage();
+      page.setDefaultNavigationTimeout(SCREENSHOT_NAVIGATION_TIMEOUT_MS);
+      page.setDefaultTimeout(SCREENSHOT_NAVIGATION_TIMEOUT_MS);
 
       await page.setViewport(pageDimensionsAsPixels.a4);
-      await page.goto(url, { waitUntil: "networkidle0" });
-      await page.waitForFunction(() => document.body.getAttribute("data-wf-loaded") === "true", { timeout: 5_000 });
+      await page.goto(url, { waitUntil: "domcontentloaded", timeout: SCREENSHOT_NAVIGATION_TIMEOUT_MS });
+      await page.waitForFunction(() => document.body?.getAttribute("data-wf-loaded") === "true", {
+        timeout: SCREENSHOT_FONT_WAIT_TIMEOUT_MS,
+      });
 
       const screenshotBuffer = await page.screenshot({ type: "webp", quality: 80 });
 
