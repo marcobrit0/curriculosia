@@ -79,7 +79,6 @@ export const rightSidebarSections: RightSidebarSection[] = [
   "typography",
   "design",
   "page",
-  "css",
   "notes",
   "sharing",
   "statistics",

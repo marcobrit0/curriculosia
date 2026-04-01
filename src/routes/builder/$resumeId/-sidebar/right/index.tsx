@@ -14,7 +14,6 @@ import {
 
 import { BuilderSidebarEdge } from "../../-components/edge";
 import { useBuilderSidebar } from "../../-store/sidebar";
-import { CSSSectionBuilder } from "./sections/css";
 import { DesignSectionBuilder } from "./sections/design";
 import { ExportSectionBuilder } from "./sections/export";
 import { LayoutSectionBuilder } from "./sections/layout";
@@ -32,7 +31,7 @@ function getSectionComponent(type: RightSidebarSection) {
     .with("typography", () => <TypographySectionBuilder />)
     .with("design", () => <DesignSectionBuilder />)
     .with("page", () => <PageSectionBuilder />)
-    .with("css", () => <CSSSectionBuilder />)
+    .with("css", () => null)
     .with("notes", () => <NotesSectionBuilder />)
     .with("sharing", () => <SharingSectionBuilder />)
     .with("statistics", () => <StatisticsSectionBuilder />)
