@@ -10,6 +10,7 @@ type SendEmailOptions = {
 };
 
 const isSmtpEnabled = () => {
+  if (env.EMAIL_TRANSPORT === "console") return false;
   return !!env.SMTP_HOST && !!env.SMTP_USER && !!env.SMTP_PASS && !!env.SMTP_FROM;
 };
 

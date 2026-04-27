@@ -1,6 +1,31 @@
 import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const PLACEHOLDER_AUTH_SECRET = "change-me-to-a-secure-secret-key-in-production";
+
+const authSecretSchema = z
+  .string()
+  .min(1)
+  .superRefine((value, ctx) => {
+    if (!isProduction) return;
+
+    if (value === PLACEHOLDER_AUTH_SECRET) {
+      ctx.addIssue({
+        code: "custom",
+        message: "AUTH_SECRET must not be the placeholder value in production. Generate one with `openssl rand -hex 32`.",
+      });
+    }
+
+    if (value.length < 32) {
+      ctx.addIssue({
+        code: "custom",
+        message: "AUTH_SECRET must be at least 32 characters in production.",
+      });
+    }
+  });
+
 export const env = createEnv({
   clientPrefix: "VITE_",
   runtimeEnv: process.env,
@@ -21,7 +46,7 @@ export const env = createEnv({
     DATABASE_URL: z.url({ protocol: /postgres(ql)?/ }),
 
     // Authentication
-    AUTH_SECRET: z.string().min(1),
+    AUTH_SECRET: authSecretSchema,
     BETTER_AUTH_API_KEY: z.string().min(1).optional(),
 
     // Social Auth (Google)
@@ -53,6 +78,9 @@ export const env = createEnv({
     SMTP_PASS: z.string().min(1).optional(),
     SMTP_FROM: z.string().min(1).optional(),
     SMTP_SECURE: z.stringbool().default(false),
+    // In production, refuses to boot unless either SMTP_* is fully configured or
+    // EMAIL_TRANSPORT is explicitly set to "console" (logs emails to stdout).
+    EMAIL_TRANSPORT: z.enum(["smtp", "console"]).default("smtp"),
 
     // Storage (Optional)
     S3_ACCESS_KEY_ID: z.string().min(1).optional(),
@@ -72,3 +100,21 @@ export const env = createEnv({
     FLAG_DISABLE_AI: z.stringbool().default(true),
   },
 });
+
+if (isProduction && env.EMAIL_TRANSPORT === "smtp") {
+  const missing = [
+    ["SMTP_HOST", env.SMTP_HOST],
+    ["SMTP_USER", env.SMTP_USER],
+    ["SMTP_PASS", env.SMTP_PASS],
+    ["SMTP_FROM", env.SMTP_FROM],
+  ]
+    .filter(([, value]) => !value)
+    .map(([name]) => name);
+
+  if (missing.length > 0) {
+    throw new Error(
+      `Missing SMTP configuration in production: ${missing.join(", ")}. ` +
+        `Configure SMTP_HOST, SMTP_USER, SMTP_PASS, and SMTP_FROM, or explicitly opt in to console-logged emails by setting EMAIL_TRANSPORT="console".`,
+    );
+  }
+}
