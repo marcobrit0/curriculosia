@@ -7,6 +7,7 @@ import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { createFileRoute } from "@tanstack/react-router";
 
 import router from "@/integrations/orpc/router";
+import { captureException } from "@/integrations/sentry";
 import { resumeDataSchema } from "@/schema/resume/data";
 import { env } from "@/utils/env";
 import { getLocale } from "@/utils/locale";
@@ -23,6 +24,7 @@ const openAPIHandler = new OpenAPIHandler(router, {
   interceptors: [
     onError((error) => {
       console.error("[OpenAPI]", error);
+      captureException(error, { handler: "openapi" });
     }),
   ],
 });

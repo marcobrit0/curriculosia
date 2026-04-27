@@ -93,6 +93,11 @@ export const env = createEnv({
     // Set to "false" for virtual-hosted-style URLs (bucket.endpoint), common with AWS S3, Cloudflare R2, etc.
     S3_FORCE_PATH_STYLE: z.stringbool().default(false),
 
+    // Observability (optional)
+    SENTRY_DSN: z.url({ protocol: /https?/ }).optional(),
+    SENTRY_ENVIRONMENT: z.string().min(1).optional(),
+    SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1).default(0),
+
     // Feature Flags
     FLAG_DEBUG_PRINTER: z.stringbool().default(false),
     FLAG_DISABLE_SIGNUPS: z.stringbool().default(false),

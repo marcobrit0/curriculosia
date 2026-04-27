@@ -68,6 +68,7 @@ Before deploying to production, verify the following:
 - [ ] Automated database backups are configured and a restore has been tested.
 - [ ] Browserless (or alternative Chrome service) is reachable from the app and has health checks.
 - [ ] HTTPS is enforced (`force_https = true` in `fly.toml`).
+- [ ] `SENTRY_DSN` is set so server-side errors are reported (otherwise Sentry is silently disabled).
 
 ## Credits
 
