@@ -24,7 +24,7 @@ jobs:
 
       - run: vp fmt -c .oxfmtrc.json
       - run: vp lint -c .oxlintrc.json --fix
-      - run: pnpm typecheck
+      - run: vp run typecheck
       - run: vp test
 
       - uses: autofix-ci/action@7a166d7532b277f34e16238930461bf77f9d7ed8
