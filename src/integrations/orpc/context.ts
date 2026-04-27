@@ -104,7 +104,10 @@ export const gatedAIProcedure = protectedProcedure.use(async ({ context, next })
  */
 export const serverOnlyProcedure = publicProcedure.use(async ({ context, next }) => {
   const headers = context.reqHeaders ?? new Headers();
-  const isDebugBypassEnabled = env.FLAG_DEBUG_PRINTER && process.env.NODE_ENV === "development";
+  // Defense in depth: the bypass requires NODE_ENV !== "production" AND no Fly
+  // app context, on top of the operator opting in via FLAG_DEBUG_PRINTER.
+  const isNonProduction = process.env.NODE_ENV !== "production" && !process.env.FLY_APP_NAME;
+  const isDebugBypassEnabled = env.FLAG_DEBUG_PRINTER && isNonProduction;
 
   // Check for the custom header that indicates this is a server-side call
   // Server-side calls using createRouterClient have this header set

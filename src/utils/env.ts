@@ -14,7 +14,8 @@ const authSecretSchema = z
     if (value === PLACEHOLDER_AUTH_SECRET) {
       ctx.addIssue({
         code: "custom",
-        message: "AUTH_SECRET must not be the placeholder value in production. Generate one with `openssl rand -hex 32`.",
+        message:
+          "AUTH_SECRET must not be the placeholder value in production. Generate one with `openssl rand -hex 32`.",
       });
     }
 

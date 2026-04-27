@@ -57,6 +57,18 @@ docker compose up -d
 
 The app will be available at `http://localhost:3000`.
 
+## Production Launch Checklist
+
+Before deploying to production, verify the following:
+
+- [ ] `AUTH_SECRET` is set to a unique value generated with `openssl rand -hex 32` (the app refuses to boot with the placeholder).
+- [ ] SMTP is configured (`SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`), or `EMAIL_TRANSPORT="console"` is set explicitly to opt in to console-logged emails.
+- [ ] `FLAG_DEBUG_PRINTER="false"` (or unset) in the production environment.
+- [ ] `FLAG_DISABLE_AI="true"` until the premium AI flow is implemented.
+- [ ] Automated database backups are configured and a restore has been tested.
+- [ ] Browserless (or alternative Chrome service) is reachable from the app and has health checks.
+- [ ] HTTPS is enforced (`force_https = true` in `fly.toml`).
+
 ## Credits
 
 This project is a fork of [Currículos IA](https://github.com/AmruthPillai/Reactive-Resume) by [Marco Brito](https://curriculos.ia.br).
