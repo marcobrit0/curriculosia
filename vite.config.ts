@@ -17,7 +17,7 @@ if (!isVitest) {
   plugins.push(
     lingui(),
     tailwindcss(),
-    nitro({ plugins: ["plugins/1.migrate.ts"] }),
+    nitro({ plugins: ["plugins/1.migrate.ts", "plugins/2.session-cleanup.ts"] }),
     babel({ plugins: ["@lingui/babel-plugin-lingui-macro"] }),
     VitePWA({
       outDir: "public",

@@ -8,13 +8,13 @@ import { jobResultSchema } from "@/schema/jobs";
 import { type ResumeData, resumeDataSchema } from "@/schema/resume/data";
 import { tailorOutputSchema } from "@/schema/tailor";
 
-import { protectedProcedure } from "../context";
+import { gatedAIProcedure } from "../context";
 import { aiCredentialsSchema, aiProviderSchema, aiService, fileInputSchema } from "../services/ai";
 
 type AIProvider = z.infer<typeof aiProviderSchema>;
 
 export const aiRouter = {
-  testConnection: protectedProcedure
+  testConnection: gatedAIProcedure
     .route({
       method: "POST",
       path: "/ai/test-connection",
@@ -51,7 +51,7 @@ export const aiRouter = {
       }
     }),
 
-  parsePdf: protectedProcedure
+  parsePdf: gatedAIProcedure
     .route({
       method: "POST",
       path: "/ai/parse-pdf",
@@ -96,7 +96,7 @@ export const aiRouter = {
       }
     }),
 
-  parseDocx: protectedProcedure
+  parseDocx: gatedAIProcedure
     .route({
       method: "POST",
       path: "/ai/parse-docx",
@@ -146,7 +146,7 @@ export const aiRouter = {
       }
     }),
 
-  chat: protectedProcedure
+  chat: gatedAIProcedure
     .route({
       method: "POST",
       path: "/ai/chat",
@@ -178,7 +178,7 @@ export const aiRouter = {
       }
     }),
 
-  tailorResume: protectedProcedure
+  tailorResume: gatedAIProcedure
     .route({
       method: "POST",
       path: "/ai/tailor-resume",

@@ -86,12 +86,28 @@ export const protectedProcedure = publicProcedure.use(async ({ context, next }) 
 });
 
 /**
+ * Authenticated procedure for AI endpoints. Rejects requests when AI features
+ * are globally disabled via FLAG_DISABLE_AI. This is the choke point that will
+ * be replaced with a per-user premium check once subscriptions are wired up.
+ */
+export const gatedAIProcedure = protectedProcedure.use(async ({ context, next }) => {
+  if (env.FLAG_DISABLE_AI) {
+    throw new ORPCError("FORBIDDEN", { message: "AI features are currently disabled" });
+  }
+
+  return next({ context });
+});
+
+/**
  * Server-only procedure that can only be called from server-side code (e.g., loaders).
  * Rejects requests from the browser with a 401 UNAUTHORIZED error.
  */
 export const serverOnlyProcedure = publicProcedure.use(async ({ context, next }) => {
   const headers = context.reqHeaders ?? new Headers();
-  const isDebugBypassEnabled = env.FLAG_DEBUG_PRINTER && process.env.NODE_ENV === "development";
+  // Defense in depth: the bypass requires NODE_ENV !== "production" AND no Fly
+  // app context, on top of the operator opting in via FLAG_DEBUG_PRINTER.
+  const isNonProduction = process.env.NODE_ENV !== "production" && !process.env.FLY_APP_NAME;
+  const isDebugBypassEnabled = env.FLAG_DEBUG_PRINTER && isNonProduction;
 
   // Check for the custom header that indicates this is a server-side call
   // Server-side calls using createRouterClient have this header set

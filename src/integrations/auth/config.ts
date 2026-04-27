@@ -115,6 +115,18 @@ const getAuthConfig = () => {
     telemetry: { enabled: false },
     trustedOrigins: getTrustedOrigins(),
 
+    rateLimit: {
+      enabled: true,
+      window: 60,
+      max: 100,
+      customRules: {
+        "/sign-in/email": { window: 60, max: 10 },
+        "/sign-up/email": { window: 60, max: 5 },
+        "/forget-password": { window: 300, max: 3 },
+        "/reset-password": { window: 300, max: 5 },
+      },
+    },
+
     advanced: {
       database: { generateId },
       useSecureCookies: env.APP_URL.startsWith("https://"),
