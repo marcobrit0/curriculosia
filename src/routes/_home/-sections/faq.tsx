@@ -16,7 +16,7 @@ type FAQItemData = {
 const getFaqItems = (): FAQItemData[] => [
   {
     question: t`Is Currículos IA really free?`,
-    answer: t`Yes! Currículos IA is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free.`,
+    answer: t`The core resume builder — templates, exports, and sharing — is free and will always remain free. AI-powered features (such as content suggestions, PDF/DOCX import, and auto-tailoring for job postings) are part of an optional premium plan that helps cover the cost of running the AI models. Currículos IA is also fully open-source, so you can self-host it and bring your own AI keys at no cost.`,
   },
   {
     question: t`How is my data protected?`,
@@ -48,7 +48,7 @@ const getFaqItems = (): FAQItemData[] => [
   },
   {
     question: t`What makes Currículos IA different from other resume builders?`,
-    answer: t`Currículos IA is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall.`,
+    answer: t`Currículos IA is open-source and privacy-focused. The resume builder itself is free, with no ads and no tracking of your resume content. AI-assisted features are offered as an optional premium plan to cover model costs, and self-hosters can plug in their own keys for free.`,
   },
   {
     question: t`Can I customize the templates?`,

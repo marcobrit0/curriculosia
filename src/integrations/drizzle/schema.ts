@@ -4,6 +4,8 @@ import * as pg from "drizzle-orm/pg-core";
 import { defaultResumeData, type ResumeData } from "../../schema/resume/data";
 import { generateId } from "../../utils/string";
 
+export const userPlan = pg.pgEnum("user_plan", ["free", "premium"]);
+
 export const user = pg.pgTable(
   "user",
   {
@@ -19,6 +21,8 @@ export const user = pg.pgTable(
     username: pg.text("username").notNull().unique(),
     displayUsername: pg.text("display_username").notNull().unique(),
     twoFactorEnabled: pg.boolean("two_factor_enabled").notNull().default(false),
+    plan: userPlan("plan").notNull().default("free"),
+    planExpiresAt: pg.timestamp("plan_expires_at", { withTimezone: true }),
     lastActiveAt: pg.timestamp("last_active_at", { withTimezone: true }),
     createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: pg
@@ -27,7 +31,7 @@ export const user = pg.pgTable(
       .defaultNow()
       .$onUpdate(() => /* @__PURE__ */ new Date()),
   },
-  (t) => [pg.index().on(t.createdAt.asc())],
+  (t) => [pg.index().on(t.createdAt.asc()), pg.index().on(t.plan)],
 );
 
 export const session = pg.pgTable(
@@ -401,6 +405,37 @@ export const oauthConsent = pg.pgTable(
   (t) => [pg.index().on(t.userId, t.clientId)],
 );
 
+export const subscription = pg.pgTable(
+  "subscription",
+  {
+    id: pg
+      .uuid("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => generateId()),
+    userId: pg
+      .uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    provider: pg.text("provider").notNull(),
+    providerCustomerId: pg.text("provider_customer_id"),
+    providerSubscriptionId: pg.text("provider_subscription_id").unique(),
+    status: pg.text("status").notNull(),
+    currentPeriodStart: pg.timestamp("current_period_start", { withTimezone: true }),
+    currentPeriodEnd: pg.timestamp("current_period_end", { withTimezone: true }),
+    cancelAtPeriodEnd: pg.boolean("cancel_at_period_end").notNull().default(false),
+    canceledAt: pg.timestamp("canceled_at", { withTimezone: true }),
+    metadata: pg.jsonb("metadata"),
+    createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: pg
+      .timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => /* @__PURE__ */ new Date()),
+  },
+  (t) => [pg.index().on(t.userId), pg.index().on(t.status), pg.index().on(t.userId, t.status)],
+);
+
 export const relations = defineRelations(
   {
     user,
@@ -417,6 +452,7 @@ export const relations = defineRelations(
     oauthRefreshToken,
     oauthAccessToken,
     oauthConsent,
+    subscription,
   },
   (r) => ({
     user: {
@@ -430,6 +466,13 @@ export const relations = defineRelations(
       oauthRefreshTokens: r.many.oauthRefreshToken(),
       oauthAccessTokens: r.many.oauthAccessToken(),
       oauthConsents: r.many.oauthConsent(),
+      subscriptions: r.many.subscription(),
+    },
+    subscription: {
+      user: r.one.user({
+        from: r.subscription.userId,
+        to: r.user.id,
+      }),
     },
     session: {
       user: r.one.user({

@@ -4,6 +4,7 @@ import { BatchHandlerPlugin, RequestHeadersPlugin, StrictGetMethodPlugin } from 
 import { createFileRoute } from "@tanstack/react-router";
 
 import router from "@/integrations/orpc/router";
+import { captureException } from "@/integrations/sentry";
 import { getLocale } from "@/utils/locale";
 
 const rpcHandler = new RPCHandler(router, {
@@ -11,6 +12,7 @@ const rpcHandler = new RPCHandler(router, {
   interceptors: [
     onError((error) => {
       console.error("[oRPC Server]", error);
+      captureException(error, { handler: "rpc" });
     }),
   ],
 });
