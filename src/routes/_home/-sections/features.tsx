@@ -37,98 +37,98 @@ const getFeatures = (): Feature[] => [
   {
     id: "free",
     icon: CurrencyDollarIcon,
-    title: t`Free`,
-    description: t`Completely free, forever, no hidden costs.`,
+    title: t`Completamente gratuito`,
+    description: t`Crie currículos profissionais sem pagar nada. Sem planos escondidos, sem limites de uso — gratuito para sempre.`,
   },
   {
     id: "open-source",
     icon: GithubLogoIcon,
     title: t`Open Source`,
-    description: t`By the community, for the community.`,
+    description: t`Código aberto e auditável. Construído pela comunidade, para a comunidade, com total transparência.`,
   },
   {
     id: "no-ads",
     icon: ProhibitIcon,
-    title: t`No Advertising, No Tracking`,
-    description: t`For a secure and distraction-free experience.`,
+    title: t`Sem anúncios, sem rastreamento`,
+    description: t`Nenhum banner, nenhum pop-up. Sua experiência de criação de currículo é limpa e focada.`,
   },
   {
     id: "data-security",
     icon: DatabaseIcon,
-    title: t`Data Security`,
-    description: t`Your data is secure, and never shared or sold to anyone.`,
+    title: t`Seus dados são seus`,
+    description: t`Seus dados pessoais e currículos nunca são vendidos ou compartilhados com terceiros.`,
   },
   {
     id: "self-host",
     icon: CloudArrowUpIcon,
-    title: t`Self-Host with Docker`,
-    description: t`You also have the option to deploy on your own servers using the Docker image.`,
+    title: t`Auto-hospedagem com Docker`,
+    description: t`Instale o Currículos IA nos seus próprios servidores com Docker e tenha controle total dos seus dados.`,
   },
   {
     id: "languages",
     icon: TranslateIcon,
-    title: t`Multilingual`,
-    description: t`Available in multiple languages. If you would like to contribute, check out Crowdin.`,
+    title: t`Multilíngue`,
+    description: t`Disponível em português, inglês e outros idiomas. Crie currículos para vagas no Brasil e no exterior.`,
   },
   {
     id: "auth",
     icon: KeyIcon,
-    title: t`One-Click Sign-In`,
-    description: t`Sign in with GitHub, Google or a custom OAuth provider.`,
+    title: t`Acesso com um clique`,
+    description: t`Entre com GitHub, Google ou provedor OAuth personalizado. Sem complicação para começar.`,
   },
   {
     id: "2fa",
     icon: ShieldCheckIcon,
-    title: t`Passkeys & 2FA`,
-    description: t`Enhance the security of your account with additional layers of protection.`,
+    title: t`Passkeys e autenticação 2FA`,
+    description: t`Proteja sua conta com camadas extras de segurança, incluindo passkeys e verificação em duas etapas.`,
   },
   {
     id: "unlimited-resumes",
     icon: FilesIcon,
-    title: t`Unlimited Resumes`,
-    description: t`Create as many resumes as you want, without limits.`,
+    title: t`Currículos ilimitados`,
+    description: t`Crie quantos currículos quiser — para vagas diferentes, áreas diferentes, sem nenhum limite.`,
   },
   {
     id: "design",
     icon: PaletteIcon,
-    title: t`Flexibility`,
-    description: t`Personalize your resume with any colors, fonts or designs, and make it your own.`,
+    title: t`Personalização total`,
+    description: t`Escolha cores, fontes e estilos para deixar seu currículo com a sua identidade visual.`,
   },
   {
     id: "css",
     icon: FileCssIcon,
-    title: t`Custom CSS`,
-    description: t`Write your own CSS (or use an AI to generate it for you) to customize your resume to the fullest.`,
+    title: t`CSS personalizado`,
+    description: t`Escreva seu próprio CSS ou use IA para gerar estilos exclusivos e ter controle absoluto do layout.`,
   },
   {
     id: "templates",
     icon: LayoutIcon,
-    title: t`12+ Templates`,
-    description: t`Beautiful templates to choose from, with more on the way.`,
+    title: t`12+ modelos profissionais`,
+    description: t`Modelos de currículo modernos e elegantes para diferentes perfis e áreas de atuação.`,
   },
   {
     id: "public",
     icon: GlobeIcon,
-    title: t`Shareable Links`,
-    description: t`Share your resume with a public URL, and let others view it.`,
+    title: t`Link público para compartilhar`,
+    description: t`Compartilhe seu currículo com um link único. Ideal para enviar a recrutadores e LinkedIn.`,
   },
   {
     id: "password-protection",
     icon: LockSimpleIcon,
-    title: t`Password Protection`,
-    description: t`Protect your resume with a password, and let only people with the password view it.`,
+    title: t`Proteção por senha`,
+    description: t`Defina uma senha para o seu currículo e controle quem pode visualizá-lo.`,
   },
   {
     id: "api-access",
     icon: CodeSimpleIcon,
-    title: t`API Access`,
-    description: t`Access your resumes and data programmatically using the API.`,
+    title: t`Acesso via API`,
+    description: t`Integre o Currículos IA aos seus sistemas e acesse seus dados programaticamente.`,
   },
   {
     id: "more",
     icon: DotsThreeIcon,
-    title: t`And many more...`,
-    description: t`New features are constantly being added and improved, so be sure to check back often.`,
+    title: t`E muito mais...`,
+    description: t`Novas funcionalidades são adicionadas regularmente. Fique de olho nas novidades!`,
   },
 ];
 
@@ -157,7 +157,7 @@ function FeatureCard({ icon: Icon, title, description }: FeatureCardProps) {
       {/* Icon */}
       <div aria-hidden="true" className="relative">
         <div className="inline-flex rounded-md bg-primary/5 p-2.5 text-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-          <Icon size={24} weight="thin" />
+          <Icon size={24} weight="regular" />
         </div>
       </div>
 
@@ -185,13 +185,13 @@ export function Features() {
         style={{ willChange: "transform, opacity" }}
       >
         <h2 className="text-2xl font-semibold tracking-tight md:text-4xl xl:text-5xl">
-          <Trans>Features</Trans>
+          <Trans>Tudo que você precisa para o seu currículo</Trans>
         </h2>
 
         <p className="max-w-2xl leading-relaxed text-muted-foreground">
           <Trans>
-            Everything you need to create, customize, and share professional resumes. Built with privacy in mind,
-            powered by open source, and completely free forever.
+            Crie, personalize e compartilhe currículos profissionais com privacidade total. Open-source, sem anúncios,
+            com IA integrada — e 100% gratuito para sempre.
           </Trans>
         </p>
       </motion.div>

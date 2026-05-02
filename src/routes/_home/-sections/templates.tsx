@@ -1,16 +1,23 @@
+import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { motion } from "motion/react";
-import { useMemo } from "react";
+import { PauseIcon, PlayIcon } from "@phosphor-icons/react";
+import { motion, useAnimationControls } from "motion/react";
+import { useEffect, useMemo, useState } from "react";
 
 import type { TemplateMetadata } from "@/dialogs/resume/template/data";
 
 import { templates } from "@/dialogs/resume/template/data";
+import { Button } from "@/components/ui/button";
 
 type TemplateItemProps = {
   metadata: TemplateMetadata;
 };
 
 function TemplateItem({ metadata }: TemplateItemProps) {
+  const { i18n } = useLingui();
+  const altText = t`Modelo de currículo ${metadata.name}: ${i18n.t(metadata.description)}`;
+
   return (
     <motion.div
       className="group relative shrink-0"
@@ -21,7 +28,7 @@ function TemplateItem({ metadata }: TemplateItemProps) {
       style={{ willChange: "transform" }}
     >
       <div className="relative aspect-page w-48 overflow-hidden rounded-md border bg-card shadow-lg transition-all duration-300 group-hover:shadow-2xl sm:w-56 md:w-64 lg:w-72">
-        <img src={metadata.imageUrl} alt={metadata.name} className="size-full object-cover" />
+        <img src={metadata.imageUrl} alt={altText} className="size-full object-cover" />
 
         {/* Subtle overlay on hover */}
         <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -43,23 +50,29 @@ type MarqueeRowProps = {
   rowId: string;
   direction: "left" | "right";
   duration?: number;
+  isPaused: boolean;
 };
 
-function MarqueeRow({ templates, rowId, direction, duration = 40 }: MarqueeRowProps) {
-  const animateX = direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"];
+function MarqueeRow({ templates, rowId, direction, duration = 40, isPaused }: MarqueeRowProps) {
+  const controls = useAnimationControls();
+
+  useEffect(() => {
+    const animateX = direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"];
+    if (isPaused) {
+      void controls.stop();
+    } else {
+      void controls.start({
+        x: animateX,
+        transition: { x: { repeat: Infinity, repeatType: "loop", duration, ease: "linear" } },
+      });
+    }
+  }, [isPaused, controls, direction, duration]);
 
   return (
     <motion.div
+      animate={controls}
+      initial={{ x: direction === "left" ? "0%" : "-50%" }}
       className="flex gap-x-4 will-change-transform sm:gap-x-6"
-      animate={{ x: animateX }}
-      transition={{
-        x: {
-          repeat: Infinity,
-          repeatType: "loop",
-          duration,
-          ease: "linear",
-        },
-      }}
     >
       {templates.map(([template, metadata], index) => (
         <TemplateItem key={`${rowId}-${template}-${index}`} metadata={metadata} />
@@ -69,6 +82,8 @@ function MarqueeRow({ templates, rowId, direction, duration = 40 }: MarqueeRowPr
 }
 
 export function Templates() {
+  const [isPaused, setIsPaused] = useState(false);
+
   // Split templates into two rows and duplicate for seamless infinite scroll
   const { row1, row2 } = useMemo(() => {
     const entries = Object.entries(templates);
@@ -86,33 +101,50 @@ export function Templates() {
   return (
     <section id="templates" className="overflow-hidden border-t-0! p-4 md:p-8 xl:py-16">
       <motion.div
-        className="space-y-4"
+        className="flex items-start justify-between gap-4"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.35 }}
         style={{ willChange: "transform, opacity" }}
       >
-        <h2 className="text-2xl font-semibold tracking-tight md:text-4xl xl:text-5xl">
-          <Trans>Templates</Trans>
-        </h2>
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight md:text-4xl xl:text-5xl">
+            <Trans>12+ Modelos de Currículo</Trans>
+          </h2>
 
-        <p className="max-w-2xl leading-relaxed text-muted-foreground">
-          <Trans>
-            Explore our diverse selection of templates, each designed to fit different styles, professions, and
-            personalities. Currículos IA currently offers 12 templates, with more on the way.
-          </Trans>
-        </p>
+          <p className="max-w-2xl leading-relaxed text-muted-foreground">
+            <Trans>
+              Modelos profissionais e modernos para diferentes perfis, áreas de atuação e setores. Todos personalizáveis
+              com cores, fontes e CSS próprio.
+            </Trans>
+          </p>
+        </div>
+
+        <Button
+          size="icon"
+          variant="outline"
+          className="mt-1 shrink-0"
+          aria-label={isPaused ? t`Retomar animação dos modelos` : t`Pausar animação dos modelos`}
+          onClick={() => setIsPaused((prev) => !prev)}
+        >
+          {isPaused ? <PlayIcon aria-hidden="true" /> : <PauseIcon aria-hidden="true" />}
+        </Button>
       </motion.div>
 
-      <div className="relative mt-8 -rotate-3 py-8 sm:-rotate-4 lg:mt-0 lg:-rotate-5">
+      <div
+        className="relative mt-8 -rotate-3 py-8 sm:-rotate-4 lg:mt-0 lg:-rotate-5"
+        aria-label={t`Galeria de modelos de currículo`}
+        role="region"
+        aria-live="off"
+      >
         {/* Marquee container with minimum height */}
         <div className="flex min-h-[280px] flex-col gap-y-4 sm:min-h-[320px] sm:gap-y-6 md:min-h-[380px] lg:min-h-[420px]">
           {/* First row - moves left to right */}
-          <MarqueeRow templates={row1} rowId="row1" direction="left" duration={45} />
+          <MarqueeRow templates={row1} rowId="row1" direction="left" duration={45} isPaused={isPaused} />
 
           {/* Second row - moves right to left (opposite direction) */}
-          <MarqueeRow templates={row2} rowId="row2" direction="right" duration={50} />
+          <MarqueeRow templates={row2} rowId="row2" direction="right" duration={50} isPaused={isPaused} />
         </div>
       </div>
     </section>

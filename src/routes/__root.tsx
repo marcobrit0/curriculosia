@@ -41,7 +41,7 @@ const appName = "Currículos IA";
 const tagline = "Crie seu currículo profissional com IA";
 const title = `${appName} — ${tagline}`;
 const description =
-  "Currículos IA é um criador de currículos gratuito e de código aberto, com inteligência artificial, feito para o Brasil.";
+  "Currículos IA é um criador de currículos gratuito e de código aberto, com inteligência artificial, feito para o Brasil. Crie, personalize e compartilhe seu currículo profissional em minutos.";
 
 await loadLocale(await getLocale());
 
@@ -59,6 +59,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         { rel: "apple-touch-icon", href: "/apple-touch-icon-180x180.png", type: "image/png", sizes: "180x180 any" },
         // Manifest
         { rel: "manifest", href: "/manifest.webmanifest", crossOrigin: "use-credentials" },
+        // Canonical
+        { rel: "canonical", href: appUrl },
       ],
       meta: [
         { title },
@@ -71,11 +73,15 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         { property: "twitter:title", content: title },
         { property: "twitter:description", content: description },
         // OpenGraph Tags
+        { property: "og:type", content: "website" },
         { property: "og:image", content: `${appUrl}/opengraph/banner.jpg` },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
         { property: "og:site_name", content: appName },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: appUrl },
+        { property: "og:locale", content: "pt_BR" },
       ],
       // Register service worker via script tag
       scripts: [
@@ -87,6 +93,45 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 							})
 						}
 					`,
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebApplication",
+                "@id": `${appUrl}#webapp`,
+                name: appName,
+                url: appUrl,
+                description,
+                applicationCategory: "BusinessApplication",
+                operatingSystem: "Web",
+                offers: {
+                  "@type": "Offer",
+                  price: "0",
+                  priceCurrency: "BRL",
+                },
+                inLanguage: ["pt-BR", "en"],
+                featureList: [
+                  "Criador de currículos gratuito",
+                  "Inteligência artificial para currículos",
+                  "Exportação em PDF",
+                  "12+ modelos de currículo",
+                  "Compartilhamento com link público",
+                  "Código aberto",
+                ],
+              },
+              {
+                "@type": "Organization",
+                "@id": `${appUrl}#organization`,
+                name: appName,
+                url: appUrl,
+                logo: `${appUrl}/opengraph/logo.svg`,
+                sameAs: ["https://github.com/marcobrit0/curriculosia"],
+              },
+            ],
+          }),
         },
       ],
     };

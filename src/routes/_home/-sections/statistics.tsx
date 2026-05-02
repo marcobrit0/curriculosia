@@ -6,6 +6,7 @@ import { useQueries } from "@tanstack/react-query";
 import { motion } from "motion/react";
 
 import { CountUp } from "@/components/animation/count-up";
+import { Skeleton } from "@/components/ui/skeleton";
 import { orpc } from "@/integrations/orpc/client";
 
 type Statistic = {
@@ -18,13 +19,13 @@ type Statistic = {
 const getStatistics = (userCount: number, resumeCount: number): Statistic[] => [
   {
     id: "users",
-    label: t`Users`,
+    label: t`Usuários`,
     value: userCount,
     icon: UsersIcon,
   },
   {
     id: "resumes",
-    label: t`Resumes`,
+    label: t`Currículos criados`,
     value: resumeCount,
     icon: FileTextIcon,
   },
@@ -84,23 +85,42 @@ function StatisticCard({ statistic, index }: StatisticCardProps) {
   );
 }
 
+function StatisticSkeleton() {
+  return (
+    <div className="flex flex-col items-center justify-center gap-y-4 border-r border-b p-8 sm:border-b-0 xl:py-12">
+      <Skeleton className="size-12 rounded-full" />
+      <Skeleton className="h-14 w-32" />
+      <Skeleton className="h-4 w-20" />
+    </div>
+  );
+}
+
 export function Statistics() {
   const [userCountResult, resumeCountResult] = useQueries({
     queries: [orpc.statistics.user.getCount.queryOptions(), orpc.statistics.resume.getCount.queryOptions()],
   });
 
-  if (!userCountResult.data || !resumeCountResult.data) return null;
+  const isLoading = userCountResult.isPending || resumeCountResult.isPending;
 
   return (
     <section id="statistics" aria-labelledby="stats-heading">
       <h2 id="stats-heading" className="sr-only">
-        {t`Application Statistics`}
+        {t`Estatísticas do Currículos IA`}
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2">
-        {getStatistics(userCountResult.data, resumeCountResult.data).map((statistic, index) => (
-          <StatisticCard key={statistic.id} statistic={statistic} index={index} />
-        ))}
+        {isLoading ? (
+          <>
+            <StatisticSkeleton />
+            <StatisticSkeleton />
+          </>
+        ) : (
+          userCountResult.data &&
+          resumeCountResult.data &&
+          getStatistics(userCountResult.data, resumeCountResult.data).map((statistic, index) => (
+            <StatisticCard key={statistic.id} statistic={statistic} index={index} />
+          ))
+        )}
       </div>
     </section>
   );

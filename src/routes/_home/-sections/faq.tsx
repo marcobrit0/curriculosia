@@ -15,48 +15,52 @@ type FAQItemData = {
 
 const getFaqItems = (): FAQItemData[] => [
   {
-    question: t`Is Currículos IA really free?`,
-    answer: t`The core resume builder — templates, exports, and sharing — is free and will always remain free. AI-powered features (such as content suggestions, PDF/DOCX import, and auto-tailoring for job postings) are part of an optional premium plan that helps cover the cost of running the AI models. Currículos IA is also fully open-source, so you can self-host it and bring your own AI keys at no cost.`,
+    question: t`O Currículos IA é realmente gratuito?`,
+    answer: t`Sim! O criador de currículos — com templates, exportação em PDF e compartilhamento — é gratuito e sempre será. Os recursos com IA (sugestões de conteúdo, importação de PDF/DOCX e ajuste automático para vagas) fazem parte de um plano premium opcional, que ajuda a custear os modelos de IA. O Currículos IA também é open-source: você pode hospedar na sua própria infraestrutura e usar suas próprias chaves de IA sem custo adicional.`,
   },
   {
-    question: t`How is my data protected?`,
-    answer: t`Your data is stored securely and is never shared with third parties. You can also self-host Currículos IA on your own servers for complete control over your data.`,
+    question: t`Como meus dados são protegidos?`,
+    answer: t`Seus dados são armazenados com segurança e nunca são compartilhados com terceiros. Você também pode hospedar o Currículos IA nos seus próprios servidores para ter controle total sobre suas informações.`,
   },
   {
-    question: t`Can I export my resume to PDF?`,
-    answer: t`Absolutely! You can export your resume to PDF with a single click. The exported PDF maintains all your formatting and styling perfectly.`,
+    question: t`Posso exportar meu currículo em PDF?`,
+    answer: t`Com certeza! Você pode exportar seu currículo em PDF com um único clique. O PDF exportado mantém toda a formatação e o estilo exatamente como você configurou.`,
   },
   {
-    question: t`Is Currículos IA available in multiple languages?`,
+    question: t`O Currículos IA está disponível em português?`,
     answer: (
       <Trans>
-        Yes, Currículos IA is available in multiple languages. You can choose your preferred language in the settings
-        page, or using the language switcher in the top right corner. If you don't see your language, or you would like
-        to improve the existing translations, you can{" "}
+        Sim, o Currículos IA está disponível em português do Brasil e em outros idiomas. Você pode escolher o idioma nas
+        configurações ou usar o seletor de idioma no topo da página. Se não encontrar o seu idioma, ou quiser melhorar as
+        traduções existentes, você pode{" "}
         <a
           href={crowdinUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={buttonVariants({ variant: "link", className: "h-auto px-0!" })}
         >
-          contribute to the translations on Crowdin
-          <span className="sr-only"> (opens in new tab)</span>
+          contribuir com as traduções no Crowdin
+          <span className="sr-only"> (abre em nova aba)</span>
         </a>
         .
       </Trans>
     ),
   },
   {
-    question: t`What makes Currículos IA different from other resume builders?`,
-    answer: t`Currículos IA is open-source and privacy-focused. The resume builder itself is free, with no ads and no tracking of your resume content. AI-assisted features are offered as an optional premium plan to cover model costs, and self-hosters can plug in their own keys for free.`,
+    question: t`O que diferencia o Currículos IA de outros criadores de currículo?`,
+    answer: t`O Currículos IA é open-source e focado em privacidade. O criador de currículos é gratuito, sem anúncios e sem rastreamento do conteúdo dos seus currículos. Os recursos com IA são oferecidos como plano premium opcional para cobrir os custos dos modelos, e quem hospeda a própria instância pode usar suas chaves gratuitamente.`,
   },
   {
-    question: t`Can I customize the templates?`,
-    answer: t`Yes! Every template is fully customizable. You can change colors, fonts, spacing, and even write custom CSS for complete control over your resume's appearance.`,
+    question: t`Posso personalizar os templates?`,
+    answer: t`Sim! Todos os templates são totalmente personalizáveis. Você pode alterar cores, fontes, espaçamento e até escrever CSS personalizado para ter controle completo sobre a aparência do seu currículo.`,
   },
   {
-    question: t`How do I share my resume?`,
-    answer: t`You can share your resume via a unique public URL, protect it with a password, or download it as a PDF to share directly. The choice is yours!`,
+    question: t`Como compartilho meu currículo?`,
+    answer: t`Você pode compartilhar seu currículo por um link público exclusivo, protegê-lo com senha, ou baixá-lo em PDF para enviar diretamente. A escolha é sua!`,
+  },
+  {
+    question: t`O Currículos IA funciona bem para vagas no Brasil?`,
+    answer: t`Sim! O Currículos IA foi pensado para o mercado brasileiro. Você pode criar currículos em português, com formatos e estilos adequados para as expectativas de recrutadores e empresas brasileiras — além de suporte a currículos em inglês para vagas internacionais.`,
   },
 ];
 
@@ -80,9 +84,8 @@ export function FAQ() {
         style={{ willChange: "transform, opacity" }}
       >
         <Trans context="Every word needs to be wrapped in a tag">
-          <span>Frequently</span>
-          <span>Asked</span>
-          <span>Questions</span>
+          <span>Perguntas</span>
+          <span>Frequentes</span>
         </Trans>
       </motion.h2>
 
