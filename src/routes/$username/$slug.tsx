@@ -27,9 +27,28 @@ export const Route = createFileRoute("/$username/$slug")({
 
     return { resume: resume as LoaderData };
   },
-  head: ({ loaderData }) => ({
-    meta: [{ title: loaderData ? `${loaderData.resume.name} - Currículos IA` : "Currículos IA" }],
-  }),
+  head: ({ loaderData }) => {
+    const appUrl = process.env.APP_URL ?? "https://curriculos.ia.br/";
+    const resumeName = loaderData?.resume.name ?? "Currículo";
+    const title = `${resumeName} - Currículos IA`;
+    const description = `Visualize o currículo profissional de ${resumeName}, criado com Currículos IA — a ferramenta gratuita de criação de currículos com IA para o Brasil.`;
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:type", content: "profile" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:image", content: `${appUrl}opengraph/banner.jpg` },
+        { property: "og:site_name", content: "Currículos IA" },
+        { property: "twitter:card", content: "summary_large_image" },
+        { property: "twitter:title", content: title },
+        { property: "twitter:description", content: description },
+        { property: "twitter:image", content: `${appUrl}opengraph/banner.jpg` },
+      ],
+    };
+  },
   onError: (error) => {
     if (error instanceof ORPCError && error.code === "NEED_PASSWORD") {
       const data = error.data as { username?: string; slug?: string } | undefined;

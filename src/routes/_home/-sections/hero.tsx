@@ -54,11 +54,11 @@ export function Hero() {
           style={{ willChange: "transform, opacity" }}
           target="_blank"
           rel="noopener noreferrer"
-          href="https://docs.curriculos.ia.br/getting-started"
+          href="https://docs.curriculos.ia.br/getting-started/changelog"
         >
           <Badge variant="secondary" className="h-auto gap-1.5 px-3 py-0.5">
             <SparkleIcon aria-hidden="true" className="size-3.5" weight="fill" />
-            <Trans>What's new in the latest version?</Trans>
+            <Trans>Novidades da última versão</Trans>
           </Badge>
         </motion.a>
 
@@ -70,9 +70,11 @@ export function Hero() {
           style={{ willChange: "transform, opacity" }}
         >
           <Trans>
-            <p className="font-medium tracking-tight text-muted-foreground md:text-lg">Finally,</p>
+            <p className="font-medium tracking-tight text-muted-foreground md:text-lg">
+              Gratuito, open-source e com IA.
+            </p>
             <h1 className="mt-1 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-              A free and open-source resume builder
+              O criador de currículos profissional para o Brasil
             </h1>
           </Trans>
         </motion.div>
@@ -86,8 +88,8 @@ export function Hero() {
           style={{ willChange: "transform, opacity" }}
         >
           <Trans>
-            Currículos IA é um criador de currículos gratuito e de código aberto que simplifica o processo de criar,
-            atualizar e compartilhar seu currículo.
+            Crie, personalize e compartilhe seu currículo profissional em minutos. Com inteligência artificial, 12+
+            modelos e exportação em PDF — tudo 100% gratuito.
           </Trans>
         </motion.p>
 
@@ -106,7 +108,7 @@ export function Hero() {
             render={
               <Link to="/dashboard">
                 <span className="relative z-10 flex items-center gap-2">
-                  <Trans>Get Started</Trans>
+                  <Trans>Criar meu currículo</Trans>
                   <ArrowRightIcon
                     aria-hidden="true"
                     className="size-4 transition-transform group-hover:translate-x-0.5"
@@ -124,7 +126,7 @@ export function Hero() {
             render={
               <a href="https://docs.curriculos.ia.br" target="_blank" rel="noopener noreferrer">
                 <BookIcon aria-hidden="true" className="size-4" />
-                <Trans>Learn More</Trans>
+                <Trans>Saiba mais</Trans>
                 <span className="sr-only">
                   <Trans>(opens in new tab)</Trans>
                 </span>

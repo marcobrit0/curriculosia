@@ -1,7 +1,10 @@
 import { Trans } from "@lingui/react/macro";
+import { ArrowRightIcon } from "@phosphor-icons/react";
+import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 
 import { TextMaskEffect } from "@/components/animation/text-mask";
+import { Button } from "@/components/ui/button";
 
 export function Prefooter() {
   return (
@@ -24,15 +27,37 @@ export function Prefooter() {
           style={{ willChange: "transform, opacity" }}
         >
           <h2 className="text-2xl font-bold tracking-tight md:text-4xl">
-            <Trans>By the community, for the community.</Trans>
+            <Trans>Pronto para criar seu currículo profissional?</Trans>
           </h2>
 
           <p className="leading-relaxed text-muted-foreground">
             <Trans>
-              Currículos IA continues to grow thanks to its vibrant community and the people who dedicate time, ideas,
-              and code to keep it useful for everyone.
+              Junte-se a milhares de profissionais que já usam o Currículos IA para conseguir empregos, mudar de
+              carreira e se destacar em processos seletivos. Totalmente gratuito.
             </Trans>
           </p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.35, delay: 0.15 }}
+          >
+            <Button
+              size="lg"
+              nativeButton={false}
+              className="group gap-2 px-6"
+              render={
+                <Link to="/dashboard">
+                  <Trans>Criar meu currículo grátis</Trans>
+                  <ArrowRightIcon
+                    aria-hidden="true"
+                    className="size-4 transition-transform group-hover:translate-x-0.5"
+                  />
+                </Link>
+              }
+            />
+          </motion.div>
         </motion.div>
       </div>
     </section>
