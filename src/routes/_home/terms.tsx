@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { PRICING } from "@/constants/pricing";
+
 import { Footer } from "./-sections/footer";
 
 export const Route = createFileRoute("/_home/terms")({
@@ -48,8 +50,7 @@ function RouteComponent() {
               <h2 className="text-2xl font-semibold tracking-tight">2. O Serviço</h2>
               <p>
                 O Currículos IA é uma ferramenta de criação de currículos online, com recursos opcionais de inteligência
-                artificial, exportação em PDF e compartilhamento de currículos públicos. O Serviço também é open-source
-                — você pode hospedar uma instância própria sob os termos da licença do código.
+                artificial, exportação em PDF e compartilhamento de currículos públicos.
               </p>
             </section>
 
@@ -115,16 +116,16 @@ function RouteComponent() {
                   currículo (item 7.2).
                 </li>
                 <li>
-                  <strong>Premium mensal:</strong> R$ 24,99/mês, com acesso ilimitado aos recursos de IA, criação e
-                  exportação de currículos.
+                  <strong>Premium mensal:</strong> {PRICING.premiumMonthly.label}, com acesso ilimitado aos recursos de
+                  IA, criação e exportação de currículos.
                 </li>
                 <li>
-                  <strong>Premium anual:</strong> R$ 209,92/ano (equivalente a R$ 17,49/mês — economia de 30% sobre o
-                  plano mensal).
+                  <strong>Premium anual:</strong> {PRICING.premiumAnnual.label} (equivalente a R${" "}
+                  {PRICING.premiumAnnual.monthlyEquivalent}/mês — economia de 30% sobre o plano mensal).
                 </li>
                 <li>
-                  <strong>Desbloqueio único de exportação:</strong> R$ 9,99 pagos uma única vez por currículo,
-                  permitindo exportar e baixar aquele currículo quantas vezes desejar.
+                  <strong>Desbloqueio único de exportação:</strong> {PRICING.oneTimeExport.label} pagos uma única vez
+                  por currículo, permitindo exportar e baixar aquele currículo quantas vezes desejar.
                 </li>
               </ul>
               <h3 className="text-lg font-semibold">7.2. Cobrança</h3>

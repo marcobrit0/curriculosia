@@ -61,7 +61,7 @@ function RouteComponent() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    const toastId = toast.loading(t`Verifying password...`);
+    const toastId = toast.loading(t`Verificando senha...`);
 
     verifyPassword(
       { username, slug, password: data.password },
@@ -73,7 +73,7 @@ function RouteComponent() {
         onError: (error) => {
           if (error instanceof ORPCError && error.code === "INVALID_PASSWORD") {
             toast.dismiss(toastId);
-            form.setError("password", { message: t`The password you entered is incorrect` });
+            form.setError("password", { message: t`A senha informada está incorreta` });
           } else {
             toast.error(error.message, { id: toastId });
           }
@@ -86,11 +86,11 @@ function RouteComponent() {
     <>
       <div className="space-y-4 text-center">
         <h1 className="text-2xl font-bold tracking-tight">
-          <Trans>The resume you are trying to access is password protected</Trans>
+          <Trans>O currículo que você está tentando acessar está protegido por senha</Trans>
         </h1>
 
         <div className="leading-relaxed text-muted-foreground">
-          <Trans>Please enter the password shared with you by the owner of the resume to continue.</Trans>
+          <Trans>Digite a senha compartilhada pela pessoa dona do currículo para continuar.</Trans>
         </div>
       </div>
 
@@ -102,7 +102,7 @@ function RouteComponent() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  <Trans>Password</Trans>
+                  <Trans>Senha</Trans>
                 </FormLabel>
                 <div className="flex items-center gap-x-1.5">
                   <FormControl
@@ -128,7 +128,7 @@ function RouteComponent() {
 
           <Button type="submit" className="w-full">
             <LockOpenIcon />
-            <Trans>Unlock</Trans>
+            <Trans>Desbloquear</Trans>
           </Button>
         </form>
       </Form>

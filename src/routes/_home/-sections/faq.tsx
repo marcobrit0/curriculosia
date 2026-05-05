@@ -3,10 +3,8 @@ import { Trans } from "@lingui/react/macro";
 import { motion } from "motion/react";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { buttonVariants } from "@/components/ui/button";
+import { PRICING } from "@/constants/pricing";
 import { cn } from "@/utils/style";
-
-const crowdinUrl = "https://github.com/marcobrit0/curriculosia";
 
 type FAQItemData = {
   question: string;
@@ -15,52 +13,40 @@ type FAQItemData = {
 
 const getFaqItems = (): FAQItemData[] => [
   {
-    question: t`O Currículos IA é realmente gratuito?`,
-    answer: t`Sim! O criador de currículos — com templates, exportação em PDF e compartilhamento — é gratuito e sempre será. Os recursos com IA (sugestões de conteúdo, importação de PDF/DOCX e ajuste automático para vagas) fazem parte de um plano premium opcional, que ajuda a custear os modelos de IA. O Currículos IA também é open-source: você pode hospedar na sua própria infraestrutura e usar suas próprias chaves de IA sem custo adicional.`,
+    question: t`O CurrículosIA é gratuito?`,
+    answer: t`Você pode criar e editar seu currículo gratuitamente. A exportação em PDF e os recursos Premium são pagos. Assim você só paga quando o currículo estiver pronto para uso.`,
   },
   {
-    question: t`Como meus dados são protegidos?`,
-    answer: t`Seus dados são armazenados com segurança e nunca são compartilhados com terceiros. Você também pode hospedar o Currículos IA nos seus próprios servidores para ter controle total sobre suas informações.`,
+    question: t`Preciso de cartão para começar?`,
+    answer: t`Não. Você pode criar sua conta e montar o currículo antes de escolher uma forma de pagamento.`,
   },
   {
-    question: t`Posso exportar meu currículo em PDF?`,
-    answer: t`Com certeza! Você pode exportar seu currículo em PDF com um único clique. O PDF exportado mantém toda a formatação e o estilo exatamente como você configurou.`,
+    question: t`Quanto custa o Premium?`,
+    answer: t`O Premium custa ${PRICING.premiumMonthly.label} e inclui exportações ilimitadas e todos os recursos com IA.`,
   },
   {
-    question: t`O Currículos IA está disponível em português?`,
-    answer: (
-      <Trans>
-        Sim, o Currículos IA está disponível em português do Brasil e em outros idiomas. Você pode escolher o idioma nas
-        configurações ou usar o seletor de idioma no topo da página. Se não encontrar o seu idioma, ou quiser melhorar
-        as traduções existentes, você pode{" "}
-        <a
-          href={crowdinUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={buttonVariants({ variant: "link", className: "h-auto px-0!" })}
-        >
-          contribuir com as traduções no Crowdin
-          <span className="sr-only"> (abre em nova aba)</span>
-        </a>
-        .
-      </Trans>
-    ),
+    question: t`Posso pagar apenas para exportar um currículo?`,
+    answer: t`Sim. Você pode pagar ${PRICING.oneTimeExport.label} para desbloquear a exportação em PDF de um currículo, sem assinar o Premium.`,
   },
   {
-    question: t`O que diferencia o Currículos IA de outros criadores de currículo?`,
-    answer: t`O Currículos IA é open-source e focado em privacidade. O criador de currículos é gratuito, sem anúncios e sem rastreamento do conteúdo dos seus currículos. Os recursos com IA são oferecidos como plano premium opcional para cobrir os custos dos modelos, e quem hospeda a própria instância pode usar suas chaves gratuitamente.`,
+    question: t`O currículo fica em português do Brasil?`,
+    answer: t`Sim. A interface e os textos foram pensados para o mercado brasileiro. Você também pode criar uma versão em inglês ajustando o conteúdo do currículo.`,
   },
   {
-    question: t`Posso personalizar os templates?`,
-    answer: t`Sim! Todos os templates são totalmente personalizáveis. Você pode alterar cores, fontes, espaçamento e até escrever CSS personalizado para ter controle completo sobre a aparência do seu currículo.`,
+    question: t`A IA escreve meu currículo por mim?`,
+    answer: t`A IA ajuda a criar, reescrever e melhorar os textos. Você deve revisar tudo antes de enviar para uma vaga.`,
   },
   {
-    question: t`Como compartilho meu currículo?`,
-    answer: t`Você pode compartilhar seu currículo por um link público exclusivo, protegê-lo com senha, ou baixá-lo em PDF para enviar diretamente. A escolha é sua!`,
+    question: t`Posso cancelar o Premium quando quiser?`,
+    answer: t`Sim. O acesso Premium permanece ativo até o fim do período já pago.`,
   },
   {
-    question: t`O Currículos IA funciona bem para vagas no Brasil?`,
-    answer: t`Sim! O Currículos IA foi pensado para o mercado brasileiro. Você pode criar currículos em português, com formatos e estilos adequados para as expectativas de recrutadores e empresas brasileiras — além de suporte a currículos em inglês para vagas internacionais.`,
+    question: t`Meus dados são vendidos ou compartilhados?`,
+    answer: t`Não vendemos seus dados pessoais. O currículo fica associado à sua conta e é usado para entregar o serviço.`,
+  },
+  {
+    question: t`Posso exportar em PDF?`,
+    answer: t`Sim. A exportação em PDF é uma funcionalidade paga, disponível via exportação avulsa ou Premium.`,
   },
 ];
 

@@ -27,13 +27,12 @@ export function Prefooter() {
           style={{ willChange: "transform, opacity" }}
         >
           <h2 className="text-2xl font-bold tracking-tight md:text-4xl">
-            <Trans>Pronto para criar seu currículo profissional?</Trans>
+            <Trans>Pronto para criar seu currículo?</Trans>
           </h2>
 
           <p className="leading-relaxed text-muted-foreground">
             <Trans>
-              Junte-se a milhares de profissionais que já usam o Currículos IA para conseguir empregos, mudar de
-              carreira e se destacar em processos seletivos. Totalmente gratuito.
+              Comece grátis, organize suas informações e exporte quando o currículo estiver pronto para enviar.
             </Trans>
           </p>
 
@@ -48,8 +47,8 @@ export function Prefooter() {
               nativeButton={false}
               className="group gap-2 px-6"
               render={
-                <Link to="/dashboard">
-                  <Trans>Criar meu currículo grátis</Trans>
+                <Link to="/auth/register">
+                  <Trans>Criar currículo grátis</Trans>
                   <ArrowRightIcon
                     aria-hidden="true"
                     className="size-4 transition-transform group-hover:translate-x-0.5"

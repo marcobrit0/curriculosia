@@ -1,7 +1,8 @@
 import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { PauseIcon, PlayIcon } from "@phosphor-icons/react";
+import { ArrowRightIcon, PauseIcon, PlayIcon } from "@phosphor-icons/react";
+import { Link } from "@tanstack/react-router";
 import { motion, useAnimationControls } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -11,12 +12,30 @@ import { Button } from "@/components/ui/button";
 import { templates } from "@/dialogs/resume/template/data";
 
 type TemplateItemProps = {
+  template: string;
   metadata: TemplateMetadata;
 };
 
-function TemplateItem({ metadata }: TemplateItemProps) {
+const templateDisplayNames: Record<string, string> = {
+  azurill: "Criativo",
+  bronzor: "Executivo",
+  chikorita: "Moderno",
+  ditgar: "Tecnologia",
+  ditto: "Clássico",
+  gengar: "Corporativo",
+  glalie: "Minimalista",
+  kakuna: "Primeiro emprego",
+  lapras: "Sênior",
+  leafish: "Saúde e impacto",
+  onyx: "Profissional",
+  pikachu: "Editorial",
+  rhyhorn: "Design",
+};
+
+function TemplateItem({ template, metadata }: TemplateItemProps) {
   const { i18n } = useLingui();
-  const altText = t`Modelo de currículo ${metadata.name}: ${i18n.t(metadata.description)}`;
+  const displayName = templateDisplayNames[template] ?? metadata.name;
+  const altText = t`Modelo de currículo ${displayName}: ${i18n.t(metadata.description)}`;
 
   return (
     <motion.div
@@ -35,7 +54,7 @@ function TemplateItem({ metadata }: TemplateItemProps) {
 
         {/* Template name on hover */}
         <div className="absolute inset-x-0 bottom-0 translate-y-full p-4 transition-transform duration-300 group-hover:translate-y-0">
-          <p className="font-semibold text-white drop-shadow-lg">{metadata.name}</p>
+          <p className="font-semibold text-white drop-shadow-lg">{displayName}</p>
         </div>
 
         {/* Shine effect on hover */}
@@ -59,7 +78,7 @@ function MarqueeRow({ templates, rowId, direction, duration = 40, isPaused }: Ma
   useEffect(() => {
     const animateX = direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"];
     if (isPaused) {
-      void controls.stop();
+      controls.stop();
     } else {
       void controls.start({
         x: animateX,
@@ -75,7 +94,7 @@ function MarqueeRow({ templates, rowId, direction, duration = 40, isPaused }: Ma
       className="flex gap-x-4 will-change-transform sm:gap-x-6"
     >
       {templates.map(([template, metadata], index) => (
-        <TemplateItem key={`${rowId}-${template}-${index}`} metadata={metadata} />
+        <TemplateItem key={`${rowId}-${template}-${index}`} template={template} metadata={metadata} />
       ))}
     </motion.div>
   );
@@ -110,26 +129,35 @@ export function Templates() {
       >
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight md:text-4xl xl:text-5xl">
-            <Trans>12+ Modelos de Currículo</Trans>
+            <Trans>Modelos profissionais para diferentes carreiras</Trans>
           </h2>
 
           <p className="max-w-2xl leading-relaxed text-muted-foreground">
-            <Trans>
-              Modelos profissionais e modernos para diferentes perfis, áreas de atuação e setores. Todos personalizáveis
-              com cores, fontes e CSS próprio.
-            </Trans>
+            <Trans>Comece com um layout pronto e personalize o currículo sem perder tempo com formatação.</Trans>
           </p>
         </div>
 
-        <Button
-          size="icon"
-          variant="outline"
-          className="mt-1 shrink-0"
-          aria-label={isPaused ? t`Retomar animação dos modelos` : t`Pausar animação dos modelos`}
-          onClick={() => setIsPaused((prev) => !prev)}
-        >
-          {isPaused ? <PlayIcon aria-hidden="true" /> : <PauseIcon aria-hidden="true" />}
-        </Button>
+        <div className="flex shrink-0 items-center gap-2">
+          <Button
+            nativeButton={false}
+            className="hidden gap-2 sm:inline-flex"
+            render={
+              <Link to="/auth/register">
+                <Trans>Escolher um modelo</Trans>
+                <ArrowRightIcon className="size-4" />
+              </Link>
+            }
+          />
+          <Button
+            size="icon"
+            variant="outline"
+            className="mt-1 shrink-0"
+            aria-label={isPaused ? t`Retomar animação dos modelos` : t`Pausar animação dos modelos`}
+            onClick={() => setIsPaused((prev) => !prev)}
+          >
+            {isPaused ? <PlayIcon aria-hidden="true" /> : <PauseIcon aria-hidden="true" />}
+          </Button>
+        </div>
       </motion.div>
 
       <div
@@ -147,6 +175,17 @@ export function Templates() {
           <MarqueeRow templates={row2} rowId="row2" direction="right" duration={50} isPaused={isPaused} />
         </div>
       </div>
+
+      <Button
+        nativeButton={false}
+        className="mt-6 w-full gap-2 sm:hidden"
+        render={
+          <Link to="/auth/register">
+            <Trans>Escolher um modelo</Trans>
+            <ArrowRightIcon className="size-4" />
+          </Link>
+        }
+      />
     </section>
   );
 }

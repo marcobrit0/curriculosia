@@ -1,14 +1,10 @@
-import type { Icon } from "@phosphor-icons/react";
-
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { GithubLogoIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
 
 import { BrandIcon } from "@/components/ui/brand-icon";
-import { Button } from "@/components/ui/button";
 import { Copyright } from "@/components/ui/copyright";
 
 type FooterLinkItem = {
@@ -22,35 +18,25 @@ type FooterLinkGroupProps = {
   links: FooterLinkItem[];
 };
 
-type SocialLink = {
-  url: string;
-  label: string;
-  icon: Icon;
-};
-
-const getResourceLinks = (): FooterLinkItem[] => [
-  { url: "https://docs.curriculos.ia.br/getting-started", label: t`Documentação`, external: true },
-  { url: "https://docs.curriculos.ia.br/getting-started/quickstart", label: t`Início rápido`, external: true },
-  { url: "https://github.com/marcobrit0/curriculosia", label: t`Código-fonte`, external: true },
+const getProductLinks = (): FooterLinkItem[] => [
+  { url: "/#how-it-works", label: t`Como funciona`, external: false },
+  { url: "/#templates", label: t`Modelos`, external: false },
+  { url: "/#ai", label: t`IA`, external: false },
+  { url: "/#pricing", label: t`Preços`, external: false },
 ];
 
-const getCommunityLinks = (): FooterLinkItem[] => [
-  { url: "https://github.com/marcobrit0/curriculosia/issues", label: t`Reportar um problema`, external: true },
-  {
-    url: "https://github.com/marcobrit0/curriculosia/discussions",
-    label: t`Discussões`,
-    external: true,
-  },
+const getAccountLinks = (): FooterLinkItem[] => [
+  { url: "/auth/login", label: t`Entrar`, external: false },
+  { url: "/auth/register", label: t`Criar conta`, external: false },
 ];
 
 const getLegalLinks = (): FooterLinkItem[] => [
   { url: "/privacy", label: t`Política de Privacidade`, external: false },
   { url: "/terms", label: t`Termos de Uso`, external: false },
-  { url: "https://docs.curriculos.ia.br/legal/license", label: t`Licença`, external: true },
 ];
 
-const socialLinks: SocialLink[] = [
-  { url: "https://github.com/marcobrit0/curriculosia", label: "GitHub", icon: GithubLogoIcon },
+const getContactLinks = (): FooterLinkItem[] => [
+  { url: "mailto:suporte@curriculos.ia.br", label: "suporte@curriculos.ia.br", external: true },
 ];
 
 export function Footer() {
@@ -64,52 +50,24 @@ export function Footer() {
       transition={{ duration: 0.45 }}
       style={{ willChange: "opacity" }}
     >
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Brand Column */}
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
         <div className="space-y-4 sm:col-span-2 lg:col-span-1">
           <BrandIcon variant="logo" className="h-10 max-w-[11rem]" />
 
           <div className="space-y-2">
             <p className="text-lg font-bold tracking-tight">Currículos IA</p>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
-              <Trans>
-                Criador de currículos gratuito e open-source com inteligência artificial, feito para o Brasil.
-              </Trans>
+              <Trans>Ajuda profissionais no Brasil a criar currículos claros, modernos e prontos para enviar.</Trans>
             </p>
-          </div>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-2 pt-2">
-            {socialLinks.map((social) => (
-              <Button
-                key={social.label}
-                size="icon-sm"
-                variant="ghost"
-                nativeButton={false}
-                render={
-                  <a
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${social.label} (${t`abre em nova aba`})`}
-                  >
-                    <social.icon aria-hidden="true" size={18} />
-                  </a>
-                }
-              />
-            ))}
           </div>
         </div>
 
-        {/* Resources Column */}
-        <FooterLinkGroup title={t`Recursos`} links={getResourceLinks()} />
+        <FooterLinkGroup title={t`Produto`} links={getProductLinks()} />
+        <FooterLinkGroup title={t`Conta`} links={getAccountLinks()} />
+        <FooterLinkGroup title={t`Legal`} links={getLegalLinks()} />
 
-        {/* Community Column */}
-        <FooterLinkGroup title={t`Comunidade`} links={getCommunityLinks()} />
-
-        {/* Legal Column */}
-        <div className="space-y-4">
-          <FooterLinkGroup title={t`Legal`} links={getLegalLinks()} />
+        <div className="space-y-6">
+          <FooterLinkGroup title={t`Contato`} links={getContactLinks()} />
           <Copyright />
         </div>
       </div>
@@ -133,13 +91,16 @@ function FooterLinkGroup({ title, links }: FooterLinkGroupProps) {
 
 function FooterLink({ url, label, external = true }: FooterLinkItem) {
   const [isHovered, setIsHovered] = useState(false);
-
   const linkClassName = "relative inline-block text-sm transition-colors hover:text-foreground";
+  const isHashLink = url.startsWith("/#");
+  const isMailLink = url.startsWith("mailto:");
+  const isInternalRoute = url.startsWith("/") && !isHashLink;
+  const opensNewTab = external && !isHashLink && !isMailLink;
 
   const inner = (
     <>
       {label}
-      {external && <span className="sr-only"> ({t`abre em nova aba`})</span>}
+      {opensNewTab && <span className="sr-only"> ({t`abre em nova aba`})</span>}
       <motion.div
         aria-hidden="true"
         initial={{ width: 0, opacity: 0 }}
@@ -153,14 +114,19 @@ function FooterLink({ url, label, external = true }: FooterLinkItem) {
 
   return (
     <li className="relative" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      {external ? (
-        <a href={url} target="_blank" rel="noopener noreferrer" className={linkClassName}>
-          {inner}
-        </a>
-      ) : (
+      {isInternalRoute ? (
         <Link to={url} className={linkClassName}>
           {inner}
         </Link>
+      ) : (
+        <a
+          href={url}
+          target={opensNewTab ? "_blank" : undefined}
+          rel={opensNewTab ? "noopener noreferrer" : undefined}
+          className={linkClassName}
+        >
+          {inner}
+        </a>
       )}
     </li>
   );

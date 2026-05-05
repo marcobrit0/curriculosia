@@ -143,8 +143,8 @@ function RouteComponent() {
                   <strong>Provedor de armazenamento (S3/Supabase):</strong> para hospedar imagens e PDFs gerados.
                 </li>
                 <li>
-                  <strong>Provedores de OAuth (Google, GitHub):</strong> apenas se você optar por fazer login com esses
-                  serviços.
+                  <strong>Provedores de OAuth:</strong> apenas se você optar por fazer login com um serviço externo
+                  habilitado.
                 </li>
               </ul>
               <p>

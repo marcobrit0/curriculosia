@@ -37,7 +37,7 @@ function RouteComponent() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    const toastId = toast.loading(t`Sending password reset email...`);
+    const toastId = toast.loading(t`Enviando e-mail de redefinição de senha...`);
 
     const { error } = await authClient.requestPasswordReset({
       email: data.email,
@@ -59,19 +59,19 @@ function RouteComponent() {
     <>
       <div className="space-y-1 text-center">
         <h1 className="text-2xl font-bold tracking-tight">
-          <Trans>Forgot your password?</Trans>
+          <Trans>Esqueceu sua senha?</Trans>
         </h1>
 
         <div className="text-muted-foreground">
           <Trans>
-            Remember your password?{" "}
+            Lembrou sua senha?{" "}
             <Button
               variant="link"
               className="h-auto gap-1.5 px-1! py-0"
               nativeButton={false}
               render={
                 <Link to="/auth/login">
-                  Sign in now <ArrowRightIcon />
+                  Entrar agora <ArrowRightIcon />
                 </Link>
               }
             />
@@ -87,10 +87,10 @@ function RouteComponent() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  <Trans>Email Address</Trans>
+                  <Trans>E-mail</Trans>
                 </FormLabel>
                 <FormControl
-                  render={<Input type="email" autoComplete="email" placeholder="john.doe@example.com" {...field} />}
+                  render={<Input type="email" autoComplete="email" placeholder="ana.souza@example.com" {...field} />}
                 />
                 <FormMessage />
               </FormItem>
@@ -98,7 +98,7 @@ function RouteComponent() {
           />
 
           <Button type="submit" className="w-full">
-            <Trans>Send Password Reset Email</Trans>
+            <Trans>Enviar e-mail de redefinição</Trans>
           </Button>
         </form>
       </Form>
@@ -111,10 +111,10 @@ function PostForgotPasswordScreen() {
     <>
       <div className="space-y-1 text-center">
         <h1 className="text-2xl font-bold tracking-tight">
-          <Trans>You've got mail!</Trans>
+          <Trans>Enviamos um e-mail para você</Trans>
         </h1>
         <p className="text-muted-foreground">
-          <Trans>Check your email for a link to reset your password.</Trans>
+          <Trans>Confira sua caixa de entrada para redefinir sua senha.</Trans>
         </p>
       </div>
 
@@ -122,7 +122,7 @@ function PostForgotPasswordScreen() {
         nativeButton={false}
         render={
           <a href="mailto:">
-            <Trans>Open Email Client</Trans>
+            <Trans>Abrir aplicativo de e-mail</Trans>
           </a>
         }
       />

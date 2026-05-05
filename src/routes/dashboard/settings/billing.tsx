@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
+import { PRICING } from "@/constants/pricing";
 import { orpc } from "@/integrations/orpc/client";
 
 import { DashboardHeader } from "../-components/header";
@@ -20,10 +21,6 @@ export const Route = createFileRoute("/dashboard/settings/billing")({
   }),
   component: RouteComponent,
 });
-
-const MONTHLY_PRICE_BRL = "24,99";
-const ANNUAL_PRICE_BRL = "209,90";
-const ANNUAL_MONTHLY_EQUIV_BRL = "17,49";
 
 function RouteComponent() {
   const { status } = Route.useSearch();
@@ -113,8 +110,8 @@ function RouteComponent() {
             </p>
             <p>
               <Trans>
-                Free users podem desbloquear a exportação de um currículo específico por R$ 9,99 (pagamento único)
-                diretamente do botão de exportação no editor.
+                Usuários do plano grátis podem desbloquear a exportação de um currículo específico por{" "}
+                {PRICING.oneTimeExport.label} (pagamento único) diretamente do botão de exportação no editor.
               </Trans>
             </p>
           </div>
@@ -226,16 +223,16 @@ function PlanPicker({
           selected={selectedPlan === "monthly"}
           onSelect={() => onSelectedPlanChange("monthly")}
           title={<Trans>Mensal</Trans>}
-          price={`R$ ${MONTHLY_PRICE_BRL}`}
+          price={`R$ ${PRICING.premiumMonthly.amount}`}
           cadence={<Trans>por mês</Trans>}
         />
         <PlanOption
           selected={selectedPlan === "annual"}
           onSelect={() => onSelectedPlanChange("annual")}
           title={<Trans>Anual</Trans>}
-          price={`R$ ${ANNUAL_PRICE_BRL}`}
+          price={`R$ ${PRICING.premiumAnnual.amount}`}
           cadence={<Trans>por ano</Trans>}
-          highlight={<Trans>R$ {ANNUAL_MONTHLY_EQUIV_BRL}/mês — 30% off</Trans>}
+          highlight={<Trans>R$ {PRICING.premiumAnnual.monthlyEquivalent}/mês — 30% off</Trans>}
         />
       </div>
 

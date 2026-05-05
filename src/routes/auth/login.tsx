@@ -47,7 +47,7 @@ function RouteComponent() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    const toastId = toast.loading(t`Signing in...`);
+    const toastId = toast.loading(t`Entrando...`);
 
     try {
       const isEmail = data.identifier.includes("@");
@@ -84,7 +84,7 @@ function RouteComponent() {
       await router.invalidate();
       void navigate({ to: "/dashboard", replace: true });
     } catch {
-      toast.error(t`Failed to sign in. Please try again.`, { id: toastId });
+      toast.error(t`Não foi possível entrar. Tente novamente.`, { id: toastId });
     }
   };
 
@@ -92,20 +92,20 @@ function RouteComponent() {
     <>
       <div className="space-y-1 text-center">
         <h1 className="text-2xl font-bold tracking-tight">
-          <Trans>Sign in to your account</Trans>
+          <Trans>Entrar na sua conta</Trans>
         </h1>
 
         {!flags.disableSignups && (
           <div className="text-muted-foreground">
             <Trans>
-              Don't have an account?{" "}
+              Ainda não tem conta?{" "}
               <Button
                 variant="link"
                 nativeButton={false}
                 className="h-auto gap-1.5 px-1! py-0"
                 render={
                   <Link to="/auth/register">
-                    Create one now <ArrowRightIcon />
+                    Criar conta agora <ArrowRightIcon />
                   </Link>
                 }
               />
@@ -123,13 +123,13 @@ function RouteComponent() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <Trans>Email Address</Trans>
+                    <Trans>E-mail</Trans>
                   </FormLabel>
                   <FormControl
                     render={
                       <Input
                         autoComplete="section-login username"
-                        placeholder="john.doe@example.com"
+                        placeholder="ana.souza@example.com"
                         className="lowercase"
                         {...field}
                       />
@@ -137,7 +137,7 @@ function RouteComponent() {
                   />
                   <FormMessage />
                   <FormDescription>
-                    <Trans>You can also use your username to login.</Trans>
+                    <Trans>Você também pode usar seu nome de usuário para entrar.</Trans>
                   </FormDescription>
                 </FormItem>
               )}
@@ -150,7 +150,7 @@ function RouteComponent() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <FormLabel>
-                      <Trans>Password</Trans>
+                      <Trans>Senha</Trans>
                     </FormLabel>
 
                     <Button
@@ -160,7 +160,7 @@ function RouteComponent() {
                       className="h-auto p-0 text-xs leading-none"
                       render={
                         <Link to="/auth/forgot-password">
-                          <Trans>Forgot Password?</Trans>
+                          <Trans>Esqueceu a senha?</Trans>
                         </Link>
                       }
                     />
@@ -188,7 +188,7 @@ function RouteComponent() {
             />
 
             <Button type="submit" className="w-full">
-              <Trans>Sign in</Trans>
+              <Trans>Entrar</Trans>
             </Button>
           </form>
         </Form>
