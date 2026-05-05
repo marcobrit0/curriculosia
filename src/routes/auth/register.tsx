@@ -37,12 +37,12 @@ const formSchema = z.object({
     .trim()
     .toLowerCase()
     .regex(/^[a-z0-9._-]+$/, {
-      message: "Username can only contain lowercase letters, numbers, dots, hyphens and underscores.",
+      message: "O nome de usuário só pode conter letras minúsculas, números, pontos, hífens e underscores.",
     }),
   email: z.email().toLowerCase(),
   password: z.string().min(6).max(64),
   acceptTerms: z.literal(true, {
-    error: "You must accept the Terms of Use and Privacy Policy to create an account.",
+    error: "Você precisa aceitar os Termos de Uso e a Política de Privacidade para criar uma conta.",
   }),
 });
 
@@ -66,7 +66,7 @@ function RouteComponent() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    const toastId = toast.loading(t`Signing up...`);
+    const toastId = toast.loading(t`Criando sua conta...`);
 
     const { error } = await authClient.signUp.email({
       name: data.name,
@@ -100,19 +100,19 @@ function RouteComponent() {
     <>
       <div className="space-y-1 text-center">
         <h1 className="text-2xl font-bold tracking-tight">
-          <Trans>Create a new account</Trans>
+          <Trans>Criar uma nova conta</Trans>
         </h1>
 
         <div className="text-muted-foreground">
           <Trans>
-            Already have an account?{" "}
+            Já tem uma conta?{" "}
             <Button
               variant="link"
               nativeButton={false}
               className="h-auto gap-1.5 px-1! py-0"
               render={
                 <Link to="/auth/login">
-                  Sign in now <ArrowRightIcon />
+                  Entrar agora <ArrowRightIcon />
                 </Link>
               }
             />
@@ -129,11 +129,11 @@ function RouteComponent() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <Trans>Name</Trans>
+                    <Trans>Nome</Trans>
                   </FormLabel>
                   <FormControl
                     render={
-                      <Input min={3} max={64} autoComplete="section-register name" placeholder="John Doe" {...field} />
+                      <Input min={3} max={64} autoComplete="section-register name" placeholder="Ana Souza" {...field} />
                     }
                   />
                   <FormMessage />
@@ -147,7 +147,7 @@ function RouteComponent() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <Trans>Username</Trans>
+                    <Trans>Nome de usuário</Trans>
                   </FormLabel>
                   <FormControl
                     render={
@@ -172,14 +172,14 @@ function RouteComponent() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <Trans>Email Address</Trans>
+                    <Trans>E-mail</Trans>
                   </FormLabel>
                   <FormControl
                     render={
                       <Input
                         type="email"
                         autoComplete="section-register email"
-                        placeholder="john.doe@example.com"
+                        placeholder="ana.souza@example.com"
                         className="lowercase"
                         {...field}
                       />
@@ -196,7 +196,7 @@ function RouteComponent() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <Trans>Password</Trans>
+                    <Trans>Senha</Trans>
                   </FormLabel>
                   <div className="flex items-center gap-x-1.5">
                     <FormControl
@@ -259,7 +259,7 @@ function RouteComponent() {
             />
 
             <Button type="submit" className="w-full">
-              <Trans>Sign up</Trans>
+              <Trans>Criar conta</Trans>
             </Button>
           </form>
         </Form>
@@ -289,19 +289,19 @@ function PostSignupScreen() {
     <>
       <div className="space-y-1 text-center">
         <h1 className="text-2xl font-bold tracking-tight">
-          <Trans>You've got mail!</Trans>
+          <Trans>Enviamos um e-mail para você</Trans>
         </h1>
         <p className="text-muted-foreground">
-          <Trans>Check your email for a link to verify your account.</Trans>
+          <Trans>Confira sua caixa de entrada para verificar sua conta.</Trans>
         </p>
       </div>
 
       <Alert>
         <AlertTitle>
-          <Trans>This step is optional, but recommended.</Trans>
+          <Trans>Esta etapa é opcional, mas recomendada.</Trans>
         </AlertTitle>
         <AlertDescription>
-          <Trans>Verifying your email is required when resetting your password.</Trans>
+          <Trans>Verificar o e-mail é necessário para redefinir sua senha depois.</Trans>
         </AlertDescription>
       </Alert>
 
@@ -309,7 +309,7 @@ function PostSignupScreen() {
         nativeButton={false}
         render={
           <Link to="/dashboard/resumes" search={{ sort: "lastUpdatedAt", tags: [] }}>
-            <Trans>Continue</Trans> <ArrowRightIcon />
+            <Trans>Continuar</Trans> <ArrowRightIcon />
           </Link>
         }
       />

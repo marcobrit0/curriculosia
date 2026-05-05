@@ -18,6 +18,7 @@ import { NavigationProgress } from "@/components/layout/navigation-progress";
 import { ThemeProvider } from "@/components/theme/provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { PRICING } from "@/constants/pricing";
 import { DialogManager } from "@/dialogs/manager";
 import { ConfirmDialogProvider } from "@/hooks/use-confirm";
 import { PromptDialogProvider } from "@/hooks/use-prompt";
@@ -41,7 +42,7 @@ const appName = "Currículos IA";
 const tagline = "Crie seu currículo profissional com IA";
 const title = `${appName} — ${tagline}`;
 const description =
-  "Currículos IA é um criador de currículos gratuito e de código aberto, com inteligência artificial, feito para o Brasil. Crie, personalize e compartilhe seu currículo profissional em minutos.";
+  "Currículos IA ajuda profissionais no Brasil a criar currículos claros, modernos e prontos para enviar. Comece grátis e exporte em PDF quando estiver pronto.";
 
 await loadLocale(await getLocale());
 
@@ -107,19 +108,33 @@ export const Route = createRootRouteWithContext<RouterContext>()({
                 description,
                 applicationCategory: "BusinessApplication",
                 operatingSystem: "Web",
-                offers: {
-                  "@type": "Offer",
-                  price: "0",
-                  priceCurrency: "BRL",
-                },
+                offers: [
+                  {
+                    "@type": "Offer",
+                    name: "Editor grátis",
+                    price: "0",
+                    priceCurrency: "BRL",
+                  },
+                  {
+                    "@type": "Offer",
+                    name: "Exportação avulsa em PDF",
+                    price: PRICING.oneTimeExport.amount.replace(",", "."),
+                    priceCurrency: "BRL",
+                  },
+                  {
+                    "@type": "Offer",
+                    name: "Premium mensal",
+                    price: PRICING.premiumMonthly.amount.replace(",", "."),
+                    priceCurrency: "BRL",
+                  },
+                ],
                 inLanguage: ["pt-BR", "en"],
                 featureList: [
-                  "Criador de currículos gratuito",
+                  "Editor de currículos com início grátis",
                   "Inteligência artificial para currículos",
-                  "Exportação em PDF",
+                  "Exportação paga em PDF",
                   "12+ modelos de currículo",
                   "Compartilhamento com link público",
-                  "Código aberto",
                 ],
               },
               {
@@ -128,7 +143,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
                 name: appName,
                 url: appUrl,
                 logo: `${appUrl}/opengraph/logo.svg`,
-                sameAs: ["https://github.com/marcobrit0/curriculosia"],
               },
             ],
           }),
@@ -148,7 +162,7 @@ type Props = {
 };
 
 function RootDocument({ children }: Props) {
-  const { theme, locale } = Route.useRouteContext();
+  const { theme, locale, session } = Route.useRouteContext();
   const dir = isRTL(locale) ? "rtl" : "ltr";
 
   return (
@@ -170,7 +184,7 @@ function RootDocument({ children }: Props) {
 
                         <NavigationProgress />
                         <DialogManager />
-                        <CommandPalette />
+                        {session && <CommandPalette />}
                         <Toaster richColors position="bottom-right" />
 
                         {import.meta.env.DEV && <BreakpointIndicator />}

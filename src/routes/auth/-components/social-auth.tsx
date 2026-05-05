@@ -1,6 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { GithubLogoIcon, GoogleLogoIcon, VaultIcon } from "@phosphor-icons/react";
+import { GoogleLogoIcon, VaultIcon } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -16,7 +16,7 @@ export function SocialAuth() {
   const { data: authProviders = {} } = useQuery(orpc.auth.providers.list.queryOptions());
 
   const handleSocialLogin = async (provider: string) => {
-    const toastId = toast.loading(t`Signing in...`);
+    const toastId = toast.loading(t`Entrando...`);
 
     const { error } = await authClient.signIn.social({
       provider,
@@ -34,7 +34,7 @@ export function SocialAuth() {
   };
 
   const handleOAuthLogin = async () => {
-    const toastId = toast.loading(t`Signing in...`);
+    const toastId = toast.loading(t`Entrando...`);
 
     const { error } = await authClient.signIn.oauth2({
       providerId: "custom",
@@ -56,15 +56,15 @@ export function SocialAuth() {
       <div className="flex items-center gap-x-2">
         <hr className="flex-1" />
         <span className="text-xs font-medium tracking-wide">
-          <Trans context="Choose to authenticate with a social provider (Google, GitHub, etc.) instead of email and password">
-            or continue with
+          <Trans context="Choose to authenticate with a social provider instead of email and password">
+            ou continue com
           </Trans>
         </span>
         <hr className="flex-1" />
       </div>
 
       <div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Button
             variant="secondary"
             onClick={handleOAuthLogin}
@@ -83,17 +83,6 @@ export function SocialAuth() {
           >
             <GoogleLogoIcon />
             Google
-          </Button>
-
-          <Button
-            onClick={() => handleSocialLogin("github")}
-            className={cn(
-              "hidden flex-1 bg-[#2b3137] text-white hover:bg-[#2b3137]/80",
-              "github" in authProviders && "inline-flex",
-            )}
-          >
-            <GithubLogoIcon />
-            GitHub
           </Button>
         </div>
       </div>

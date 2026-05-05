@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
+import { PRICING } from "@/constants/pricing";
 import { orpc } from "@/integrations/orpc/client";
 import { cn } from "@/utils/style";
 
@@ -19,11 +20,6 @@ type Props = {
 };
 
 type SelectedPlan = "export" | "monthly" | "annual";
-
-const MONTHLY_PRICE_BRL = "24,99";
-const ANNUAL_PRICE_BRL = "209,90";
-const ANNUAL_MONTHLY_EQUIV_BRL = "17,49";
-const EXPORT_PRICE_BRL = "9,99";
 
 export function ExportPaywall({ open, onOpenChange, resumeId }: Props) {
   const [selected, setSelected] = useState<SelectedPlan>("export");
@@ -74,7 +70,7 @@ export function ExportPaywall({ open, onOpenChange, resumeId }: Props) {
             selected={selected === "export"}
             onSelect={() => setSelected("export")}
             title={<Trans>Desbloquear este currículo</Trans>}
-            price={`R$ ${EXPORT_PRICE_BRL}`}
+            price={PRICING.oneTimeExport.label}
             cadence={<Trans>pagamento único</Trans>}
             features={[
               <Trans key="f1">Exporte e baixe este currículo quantas vezes quiser</Trans>,
@@ -86,7 +82,7 @@ export function ExportPaywall({ open, onOpenChange, resumeId }: Props) {
             selected={selected === "monthly"}
             onSelect={() => setSelected("monthly")}
             title={<Trans>Premium mensal</Trans>}
-            price={`R$ ${MONTHLY_PRICE_BRL}`}
+            price={`R$ ${PRICING.premiumMonthly.amount}`}
             cadence={<Trans>por mês</Trans>}
             badge={
               <Badge variant="secondary" className="gap-x-1">
@@ -105,9 +101,13 @@ export function ExportPaywall({ open, onOpenChange, resumeId }: Props) {
             selected={selected === "annual"}
             onSelect={() => setSelected("annual")}
             title={<Trans>Premium anual</Trans>}
-            price={`R$ ${ANNUAL_PRICE_BRL}`}
+            price={`R$ ${PRICING.premiumAnnual.amount}`}
             cadence={<Trans>por ano</Trans>}
-            highlight={<Trans>Equivale a R$ {ANNUAL_MONTHLY_EQUIV_BRL}/mês — economize 30% comparado ao mensal</Trans>}
+            highlight={
+              <Trans>
+                Equivale a R$ {PRICING.premiumAnnual.monthlyEquivalent}/mês — economize 30% comparado ao mensal
+              </Trans>
+            }
             badge={
               <Badge className="gap-x-1 bg-primary text-primary-foreground">
                 <Trans>Mais economia</Trans>
