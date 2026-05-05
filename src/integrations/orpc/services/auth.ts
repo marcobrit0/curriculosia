@@ -7,6 +7,7 @@ import { schema } from "@/integrations/drizzle";
 import { db } from "@/integrations/drizzle/client";
 import { env } from "@/utils/env";
 
+import { billingService } from "./billing";
 import { getStorageService } from "./storage";
 
 export type ProviderList = Partial<Record<AuthProvider, string>>;
@@ -126,6 +127,14 @@ export const authService = {
 
   deleteAccount: async (input: { userId: string }): Promise<void> => {
     if (!input.userId || input.userId.length === 0) return;
+
+    // Cancel any active Stripe subscription FIRST so we don't keep billing
+    // a deleted user. Best-effort — do not block deletion on Stripe failures.
+    try {
+      await billingService.cancelAllSubscriptions({ userId: input.userId });
+    } catch (err) {
+      console.error("Failed to cancel Stripe subscriptions before account delete:", err);
+    }
 
     const storageService = getStorageService();
 

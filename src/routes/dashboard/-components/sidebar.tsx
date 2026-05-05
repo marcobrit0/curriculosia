@@ -6,6 +6,7 @@ import { Trans } from "@lingui/react/macro";
 import {
   BrainIcon,
   BriefcaseIcon,
+  CreditCardIcon,
   GearSixIcon,
   KeyIcon,
   ReadCvLogoIcon,
@@ -85,6 +86,11 @@ const settingsSidebarItems = [
     icon: <BrainIcon />,
     label: msg`Artificial Intelligence`,
     href: "/dashboard/settings/ai",
+  },
+  {
+    icon: <CreditCardIcon />,
+    label: msg`Plano e Cobrança`,
+    href: "/dashboard/settings/billing",
   },
   {
     icon: <BriefcaseIcon />,

@@ -104,6 +104,16 @@ export const env = createEnv({
     // routed through OPENROUTER_API_KEY; BYO requests are uncapped.
     AI_MONTHLY_REQUEST_CAP: z.coerce.number().int().positive().default(200),
 
+    // Billing (Stripe)
+    BILLING_ENABLED: z.stringbool().default(false),
+    STRIPE_SECRET_KEY: z.string().startsWith("sk_").optional(),
+    STRIPE_WEBHOOK_SECRET: z.string().startsWith("whsec_").optional(),
+    STRIPE_PRICE_ID_PREMIUM_MONTHLY: z.string().startsWith("price_").optional(),
+    STRIPE_PRICE_ID_PREMIUM_ANNUAL: z.string().startsWith("price_").optional(),
+    STRIPE_PRICE_ID_EXPORT_UNLOCK: z.string().startsWith("price_").optional(),
+    // Where the Stripe Customer Portal returns the user after Manage. Defaults to APP_URL/dashboard/billing.
+    STRIPE_PORTAL_RETURN_URL: z.url({ protocol: /https?/ }).optional(),
+
     // Feature Flags
     FLAG_DEBUG_PRINTER: z.stringbool().default(false),
     FLAG_DISABLE_SIGNUPS: z.stringbool().default(false),
@@ -121,6 +131,22 @@ export const env = createEnv({
 
 if (isProduction && env.FLAG_AI_MODE !== "byo" && !env.OPENROUTER_API_KEY) {
   throw new Error(`FLAG_AI_MODE="${env.FLAG_AI_MODE}" requires OPENROUTER_API_KEY to be set in production.`);
+}
+
+if (env.BILLING_ENABLED) {
+  const missingBilling = [
+    ["STRIPE_SECRET_KEY", env.STRIPE_SECRET_KEY],
+    ["STRIPE_WEBHOOK_SECRET", env.STRIPE_WEBHOOK_SECRET],
+    ["STRIPE_PRICE_ID_PREMIUM_MONTHLY", env.STRIPE_PRICE_ID_PREMIUM_MONTHLY],
+    ["STRIPE_PRICE_ID_PREMIUM_ANNUAL", env.STRIPE_PRICE_ID_PREMIUM_ANNUAL],
+    ["STRIPE_PRICE_ID_EXPORT_UNLOCK", env.STRIPE_PRICE_ID_EXPORT_UNLOCK],
+  ]
+    .filter(([, value]) => !value)
+    .map(([name]) => name);
+
+  if (missingBilling.length > 0) {
+    throw new Error(`BILLING_ENABLED=true requires the following env vars: ${missingBilling.join(", ")}.`);
+  }
 }
 
 if (isProduction && env.EMAIL_TRANSPORT === "smtp") {

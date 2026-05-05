@@ -42,8 +42,10 @@ import { Route as DashboardSettingsProfileRouteImport } from "./routes/dashboard
 import { Route as DashboardSettingsPreferencesRouteImport } from "./routes/dashboard/settings/preferences";
 import { Route as DashboardSettingsJobSearchRouteImport } from "./routes/dashboard/settings/job-search";
 import { Route as DashboardSettingsDangerZoneRouteImport } from "./routes/dashboard/settings/danger-zone";
+import { Route as DashboardSettingsBillingRouteImport } from "./routes/dashboard/settings/billing";
 import { Route as DashboardSettingsApiKeysRouteImport } from "./routes/dashboard/settings/api-keys";
 import { Route as DashboardSettingsAiRouteImport } from "./routes/dashboard/settings/ai";
+import { Route as ApiWebhooksStripeRouteImport } from "./routes/api/webhooks/stripe";
 import { Route as ApiRpcSplatRouteImport } from "./routes/api/rpc.$";
 import { Route as ApiOpenapiSplatRouteImport } from "./routes/api/openapi.$";
 import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth.$";
@@ -222,6 +224,12 @@ const DashboardSettingsDangerZoneRoute =
     path: "/settings/danger-zone",
     getParentRoute: () => DashboardRouteRoute,
   } as any);
+const DashboardSettingsBillingRoute =
+  DashboardSettingsBillingRouteImport.update({
+    id: "/settings/billing",
+    path: "/settings/billing",
+    getParentRoute: () => DashboardRouteRoute,
+  } as any);
 const DashboardSettingsApiKeysRoute =
   DashboardSettingsApiKeysRouteImport.update({
     id: "/settings/api-keys",
@@ -232,6 +240,11 @@ const DashboardSettingsAiRoute = DashboardSettingsAiRouteImport.update({
   id: "/settings/ai",
   path: "/settings/ai",
   getParentRoute: () => DashboardRouteRoute,
+} as any);
+const ApiWebhooksStripeRoute = ApiWebhooksStripeRouteImport.update({
+  id: "/api/webhooks/stripe",
+  path: "/api/webhooks/stripe",
+  getParentRoute: () => rootRouteImport,
 } as any);
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   id: "/api/rpc/$",
@@ -297,8 +310,10 @@ export interface FileRoutesByFullPath {
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/api/openapi/$": typeof ApiOpenapiSplatRoute;
   "/api/rpc/$": typeof ApiRpcSplatRoute;
+  "/api/webhooks/stripe": typeof ApiWebhooksStripeRoute;
   "/dashboard/settings/ai": typeof DashboardSettingsAiRoute;
   "/dashboard/settings/api-keys": typeof DashboardSettingsApiKeysRoute;
+  "/dashboard/settings/billing": typeof DashboardSettingsBillingRoute;
   "/dashboard/settings/danger-zone": typeof DashboardSettingsDangerZoneRoute;
   "/dashboard/settings/job-search": typeof DashboardSettingsJobSearchRoute;
   "/dashboard/settings/preferences": typeof DashboardSettingsPreferencesRoute;
@@ -336,8 +351,10 @@ export interface FileRoutesByTo {
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/api/openapi/$": typeof ApiOpenapiSplatRoute;
   "/api/rpc/$": typeof ApiRpcSplatRoute;
+  "/api/webhooks/stripe": typeof ApiWebhooksStripeRoute;
   "/dashboard/settings/ai": typeof DashboardSettingsAiRoute;
   "/dashboard/settings/api-keys": typeof DashboardSettingsApiKeysRoute;
+  "/dashboard/settings/billing": typeof DashboardSettingsBillingRoute;
   "/dashboard/settings/danger-zone": typeof DashboardSettingsDangerZoneRoute;
   "/dashboard/settings/job-search": typeof DashboardSettingsJobSearchRoute;
   "/dashboard/settings/preferences": typeof DashboardSettingsPreferencesRoute;
@@ -380,8 +397,10 @@ export interface FileRoutesById {
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/api/openapi/$": typeof ApiOpenapiSplatRoute;
   "/api/rpc/$": typeof ApiRpcSplatRoute;
+  "/api/webhooks/stripe": typeof ApiWebhooksStripeRoute;
   "/dashboard/settings/ai": typeof DashboardSettingsAiRoute;
   "/dashboard/settings/api-keys": typeof DashboardSettingsApiKeysRoute;
+  "/dashboard/settings/billing": typeof DashboardSettingsBillingRoute;
   "/dashboard/settings/danger-zone": typeof DashboardSettingsDangerZoneRoute;
   "/dashboard/settings/job-search": typeof DashboardSettingsJobSearchRoute;
   "/dashboard/settings/preferences": typeof DashboardSettingsPreferencesRoute;
@@ -424,8 +443,10 @@ export interface FileRouteTypes {
     | "/api/auth/$"
     | "/api/openapi/$"
     | "/api/rpc/$"
+    | "/api/webhooks/stripe"
     | "/dashboard/settings/ai"
     | "/dashboard/settings/api-keys"
+    | "/dashboard/settings/billing"
     | "/dashboard/settings/danger-zone"
     | "/dashboard/settings/job-search"
     | "/dashboard/settings/preferences"
@@ -463,8 +484,10 @@ export interface FileRouteTypes {
     | "/api/auth/$"
     | "/api/openapi/$"
     | "/api/rpc/$"
+    | "/api/webhooks/stripe"
     | "/dashboard/settings/ai"
     | "/dashboard/settings/api-keys"
+    | "/dashboard/settings/billing"
     | "/dashboard/settings/danger-zone"
     | "/dashboard/settings/job-search"
     | "/dashboard/settings/preferences"
@@ -506,8 +529,10 @@ export interface FileRouteTypes {
     | "/api/auth/$"
     | "/api/openapi/$"
     | "/api/rpc/$"
+    | "/api/webhooks/stripe"
     | "/dashboard/settings/ai"
     | "/dashboard/settings/api-keys"
+    | "/dashboard/settings/billing"
     | "/dashboard/settings/danger-zone"
     | "/dashboard/settings/job-search"
     | "/dashboard/settings/preferences"
@@ -535,6 +560,7 @@ export interface RootRouteChildren {
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
   ApiOpenapiSplatRoute: typeof ApiOpenapiSplatRoute;
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute;
+  ApiWebhooksStripeRoute: typeof ApiWebhooksStripeRoute;
   UploadsUserIdSplatRoute: typeof UploadsUserIdSplatRoute;
 }
 
@@ -771,6 +797,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof DashboardSettingsDangerZoneRouteImport;
       parentRoute: typeof DashboardRouteRoute;
     };
+    "/dashboard/settings/billing": {
+      id: "/dashboard/settings/billing";
+      path: "/settings/billing";
+      fullPath: "/dashboard/settings/billing";
+      preLoaderRoute: typeof DashboardSettingsBillingRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     "/dashboard/settings/api-keys": {
       id: "/dashboard/settings/api-keys";
       path: "/settings/api-keys";
@@ -784,6 +817,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/dashboard/settings/ai";
       preLoaderRoute: typeof DashboardSettingsAiRouteImport;
       parentRoute: typeof DashboardRouteRoute;
+    };
+    "/api/webhooks/stripe": {
+      id: "/api/webhooks/stripe";
+      path: "/api/webhooks/stripe";
+      fullPath: "/api/webhooks/stripe";
+      preLoaderRoute: typeof ApiWebhooksStripeRouteImport;
+      parentRoute: typeof rootRouteImport;
     };
     "/api/rpc/$": {
       id: "/api/rpc/$";
@@ -878,6 +918,7 @@ interface DashboardRouteRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute;
   DashboardSettingsAiRoute: typeof DashboardSettingsAiRoute;
   DashboardSettingsApiKeysRoute: typeof DashboardSettingsApiKeysRoute;
+  DashboardSettingsBillingRoute: typeof DashboardSettingsBillingRoute;
   DashboardSettingsDangerZoneRoute: typeof DashboardSettingsDangerZoneRoute;
   DashboardSettingsJobSearchRoute: typeof DashboardSettingsJobSearchRoute;
   DashboardSettingsPreferencesRoute: typeof DashboardSettingsPreferencesRoute;
@@ -891,6 +932,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardSettingsAiRoute: DashboardSettingsAiRoute,
   DashboardSettingsApiKeysRoute: DashboardSettingsApiKeysRoute,
+  DashboardSettingsBillingRoute: DashboardSettingsBillingRoute,
   DashboardSettingsDangerZoneRoute: DashboardSettingsDangerZoneRoute,
   DashboardSettingsJobSearchRoute: DashboardSettingsJobSearchRoute,
   DashboardSettingsPreferencesRoute: DashboardSettingsPreferencesRoute,
@@ -964,6 +1006,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiOpenapiSplatRoute: ApiOpenapiSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
+  ApiWebhooksStripeRoute: ApiWebhooksStripeRoute,
   UploadsUserIdSplatRoute: UploadsUserIdSplatRoute,
 };
 export const routeTree = rootRouteImport

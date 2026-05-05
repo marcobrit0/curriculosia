@@ -70,6 +70,9 @@ Before deploying to production, verify the following:
 - [ ] Browserless (or alternative Chrome service) is reachable from the app and has health checks.
 - [ ] HTTPS is enforced (`force_https = true` in `fly.toml`).
 - [ ] `SENTRY_DSN` is set so server-side errors are reported (otherwise Sentry is silently disabled).
+- [ ] If charging users: `BILLING_ENABLED="true"`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and the three `STRIPE_PRICE_ID_*` env vars are set. App refuses to boot otherwise.
+- [ ] Stripe webhook endpoint is configured to point at `https://<app-host>/api/webhooks/stripe` with events `checkout.session.completed`, `customer.subscription.created/updated/deleted`, `invoice.payment_succeeded`, `invoice.payment_failed`.
+- [ ] Stripe Customer Portal is enabled and configured under Settings → Billing → Customer Portal.
 
 ## Credits
 

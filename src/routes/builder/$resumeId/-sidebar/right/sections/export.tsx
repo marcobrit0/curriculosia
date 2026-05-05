@@ -1,10 +1,11 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { CircleNotchIcon, FileDocIcon, FileJsIcon, FilePdfIcon } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
+import { ExportPaywall } from "@/components/billing/export-paywall";
 import { useResumeStore } from "@/components/resume/store/resume";
 import { Button } from "@/components/ui/button";
 import { orpc } from "@/integrations/orpc/client";
@@ -17,9 +18,14 @@ import { SectionBase } from "../shared/section-base";
 export function ExportSectionBuilder() {
   const resume = useResumeStore((state) => state.resume);
 
+  const { data: exportStatus } = useQuery(
+    orpc.billing.getExportStatus.queryOptions({ input: { resumeId: resume.id } }),
+  );
   const { mutateAsync: printResumeAsPDF, isPending: isPrinting } = useMutation(
     orpc.printer.printResumeAsPDF.mutationOptions(),
   );
+
+  const [paywallOpen, setPaywallOpen] = useState(false);
 
   const onDownloadJSON = useCallback(() => {
     const filename = generateFilename(resume.name, "json");
@@ -43,6 +49,11 @@ export function ExportSectionBuilder() {
   }, [resume]);
 
   const onDownloadPDF = useCallback(async () => {
+    if (exportStatus && !exportStatus.canExport) {
+      setPaywallOpen(true);
+      return;
+    }
+
     const filename = generateFilename(resume.name, "pdf");
     const toastId = toast.loading(t`Please wait while your PDF is being generated...`, {
       description: t`This may take a while depending on the server capacity. Please do not close the window or refresh the page.`,
@@ -52,15 +63,22 @@ export function ExportSectionBuilder() {
       const { url } = await printResumeAsPDF({ id: resume.id });
       await downloadFromUrl(url, filename);
       capturePostHogEvent(posthogEvents.resumeExported, { format: "pdf" });
-    } catch {
-      toast.error(t`There was a problem while generating the PDF, please try again in some time.`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "";
+      if (message.toLowerCase().includes("payment")) {
+        setPaywallOpen(true);
+      } else {
+        toast.error(t`There was a problem while generating the PDF, please try again in some time.`);
+      }
     } finally {
       toast.dismiss(toastId);
     }
-  }, [resume, printResumeAsPDF]);
+  }, [resume, printResumeAsPDF, exportStatus]);
 
   return (
     <SectionBase type="export" className="space-y-4">
+      <ExportPaywall open={paywallOpen} onOpenChange={setPaywallOpen} resumeId={resume.id} />
+
       <Button
         variant="outline"
         onClick={onDownloadJSON}

@@ -15,12 +15,13 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useControls } from "react-zoom-pan-pinch";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 
+import { ExportPaywall } from "@/components/billing/export-paywall";
 import { useTemporalStore } from "@/components/resume/store/resume";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -38,9 +39,14 @@ export function BuilderDock() {
   const { zoomIn, zoomOut, centerView } = useControls();
 
   const { data: resume } = useQuery(orpc.resume.getById.queryOptions({ input: { id: params.resumeId } }));
+  const { data: exportStatus } = useQuery(
+    orpc.billing.getExportStatus.queryOptions({ input: { resumeId: params.resumeId } }),
+  );
   const { mutateAsync: printResumeAsPDF, isPending: isPrinting } = useMutation(
     orpc.printer.printResumeAsPDF.mutationOptions(),
   );
+
+  const [paywallOpen, setPaywallOpen] = useState(false);
 
   const { undo, redo, pastStates, futureStates } = useTemporalStore((state) => ({
     undo: state.undo,
@@ -89,6 +95,11 @@ export function BuilderDock() {
   const onDownloadPDF = useCallback(async () => {
     if (!resume?.id) return;
 
+    if (exportStatus && !exportStatus.canExport) {
+      setPaywallOpen(true);
+      return;
+    }
+
     const filename = generateFilename(resume.name, "pdf");
     const toastId = toast.loading(t`Please wait while your PDF is being generated...`, {
       description: t`This may take a while depending on the server capacity. Please do not close the window or refresh the page.`,
@@ -97,15 +108,21 @@ export function BuilderDock() {
     try {
       const { url } = await printResumeAsPDF({ id: resume.id });
       await downloadFromUrl(url, filename);
-    } catch {
-      toast.error(t`There was a problem while generating the PDF, please try again in some time.`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "";
+      if (message.toLowerCase().includes("payment")) {
+        setPaywallOpen(true);
+      } else {
+        toast.error(t`There was a problem while generating the PDF, please try again in some time.`);
+      }
     } finally {
       toast.dismiss(toastId);
     }
-  }, [resume?.id, resume?.name, printResumeAsPDF]);
+  }, [resume?.id, resume?.name, printResumeAsPDF, exportStatus]);
 
   return (
     <div className="fixed inset-x-0 bottom-4 flex items-center justify-center">
+      {resume?.id && <ExportPaywall open={paywallOpen} onOpenChange={setPaywallOpen} resumeId={resume.id} />}
       <motion.div
         initial={{ opacity: 0, y: -18 }}
         animate={{ opacity: 0.6, y: 0 }}
