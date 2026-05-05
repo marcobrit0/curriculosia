@@ -1,7 +1,7 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { BrainIcon, CheckCircleIcon, InfoIcon, XCircleIcon } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
+import { BrainIcon, CheckCircleIcon, CrownIcon, InfoIcon, XCircleIcon } from "@phosphor-icons/react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useMemo } from "react";
@@ -57,6 +57,102 @@ const providerOptions: (ComboboxOption<AIProvider> & { defaultBaseURL: string })
     defaultBaseURL: "https://generativelanguage.googleapis.com/v1beta",
   },
 ];
+
+function ManagedAIPanel({
+  isPremium,
+  hasManagedKey,
+  defaultModel,
+}: {
+  isPremium: boolean;
+  hasManagedKey: boolean;
+  defaultModel: string;
+}) {
+  const model = useAIStore((s) => s.model);
+  const setStore = useAIStore((s) => s.set);
+
+  if (!hasManagedKey) {
+    return (
+      <div className="flex items-start gap-4 rounded-md border bg-popover p-6">
+        <div className="rounded-md bg-muted p-2.5">
+          <InfoIcon className="text-muted-foreground" size={24} />
+        </div>
+        <div className="flex-1 space-y-2">
+          <h3 className="font-semibold">
+            <Trans>Managed AI not configured</Trans>
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            <Trans>
+              This instance is set to managed mode but no managed API key is configured. Contact your administrator.
+            </Trans>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isPremium) {
+    return (
+      <div className="flex items-start gap-4 rounded-md border bg-popover p-6">
+        <div className="rounded-md bg-primary/10 p-2.5">
+          <CrownIcon className="text-primary" size={24} />
+        </div>
+        <div className="flex-1 space-y-2">
+          <h3 className="font-semibold">
+            <Trans>Premium AI is not enabled on your account</Trans>
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            <Trans>Subscribe to Premium to use Currículos IA's managed AI without bringing your own API key.</Trans>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-start gap-4 rounded-md border bg-popover p-6">
+        <div className="rounded-md bg-primary/10 p-2.5">
+          <CrownIcon className="text-primary" size={24} />
+        </div>
+        <div className="flex-1 space-y-2">
+          <h3 className="font-semibold">
+            <Trans>Managed AI is active</Trans>
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            <Trans>Your AI requests are routed through Currículos IA's managed key. No further setup required.</Trans>
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-y-2">
+        <Label htmlFor="ai-managed-model">
+          <Trans>Model (optional)</Trans>
+        </Label>
+        <Input
+          id="ai-managed-model"
+          name="ai-managed-model"
+          type="text"
+          value={model}
+          onChange={(e) =>
+            setStore((draft) => {
+              draft.model = e.target.value;
+            })
+          }
+          placeholder={defaultModel}
+          autoCorrect="off"
+          autoComplete="off"
+          spellCheck="false"
+          autoCapitalize="off"
+        />
+        <p className="text-xs text-muted-foreground">
+          <Trans>
+            Leave blank to use the default. Any OpenRouter model identifier works (e.g., openai/gpt-4o-mini).
+          </Trans>
+        </p>
+      </div>
+    </div>
+  );
+}
 
 function AIForm() {
   const { set, model, apiKey, baseURL, provider, enabled, testStatus } = useAIStore();
@@ -209,6 +305,24 @@ function RouteComponent() {
   const enabled = useAIStore((state) => state.enabled);
   const canEnable = useAIStore((state) => state.canEnable());
   const setEnabled = useAIStore((state) => state.setEnabled);
+  const mode = useAIStore((state) => state.mode);
+  const setMode = useAIStore((state) => state.setMode);
+
+  const { data: config, isLoading: isConfigLoading } = useQuery(orpc.ai.getConfig.queryOptions());
+
+  const serverMode = config?.mode ?? "byo";
+  const canPickManaged = serverMode === "both" && Boolean(config?.hasManagedKey) && Boolean(config?.isPremium);
+
+  let effectiveMode: "byo" | "managed";
+  if (serverMode === "byo") {
+    effectiveMode = "byo";
+  } else if (serverMode === "managed") {
+    effectiveMode = "managed";
+  } else {
+    effectiveMode = canPickManaged && mode === "managed" ? "managed" : "byo";
+  }
+  const showByoForm = effectiveMode === "byo";
+  const showManagedPanel = effectiveMode === "managed";
 
   if (!isClient) return null;
 
@@ -237,28 +351,72 @@ function RouteComponent() {
 
             <p className="leading-relaxed text-muted-foreground">
               <Trans>
-                Everything entered here is stored locally on your browser. Your data is only sent to the server when
-                making a request to the AI provider, and is never stored or logged on our servers.
+                Bring-your-own-key credentials are stored only on your browser. Your data is sent to the AI provider
+                only when you make a request, and is never stored or logged on our servers.
               </Trans>
             </p>
           </div>
         </div>
 
+        {!isConfigLoading && config && !config.enabled && (
+          <div className="flex items-start gap-4 rounded-md border bg-popover p-6">
+            <div className="rounded-md bg-destructive/10 p-2.5">
+              <XCircleIcon className="text-destructive" size={24} />
+            </div>
+            <div className="flex-1 space-y-2">
+              <h3 className="font-semibold">
+                <Trans>AI is disabled on this instance</Trans>
+              </h3>
+              <p className="leading-relaxed text-muted-foreground">
+                <Trans>The administrator has disabled all AI features.</Trans>
+              </p>
+            </div>
+          </div>
+        )}
+
+        {canPickManaged && (
+          <>
+            <Separator />
+            <div className="flex items-center justify-between">
+              <Label htmlFor="ai-mode-toggle">
+                <Trans>Use managed AI (Premium)</Trans>
+              </Label>
+              <Switch
+                id="ai-mode-toggle"
+                checked={mode === "managed"}
+                onCheckedChange={(checked) => setMode(checked ? "managed" : "byo")}
+              />
+            </div>
+          </>
+        )}
+
         <Separator />
 
-        <div className="flex items-center justify-between">
-          <Label htmlFor="enable-ai">
-            <Trans>Enable AI Features</Trans>
-          </Label>
-          <Switch id="enable-ai" checked={enabled} disabled={!canEnable} onCheckedChange={setEnabled} />
-        </div>
+        {showManagedPanel && (
+          <ManagedAIPanel
+            isPremium={Boolean(config?.isPremium)}
+            hasManagedKey={Boolean(config?.hasManagedKey)}
+            defaultModel={config?.defaultManagedModel ?? ""}
+          />
+        )}
 
-        <p className={cn("flex items-center gap-x-2", enabled ? "text-success" : "text-destructive")}>
-          {enabled ? <CheckCircleIcon /> : <XCircleIcon />}
-          {enabled ? <Trans>Enabled</Trans> : <Trans>Disabled</Trans>}
-        </p>
+        {showByoForm && (
+          <>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="enable-ai">
+                <Trans>Enable AI Features</Trans>
+              </Label>
+              <Switch id="enable-ai" checked={enabled} disabled={!canEnable} onCheckedChange={setEnabled} />
+            </div>
 
-        <AIForm />
+            <p className={cn("flex items-center gap-x-2", enabled ? "text-success" : "text-destructive")}>
+              {enabled ? <CheckCircleIcon /> : <XCircleIcon />}
+              {enabled ? <Trans>Enabled</Trans> : <Trans>Disabled</Trans>}
+            </p>
+
+            <AIForm />
+          </>
+        )}
       </motion.div>
     </div>
   );

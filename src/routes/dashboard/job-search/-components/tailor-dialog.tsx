@@ -47,6 +47,7 @@ export function TailorDialog({ job, open, onOpenChange }: Props) {
   const [selectedSkills, setSelectedSkills] = useState<Set<number>>(new Set());
 
   const aiEnabled = useAIStore((s) => s.enabled);
+  const aiMode = useAIStore((s) => s.mode);
   const aiProvider = useAIStore((s) => s.provider);
   const aiModel = useAIStore((s) => s.model);
   const aiApiKey = useAIStore((s) => s.apiKey);
@@ -106,11 +107,13 @@ export function TailorDialog({ job, open, onOpenChange }: Props) {
       const resume = await client.resume.getById({ id: newResumeId });
 
       // Step 3: Call AI tailor endpoint
+      const aiCredentials =
+        aiMode === "managed"
+          ? { model: aiModel || undefined }
+          : { provider: aiProvider, model: aiModel, apiKey: aiApiKey, baseURL: aiBaseURL };
+
       const tailorOutput = await client.ai.tailorResume({
-        provider: aiProvider,
-        model: aiModel,
-        apiKey: aiApiKey,
-        baseURL: aiBaseURL,
+        ...aiCredentials,
         resumeData: resume.data,
         job,
       });

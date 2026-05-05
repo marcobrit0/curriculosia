@@ -7,8 +7,8 @@ import { useEffect, useMemo, useState } from "react";
 
 import type { TemplateMetadata } from "@/dialogs/resume/template/data";
 
-import { templates } from "@/dialogs/resume/template/data";
 import { Button } from "@/components/ui/button";
+import { templates } from "@/dialogs/resume/template/data";
 
 type TemplateItemProps = {
   metadata: TemplateMetadata;

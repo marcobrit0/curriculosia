@@ -83,7 +83,7 @@ function fileToBase64(file: File): Promise<string> {
 
 export function ImportResumeDialog(_: DialogProps<"resume.import">) {
   const navigate = useNavigate();
-  const { enabled: isAIEnabled, provider, model, apiKey, baseURL } = useAIStore();
+  const { enabled: isAIEnabled, mode: aiMode, provider, model, apiKey, baseURL } = useAIStore();
   const closeDialog = useDialogStore((state) => state.closeDialog);
 
   const prevTypeRef = useRef<string>("");
@@ -150,6 +150,8 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
         data = importer.parse(json);
       }
 
+      const credentials = aiMode === "managed" ? { model: model || undefined } : { provider, model, apiKey, baseURL };
+
       if (values.type === "pdf") {
         if (!isAIEnabled)
           throw new Error(t`This feature requires AI Integration to be enabled. Please enable it in the settings.`);
@@ -158,10 +160,7 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
         const base64 = await fileToBase64(values.file);
 
         data = await client.ai.parsePdf({
-          provider,
-          model,
-          apiKey,
-          baseURL,
+          ...credentials,
           file: { name: values.file.name, data: base64 },
         });
       }
@@ -179,10 +178,7 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
             : ("application/vnd.openxmlformats-officedocument.wordprocessingml.document" as const);
 
         data = await client.ai.parseDocx({
-          provider,
-          model,
-          apiKey,
-          baseURL,
+          ...credentials,
           mediaType,
           file: { name: values.file.name, data: base64 },
         });
