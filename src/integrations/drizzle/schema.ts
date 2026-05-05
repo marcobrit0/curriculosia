@@ -24,6 +24,7 @@ export const user = pg.pgTable(
     plan: userPlan("plan").notNull().default("free"),
     planExpiresAt: pg.timestamp("plan_expires_at", { withTimezone: true }),
     acceptedTermsAt: pg.timestamp("accepted_terms_at", { withTimezone: true }),
+    stripeCustomerId: pg.text("stripe_customer_id").unique(),
     lastActiveAt: pg.timestamp("last_active_at", { withTimezone: true }),
     createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: pg
@@ -431,6 +432,41 @@ export const aiUsage = pg.pgTable(
   (t) => [pg.unique().on(t.userId, t.period), pg.index().on(t.userId)],
 );
 
+export const resumeExportEntitlement = pg.pgTable(
+  "resume_export_entitlement",
+  {
+    id: pg
+      .uuid("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => generateId()),
+    userId: pg
+      .uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    resumeId: pg
+      .uuid("resume_id")
+      .notNull()
+      .references(() => resume.id, { onDelete: "cascade" }),
+    stripePaymentIntentId: pg.text("stripe_payment_intent_id").notNull().unique(),
+    amountCents: pg.integer("amount_cents").notNull(),
+    currency: pg.text("currency").notNull(),
+    purchasedAt: pg.timestamp("purchased_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [pg.unique().on(t.userId, t.resumeId), pg.index().on(t.resumeId)],
+);
+
+export const billingEventLog = pg.pgTable(
+  "billing_event_log",
+  {
+    // Stripe event id, e.g. evt_1NX...; serves as the idempotency key.
+    stripeEventId: pg.text("stripe_event_id").primaryKey(),
+    eventType: pg.text("event_type").notNull(),
+    receivedAt: pg.timestamp("received_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [pg.index().on(t.eventType)],
+);
+
 export const subscription = pg.pgTable(
   "subscription",
   {
@@ -480,6 +516,8 @@ export const relations = defineRelations(
     oauthConsent,
     subscription,
     aiUsage,
+    resumeExportEntitlement,
+    billingEventLog,
   },
   (r) => ({
     user: {
@@ -495,6 +533,17 @@ export const relations = defineRelations(
       oauthConsents: r.many.oauthConsent(),
       subscriptions: r.many.subscription(),
       aiUsages: r.many.aiUsage(),
+      exportEntitlements: r.many.resumeExportEntitlement(),
+    },
+    resumeExportEntitlement: {
+      user: r.one.user({
+        from: r.resumeExportEntitlement.userId,
+        to: r.user.id,
+      }),
+      resume: r.one.resume({
+        from: r.resumeExportEntitlement.resumeId,
+        to: r.resume.id,
+      }),
     },
     subscription: {
       user: r.one.user({
@@ -549,6 +598,7 @@ export const relations = defineRelations(
         from: r.resume.id,
         to: r.resumeStatistics.resumeId,
       }),
+      exportEntitlements: r.many.resumeExportEntitlement(),
     },
     resumeStatistics: {
       resume: r.one.resume({

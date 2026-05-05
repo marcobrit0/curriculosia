@@ -50,6 +50,13 @@ vi.mock("./storage", () => ({
   getStorageService: () => ({ delete: mockStorageDelete }),
 }));
 
+const mockCancelAllSubscriptions = vi.fn();
+vi.mock("./billing", () => ({
+  billingService: {
+    cancelAllSubscriptions: (...args: unknown[]) => mockCancelAllSubscriptions(...args),
+  },
+}));
+
 const { authService } = await import("./auth");
 
 beforeEach(() => {
@@ -59,6 +66,7 @@ beforeEach(() => {
   mockDelete.mockClear().mockReturnValue(mockDeleteChain);
   mockDeleteChain.where.mockReset();
   mockStorageDelete.mockReset();
+  mockCancelAllSubscriptions.mockReset().mockResolvedValue(undefined);
 });
 
 // --- exportData ---
