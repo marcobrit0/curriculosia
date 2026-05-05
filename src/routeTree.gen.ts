@@ -27,6 +27,8 @@ import { Route as AuthOauthRouteImport } from "./routes/auth/oauth";
 import { Route as AuthLoginRouteImport } from "./routes/auth/login";
 import { Route as AuthForgotPasswordRouteImport } from "./routes/auth/forgot-password";
 import { Route as ApiHealthRouteImport } from "./routes/api/health";
+import { Route as HomeTermsRouteImport } from "./routes/_home/terms";
+import { Route as HomePrivacyRouteImport } from "./routes/_home/privacy";
 import { Route as DotwellKnownOpenidConfigurationRouteImport } from "./routes/[.]well-known/openid-configuration";
 import { Route as DotwellKnownOauthProtectedResourceRouteImport } from "./routes/[.]well-known/oauth-protected-resource";
 import { Route as DotwellKnownOauthAuthorizationServerRouteImport } from "./routes/[.]well-known/oauth-authorization-server";
@@ -137,6 +139,16 @@ const ApiHealthRoute = ApiHealthRouteImport.update({
   id: "/api/health",
   path: "/api/health",
   getParentRoute: () => rootRouteImport,
+} as any);
+const HomeTermsRoute = HomeTermsRouteImport.update({
+  id: "/terms",
+  path: "/terms",
+  getParentRoute: () => HomeRouteRoute,
+} as any);
+const HomePrivacyRoute = HomePrivacyRouteImport.update({
+  id: "/privacy",
+  path: "/privacy",
+  getParentRoute: () => HomeRouteRoute,
 } as any);
 const DotwellKnownOpenidConfigurationRoute =
   DotwellKnownOpenidConfigurationRouteImport.update({
@@ -265,6 +277,8 @@ export interface FileRoutesByFullPath {
   "/.well-known/oauth-authorization-server": typeof DotwellKnownOauthAuthorizationServerRouteWithChildren;
   "/.well-known/oauth-protected-resource": typeof DotwellKnownOauthProtectedResourceRouteWithChildren;
   "/.well-known/openid-configuration": typeof DotwellKnownOpenidConfigurationRoute;
+  "/privacy": typeof HomePrivacyRoute;
+  "/terms": typeof HomeTermsRoute;
   "/api/health": typeof ApiHealthRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/auth/login": typeof AuthLoginRoute;
@@ -301,6 +315,8 @@ export interface FileRoutesByTo {
   "/.well-known/oauth-authorization-server": typeof DotwellKnownOauthAuthorizationServerRouteWithChildren;
   "/.well-known/oauth-protected-resource": typeof DotwellKnownOauthProtectedResourceRouteWithChildren;
   "/.well-known/openid-configuration": typeof DotwellKnownOpenidConfigurationRoute;
+  "/privacy": typeof HomePrivacyRoute;
+  "/terms": typeof HomeTermsRoute;
   "/api/health": typeof ApiHealthRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/auth/login": typeof AuthLoginRoute;
@@ -343,6 +359,8 @@ export interface FileRoutesById {
   "/.well-known/oauth-authorization-server": typeof DotwellKnownOauthAuthorizationServerRouteWithChildren;
   "/.well-known/oauth-protected-resource": typeof DotwellKnownOauthProtectedResourceRouteWithChildren;
   "/.well-known/openid-configuration": typeof DotwellKnownOpenidConfigurationRoute;
+  "/_home/privacy": typeof HomePrivacyRoute;
+  "/_home/terms": typeof HomeTermsRoute;
   "/api/health": typeof ApiHealthRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/auth/login": typeof AuthLoginRoute;
@@ -386,6 +404,8 @@ export interface FileRouteTypes {
     | "/.well-known/oauth-authorization-server"
     | "/.well-known/oauth-protected-resource"
     | "/.well-known/openid-configuration"
+    | "/privacy"
+    | "/terms"
     | "/api/health"
     | "/auth/forgot-password"
     | "/auth/login"
@@ -422,6 +442,8 @@ export interface FileRouteTypes {
     | "/.well-known/oauth-authorization-server"
     | "/.well-known/oauth-protected-resource"
     | "/.well-known/openid-configuration"
+    | "/privacy"
+    | "/terms"
     | "/api/health"
     | "/auth/forgot-password"
     | "/auth/login"
@@ -463,6 +485,8 @@ export interface FileRouteTypes {
     | "/.well-known/oauth-authorization-server"
     | "/.well-known/oauth-protected-resource"
     | "/.well-known/openid-configuration"
+    | "/_home/privacy"
+    | "/_home/terms"
     | "/api/health"
     | "/auth/forgot-password"
     | "/auth/login"
@@ -642,6 +666,20 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ApiHealthRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    "/_home/terms": {
+      id: "/_home/terms";
+      path: "/terms";
+      fullPath: "/terms";
+      preLoaderRoute: typeof HomeTermsRouteImport;
+      parentRoute: typeof HomeRouteRoute;
+    };
+    "/_home/privacy": {
+      id: "/_home/privacy";
+      path: "/privacy";
+      fullPath: "/privacy";
+      preLoaderRoute: typeof HomePrivacyRouteImport;
+      parentRoute: typeof HomeRouteRoute;
+    };
     "/.well-known/openid-configuration": {
       id: "/.well-known/openid-configuration";
       path: "/.well-known/openid-configuration";
@@ -793,10 +831,14 @@ declare module "@tanstack/react-router" {
 }
 
 interface HomeRouteRouteChildren {
+  HomePrivacyRoute: typeof HomePrivacyRoute;
+  HomeTermsRoute: typeof HomeTermsRoute;
   HomeIndexRoute: typeof HomeIndexRoute;
 }
 
 const HomeRouteRouteChildren: HomeRouteRouteChildren = {
+  HomePrivacyRoute: HomePrivacyRoute,
+  HomeTermsRoute: HomeTermsRoute,
   HomeIndexRoute: HomeIndexRoute,
 };
 

@@ -3,6 +3,7 @@ import type { Icon } from "@phosphor-icons/react";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { GithubLogoIcon } from "@phosphor-icons/react";
+import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
 
@@ -43,8 +44,8 @@ const getCommunityLinks = (): FooterLinkItem[] => [
 ];
 
 const getLegalLinks = (): FooterLinkItem[] => [
-  { url: "https://docs.curriculos.ia.br/legal/privacy-policy", label: t`Política de Privacidade`, external: true },
-  { url: "https://docs.curriculos.ia.br/legal/terms-of-service", label: t`Termos de Uso`, external: true },
+  { url: "/privacy", label: t`Política de Privacidade`, external: false },
+  { url: "/terms", label: t`Termos de Uso`, external: false },
   { url: "https://docs.curriculos.ia.br/legal/license", label: t`Licença`, external: true },
 ];
 
@@ -133,26 +134,34 @@ function FooterLinkGroup({ title, links }: FooterLinkGroupProps) {
 function FooterLink({ url, label, external = true }: FooterLinkItem) {
   const [isHovered, setIsHovered] = useState(false);
 
+  const linkClassName = "relative inline-block text-sm transition-colors hover:text-foreground";
+
+  const inner = (
+    <>
+      {label}
+      {external && <span className="sr-only"> ({t`abre em nova aba`})</span>}
+      <motion.div
+        aria-hidden="true"
+        initial={{ width: 0, opacity: 0 }}
+        animate={isHovered ? { width: "100%", opacity: 1 } : { width: 0, opacity: 0 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className="pointer-events-none absolute inset-s-0 -bottom-0.5 h-px rounded-md bg-primary"
+        style={{ willChange: "width, opacity" }}
+      />
+    </>
+  );
+
   return (
     <li className="relative" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      <a
-        href={url}
-        target={external ? "_blank" : undefined}
-        rel={external ? "noopener noreferrer" : undefined}
-        className="relative inline-block text-sm transition-colors hover:text-foreground"
-      >
-        {label}
-        {external && <span className="sr-only"> ({t`abre em nova aba`})</span>}
-
-        <motion.div
-          aria-hidden="true"
-          initial={{ width: 0, opacity: 0 }}
-          animate={isHovered ? { width: "100%", opacity: 1 } : { width: 0, opacity: 0 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          className="pointer-events-none absolute inset-s-0 -bottom-0.5 h-px rounded-md bg-primary"
-          style={{ willChange: "width, opacity" }}
-        />
-      </a>
+      {external ? (
+        <a href={url} target="_blank" rel="noopener noreferrer" className={linkClassName}>
+          {inner}
+        </a>
+      ) : (
+        <Link to={url} className={linkClassName}>
+          {inner}
+        </Link>
+      )}
     </li>
   );
 }

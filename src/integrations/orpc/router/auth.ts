@@ -1,5 +1,5 @@
 import { protectedProcedure, publicProcedure } from "../context";
-import { authService, type ProviderList } from "../services/auth";
+import { authService, type ProviderList, type UserDataExport } from "../services/auth";
 
 export const authRouter = {
   providers: {
@@ -18,6 +18,21 @@ export const authRouter = {
         return authService.providers.list();
       }),
   },
+
+  exportData: protectedProcedure
+    .route({
+      method: "GET",
+      path: "/auth/export",
+      tags: ["Authentication"],
+      operationId: "exportAccountData",
+      summary: "Export account data (LGPD portabilidade)",
+      description:
+        "Returns a JSON document containing the authenticated user's profile, resumes, subscriptions, and managed-AI usage history. Provided to satisfy the LGPD right to data portability (art. 18, V). Requires authentication.",
+      successDescription: "JSON dump of the user's data.",
+    })
+    .handler(async ({ context }): Promise<UserDataExport> => {
+      return await authService.exportData({ userId: context.user.id });
+    }),
 
   deleteAccount: protectedProcedure
     .route({

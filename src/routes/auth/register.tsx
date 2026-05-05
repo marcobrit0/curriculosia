@@ -41,6 +41,9 @@ const formSchema = z.object({
     }),
   email: z.email().toLowerCase(),
   password: z.string().min(6).max(64),
+  acceptTerms: z.literal(true, {
+    error: "You must accept the Terms of Use and Privacy Policy to create an account.",
+  }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -58,6 +61,7 @@ function RouteComponent() {
       username: "",
       email: "",
       password: "",
+      acceptTerms: false as unknown as true,
     },
   });
 
@@ -216,6 +220,44 @@ function RouteComponent() {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="acceptTerms"
+              render={({ field }) => (
+                <FormItem className="flex items-start gap-2 space-y-0">
+                  <FormControl
+                    render={
+                      <input
+                        type="checkbox"
+                        checked={field.value === true}
+                        onChange={(e) => field.onChange(e.target.checked)}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        name={field.name}
+                        className="mt-1 size-4 cursor-pointer rounded border-border accent-primary"
+                      />
+                    }
+                  />
+                  <div className="space-y-1">
+                    <FormLabel className="cursor-pointer text-sm leading-relaxed font-normal">
+                      <Trans>
+                        Eu li e concordo com os{" "}
+                        <Link to="/terms" target="_blank" className="font-medium underline underline-offset-2">
+                          Termos de Uso
+                        </Link>{" "}
+                        e a{" "}
+                        <Link to="/privacy" target="_blank" className="font-medium underline underline-offset-2">
+                          Política de Privacidade
+                        </Link>
+                        .
+                      </Trans>
+                    </FormLabel>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+
             <Button type="submit" className="w-full">
               <Trans>Sign up</Trans>
             </Button>
@@ -224,6 +266,20 @@ function RouteComponent() {
       )}
 
       <SocialAuth />
+
+      <p className="text-center text-xs leading-relaxed text-muted-foreground">
+        <Trans>
+          Ao continuar com qualquer método de cadastro, você concorda com os{" "}
+          <Link to="/terms" target="_blank" className="font-medium underline underline-offset-2">
+            Termos de Uso
+          </Link>{" "}
+          e a{" "}
+          <Link to="/privacy" target="_blank" className="font-medium underline underline-offset-2">
+            Política de Privacidade
+          </Link>
+          .
+        </Trans>
+      </p>
     </>
   );
 }
