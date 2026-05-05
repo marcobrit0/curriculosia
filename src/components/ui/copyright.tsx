@@ -4,27 +4,16 @@ import { cn } from "@/utils/style";
 
 type Props = React.ComponentProps<"div">;
 
+const COPYRIGHT_YEAR = new Date().getFullYear();
+
 export function Copyright({ className, ...props }: Props) {
   return (
     <div className={cn("text-xs leading-relaxed text-muted-foreground/80", className)} {...props}>
       <p>
-        <Trans>By the community, for the community.</Trans>
+        <Trans>Currículos IA é um produto da empresa MadeofIA © {COPYRIGHT_YEAR} Todos os direitos reservados.</Trans>
       </p>
 
-      <p>
-        <Trans>
-          Built for{" "}
-          <a
-            target="_blank"
-            rel="noopener"
-            href="https://curriculos.ia.br"
-            className="font-medium underline underline-offset-2"
-          >
-            Currículos IA
-          </a>
-          .
-        </Trans>
-      </p>
+      <p>CNPJ 65.599.230/0001-64</p>
 
       <p className="mt-4">Currículos IA v{__APP_VERSION__}</p>
     </div>

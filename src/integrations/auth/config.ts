@@ -133,6 +133,23 @@ const getAuthConfig = () => {
       ipAddress: { ipAddressHeaders: ["x-forwarded-for", "cf-connecting-ip"] },
     },
 
+    databaseHooks: {
+      user: {
+        create: {
+          // Stamp the LGPD consent timestamp at signup. The register UI
+          // requires the user to actively check the consent box before submit.
+          before: async (userInput) => {
+            return {
+              data: {
+                ...userInput,
+                acceptedTermsAt: new Date(),
+              },
+            };
+          },
+        },
+      },
+    },
+
     emailAndPassword: {
       enabled: !env.FLAG_DISABLE_EMAIL_AUTH,
       autoSignIn: true,
@@ -180,6 +197,11 @@ const getAuthConfig = () => {
         username: {
           type: "string",
           required: true,
+        },
+        acceptedTermsAt: {
+          type: "date",
+          required: false,
+          input: false,
         },
       },
     },

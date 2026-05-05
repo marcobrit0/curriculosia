@@ -23,6 +23,7 @@ export const user = pg.pgTable(
     twoFactorEnabled: pg.boolean("two_factor_enabled").notNull().default(false),
     plan: userPlan("plan").notNull().default("free"),
     planExpiresAt: pg.timestamp("plan_expires_at", { withTimezone: true }),
+    acceptedTermsAt: pg.timestamp("accepted_terms_at", { withTimezone: true }),
     lastActiveAt: pg.timestamp("last_active_at", { withTimezone: true }),
     createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: pg
