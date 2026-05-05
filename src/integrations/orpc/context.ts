@@ -11,6 +11,7 @@ import { auth, verifyOAuthToken } from "../auth/config";
 import { db } from "../drizzle/client";
 import { user } from "../drizzle/schema";
 import { isPremiumUser } from "./services/ai";
+import { getCurrentPeriod, getUsage, incrementUsage } from "./services/ai-usage";
 
 interface ORPCContext {
   locale: Locale;
@@ -123,6 +124,21 @@ export const aiProcedure = protectedProcedure.use(async ({ context, next }) => {
     throw new ORPCError("INTERNAL_SERVER_ERROR", {
       message: "Managed AI is not configured on this server.",
     });
+  }
+
+  // Enforce + record monthly usage cap for managed-mode calls only.
+  // BYO requests bill against the user's own provider, so they're uncapped.
+  if (aiMode === "managed") {
+    const period = getCurrentPeriod();
+    const usage = await getUsage(context.user.id, period);
+    if (usage.used >= usage.cap) {
+      throw new ORPCError("TOO_MANY_REQUESTS", {
+        message: `Monthly AI request limit reached (${usage.cap}). Resets ${usage.periodEnd.toISOString().slice(0, 10)}.`,
+      });
+    }
+    // Increment-before-handler. A user disconnecting mid-stream will be billed,
+    // which is preferable to letting concurrent requests over-spend the cap.
+    await incrementUsage(context.user.id, period);
   }
 
   return next({ context: { ...context, aiMode } });

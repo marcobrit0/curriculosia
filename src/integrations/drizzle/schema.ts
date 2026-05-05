@@ -405,6 +405,31 @@ export const oauthConsent = pg.pgTable(
   (t) => [pg.index().on(t.userId, t.clientId)],
 );
 
+export const aiUsage = pg.pgTable(
+  "ai_usage",
+  {
+    id: pg
+      .uuid("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => generateId()),
+    userId: pg
+      .uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    // UTC YYYY-MM, e.g. "2026-05". Identifies the billing window for cap enforcement.
+    period: pg.text("period").notNull(),
+    requestCount: pg.integer("request_count").notNull().default(0),
+    createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: pg
+      .timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => /* @__PURE__ */ new Date()),
+  },
+  (t) => [pg.unique().on(t.userId, t.period), pg.index().on(t.userId)],
+);
+
 export const subscription = pg.pgTable(
   "subscription",
   {
@@ -453,6 +478,7 @@ export const relations = defineRelations(
     oauthAccessToken,
     oauthConsent,
     subscription,
+    aiUsage,
   },
   (r) => ({
     user: {
@@ -467,10 +493,17 @@ export const relations = defineRelations(
       oauthAccessTokens: r.many.oauthAccessToken(),
       oauthConsents: r.many.oauthConsent(),
       subscriptions: r.many.subscription(),
+      aiUsages: r.many.aiUsage(),
     },
     subscription: {
       user: r.one.user({
         from: r.subscription.userId,
+        to: r.user.id,
+      }),
+    },
+    aiUsage: {
+      user: r.one.user({
+        from: r.aiUsage.userId,
         to: r.user.id,
       }),
     },

@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
+import { ORPCError } from "@orpc/client";
 import { DownloadSimpleIcon, FileIcon, UploadSimpleIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -192,7 +193,9 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
       closeDialog();
       void navigate({ to: `/builder/$resumeId`, params: { resumeId: id } });
     } catch (error: unknown) {
-      if (error instanceof Error) {
+      if (error instanceof ORPCError && error.code === "TOO_MANY_REQUESTS") {
+        toast.error(t`You've reached your monthly AI limit.`, { id: toastId, description: error.message });
+      } else if (error instanceof Error) {
         toast.error(error.message, { id: toastId, description: null });
       } else {
         toast.error(t`An unknown error occurred while importing your resume.`, { id: toastId, description: null });
