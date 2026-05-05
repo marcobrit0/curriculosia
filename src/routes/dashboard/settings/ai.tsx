@@ -58,14 +58,23 @@ const providerOptions: (ComboboxOption<AIProvider> & { defaultBaseURL: string })
   },
 ];
 
+type UsageInfo = {
+  used: number;
+  cap: number;
+  remaining: number;
+  periodEnd: string;
+};
+
 function ManagedAIPanel({
   isPremium,
   hasManagedKey,
   defaultModel,
+  usage,
 }: {
   isPremium: boolean;
   hasManagedKey: boolean;
   defaultModel: string;
+  usage: UsageInfo | undefined;
 }) {
   const model = useAIStore((s) => s.model);
   const setStore = useAIStore((s) => s.set);
@@ -124,6 +133,8 @@ function ManagedAIPanel({
         </div>
       </div>
 
+      {usage && <UsageMeter usage={usage} />}
+
       <div className="flex flex-col gap-y-2">
         <Label htmlFor="ai-managed-model">
           <Trans>Model (optional)</Trans>
@@ -150,6 +161,44 @@ function ManagedAIPanel({
           </Trans>
         </p>
       </div>
+    </div>
+  );
+}
+
+function UsageMeter({ usage }: { usage: UsageInfo }) {
+  const pct = usage.cap > 0 ? Math.min(100, Math.round((usage.used / usage.cap) * 100)) : 0;
+  const resetDate = new Date(usage.periodEnd);
+  const isOverLimit = usage.remaining <= 0;
+  const isNearLimit = !isOverLimit && pct >= 80;
+
+  return (
+    <div className="rounded-md border bg-popover p-4">
+      <div className="mb-2 flex items-baseline justify-between">
+        <span className="text-sm font-medium">
+          <Trans>Monthly AI usage</Trans>
+        </span>
+        <span
+          className={cn(
+            "text-sm tabular-nums",
+            isOverLimit && "text-destructive",
+            isNearLimit && "text-amber-600 dark:text-amber-400",
+          )}
+        >
+          {usage.used} / {usage.cap}
+        </span>
+      </div>
+      <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+        <div
+          className={cn(
+            "h-full transition-[width]",
+            isOverLimit ? "bg-destructive" : isNearLimit ? "bg-amber-500" : "bg-primary",
+          )}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      <p className="mt-2 text-xs text-muted-foreground">
+        <Trans>Resets on {resetDate.toLocaleDateString()}</Trans>
+      </p>
     </div>
   );
 }
@@ -397,6 +446,7 @@ function RouteComponent() {
             isPremium={Boolean(config?.isPremium)}
             hasManagedKey={Boolean(config?.hasManagedKey)}
             defaultModel={config?.defaultManagedModel ?? ""}
+            usage={config?.usage}
           />
         )}
 

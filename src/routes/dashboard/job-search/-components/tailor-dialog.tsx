@@ -1,5 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
+import { ORPCError } from "@orpc/client";
 import { ReadCvLogoIcon } from "@phosphor-icons/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -147,8 +148,12 @@ export function TailorDialog({ job, open, onOpenChange }: Props) {
         navigateToBuilder(newResumeId);
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown error";
-      toast.error(t`Tailoring failed`, { description: message });
+      if (error instanceof ORPCError && error.code === "TOO_MANY_REQUESTS") {
+        toast.error(t`You've reached your monthly AI limit.`, { description: error.message });
+      } else {
+        const message = error instanceof Error ? error.message : "Unknown error";
+        toast.error(t`Tailoring failed`, { description: message });
+      }
       setPhase({ step: "select" });
     }
   };

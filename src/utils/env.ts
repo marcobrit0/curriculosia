@@ -100,6 +100,9 @@ export const env = createEnv({
 
     // AI providers
     OPENROUTER_API_KEY: z.string().min(1).optional(),
+    // Per-user monthly cap for managed-mode AI requests. Counts only requests
+    // routed through OPENROUTER_API_KEY; BYO requests are uncapped.
+    AI_MONTHLY_REQUEST_CAP: z.coerce.number().int().positive().default(200),
 
     // Feature Flags
     FLAG_DEBUG_PRINTER: z.stringbool().default(false),

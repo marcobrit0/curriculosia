@@ -19,6 +19,7 @@ import {
   isPremiumUser,
   resolveAICredentials,
 } from "../services/ai";
+import { getUsage } from "../services/ai-usage";
 
 export const aiRouter = {
   getConfig: protectedProcedure
@@ -41,15 +42,34 @@ export const aiRouter = {
         hasManagedKey: z.boolean().describe("Whether OPENROUTER_API_KEY is configured on the server."),
         isPremium: z.boolean().describe("Whether the current user can use managed AI."),
         defaultManagedModel: z.string().describe("Default model identifier used when managed mode requests omit one."),
+        usage: z
+          .object({
+            used: z.number().int().nonnegative(),
+            cap: z.number().int().positive(),
+            remaining: z.number().int().nonnegative(),
+            period: z.string().describe("UTC YYYY-MM identifying the current billing window."),
+            periodEnd: z.iso.datetime().describe("First instant of the next UTC month, when usage resets."),
+          })
+          .describe("Managed-mode usage for the current billing window. Counts only OpenRouter-routed requests."),
       }),
     )
-    .handler(async ({ context }) => ({
-      enabled: !env.FLAG_DISABLE_AI,
-      mode: env.FLAG_AI_MODE,
-      hasManagedKey: Boolean(env.OPENROUTER_API_KEY),
-      isPremium: await isPremiumUser(context.user.id),
-      defaultManagedModel: DEFAULT_MANAGED_MODEL,
-    })),
+    .handler(async ({ context }) => {
+      const usage = await getUsage(context.user.id);
+      return {
+        enabled: !env.FLAG_DISABLE_AI,
+        mode: env.FLAG_AI_MODE,
+        hasManagedKey: Boolean(env.OPENROUTER_API_KEY),
+        isPremium: await isPremiumUser(context.user.id),
+        defaultManagedModel: DEFAULT_MANAGED_MODEL,
+        usage: {
+          used: usage.used,
+          cap: usage.cap,
+          remaining: usage.remaining,
+          period: usage.period,
+          periodEnd: usage.periodEnd.toISOString(),
+        },
+      };
+    }),
 
   testConnection: aiProcedure
     .route({
