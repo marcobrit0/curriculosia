@@ -7,14 +7,51 @@ import z, { flattenError, ZodError } from "zod";
 import { jobResultSchema } from "@/schema/jobs";
 import { type ResumeData, resumeDataSchema } from "@/schema/resume/data";
 import { tailorOutputSchema } from "@/schema/tailor";
+import { env } from "@/utils/env";
 
-import { gatedAIProcedure } from "../context";
-import { aiCredentialsSchema, aiProviderSchema, aiService, fileInputSchema } from "../services/ai";
-
-type AIProvider = z.infer<typeof aiProviderSchema>;
+import { aiProcedure, protectedProcedure } from "../context";
+import {
+  type AICredentialsInput,
+  aiCredentialsSchema,
+  aiService,
+  DEFAULT_MANAGED_MODEL,
+  fileInputSchema,
+  isPremiumUser,
+  resolveAICredentials,
+} from "../services/ai";
 
 export const aiRouter = {
-  testConnection: gatedAIProcedure
+  getConfig: protectedProcedure
+    .route({
+      method: "GET",
+      path: "/ai/config",
+      tags: ["AI"],
+      operationId: "getAiConfig",
+      summary: "Get AI configuration for the current user",
+      description:
+        "Returns whether AI is enabled on this instance, the credential mode (BYO vs. managed), whether a managed key is configured, and whether the current user has Premium access. Requires authentication.",
+      successDescription: "The current AI configuration for this user.",
+    })
+    .output(
+      z.object({
+        enabled: z.boolean().describe("False when FLAG_DISABLE_AI is set."),
+        mode: z
+          .enum(["byo", "managed", "both"])
+          .describe('How AI requests are credentialed on the server. "managed" and "both" require Premium.'),
+        hasManagedKey: z.boolean().describe("Whether OPENROUTER_API_KEY is configured on the server."),
+        isPremium: z.boolean().describe("Whether the current user can use managed AI."),
+        defaultManagedModel: z.string().describe("Default model identifier used when managed mode requests omit one."),
+      }),
+    )
+    .handler(async ({ context }) => ({
+      enabled: !env.FLAG_DISABLE_AI,
+      mode: env.FLAG_AI_MODE,
+      hasManagedKey: Boolean(env.OPENROUTER_API_KEY),
+      isPremium: await isPremiumUser(context.user.id),
+      defaultManagedModel: DEFAULT_MANAGED_MODEL,
+    })),
+
+  testConnection: aiProcedure
     .route({
       method: "POST",
       path: "/ai/test-connection",
@@ -22,26 +59,20 @@ export const aiRouter = {
       operationId: "testAiConnection",
       summary: "Test AI provider connection",
       description:
-        "Validates the connection to an AI provider by sending a simple test prompt. Requires the provider type, model name, API key, and an optional base URL. Supported providers: OpenAI, Anthropic, Google Gemini, Ollama, and Vercel AI Gateway. Requires authentication.",
+        "Validates the AI provider connection. In BYO mode, supply provider/model/apiKey/baseURL; in managed mode (Premium), credentials are sourced from the server. Requires authentication.",
       successDescription: "The AI provider connection was successful.",
     })
-    .input(
-      z.object({
-        provider: aiProviderSchema,
-        model: z.string(),
-        apiKey: z.string(),
-        baseURL: z.string(),
-      }),
-    )
+    .input(aiCredentialsSchema)
     .errors({
       BAD_GATEWAY: {
         message: "The AI provider returned an error or is unreachable.",
         status: 502,
       },
     })
-    .handler(async ({ input }) => {
+    .handler(async ({ context, input }) => {
       try {
-        return await aiService.testConnection(input);
+        const credentials = resolveAICredentials(context.aiMode, input);
+        return await aiService.testConnection(credentials);
       } catch (error) {
         if (error instanceof AISDKError || error instanceof OllamaError) {
           throw new ORPCError("BAD_GATEWAY", { message: error.message });
@@ -51,7 +82,7 @@ export const aiRouter = {
       }
     }),
 
-  parsePdf: gatedAIProcedure
+  parsePdf: aiProcedure
     .route({
       method: "POST",
       path: "/ai/parse-pdf",
@@ -59,7 +90,7 @@ export const aiRouter = {
       operationId: "parseResumePdf",
       summary: "Parse a PDF file into resume data",
       description:
-        "Extracts structured resume data from a PDF file using the specified AI provider. The file should be sent as a base64-encoded string along with AI provider credentials. Returns a complete ResumeData object. Requires authentication.",
+        "Extracts structured resume data from a PDF file using the configured AI provider. The file should be sent as a base64-encoded string. AI credentials are required in BYO mode and ignored in managed mode. Returns a complete ResumeData object. Requires authentication.",
       successDescription: "The PDF was successfully parsed into structured resume data.",
     })
     .input(
@@ -78,9 +109,10 @@ export const aiRouter = {
         status: 400,
       },
     })
-    .handler(async ({ input }): Promise<ResumeData> => {
+    .handler(async ({ context, input }): Promise<ResumeData> => {
       try {
-        return await aiService.parsePdf(input);
+        const credentials = resolveAICredentials(context.aiMode, input);
+        return await aiService.parsePdf({ ...credentials, file: input.file });
       } catch (error) {
         if (error instanceof AISDKError) {
           throw new ORPCError("BAD_GATEWAY", { message: error.message });
@@ -96,7 +128,7 @@ export const aiRouter = {
       }
     }),
 
-  parseDocx: gatedAIProcedure
+  parseDocx: aiProcedure
     .route({
       method: "POST",
       path: "/ai/parse-docx",
@@ -104,7 +136,7 @@ export const aiRouter = {
       operationId: "parseResumeDocx",
       summary: "Parse a DOCX file into resume data",
       description:
-        "Extracts structured resume data from a DOCX or DOC file using the specified AI provider. The file should be sent as a base64-encoded string along with AI provider credentials and the document's media type. Returns a complete ResumeData object. Requires authentication.",
+        "Extracts structured resume data from a DOCX or DOC file using the configured AI provider. The file should be sent as a base64-encoded string along with its media type. AI credentials are required in BYO mode and ignored in managed mode. Returns a complete ResumeData object. Requires authentication.",
       successDescription: "The DOCX was successfully parsed into structured resume data.",
     })
     .input(
@@ -127,9 +159,10 @@ export const aiRouter = {
         status: 400,
       },
     })
-    .handler(async ({ input }) => {
+    .handler(async ({ context, input }) => {
       try {
-        return await aiService.parseDocx(input);
+        const credentials = resolveAICredentials(context.aiMode, input);
+        return await aiService.parseDocx({ ...credentials, file: input.file, mediaType: input.mediaType });
       } catch (error) {
         if (error instanceof AISDKError) {
           throw new ORPCError("BAD_GATEWAY", { message: error.message });
@@ -146,7 +179,7 @@ export const aiRouter = {
       }
     }),
 
-  chat: gatedAIProcedure
+  chat: aiProcedure
     .route({
       method: "POST",
       path: "/ai/chat",
@@ -154,21 +187,20 @@ export const aiRouter = {
       operationId: "aiChat",
       summary: "Chat with AI to modify resume",
       description:
-        "Streams a chat response from the configured AI provider. The LLM can call the patch_resume tool to generate JSON Patch operations that modify the resume. Requires authentication and AI provider credentials.",
+        "Streams a chat response from the configured AI provider. The LLM can call the patch_resume tool to generate JSON Patch operations that modify the resume. AI credentials are required in BYO mode and ignored in managed mode. Requires authentication.",
     })
     .input(
-      type<{
-        provider: AIProvider;
-        model: string;
-        apiKey: string;
-        baseURL: string;
-        messages: UIMessage[];
-        resumeData: ResumeData;
-      }>(),
+      type<
+        AICredentialsInput & {
+          messages: UIMessage[];
+          resumeData: ResumeData;
+        }
+      >(),
     )
-    .handler(async ({ input }) => {
+    .handler(async ({ context, input }) => {
       try {
-        return await aiService.chat(input);
+        const credentials = resolveAICredentials(context.aiMode, input);
+        return await aiService.chat({ ...credentials, messages: input.messages, resumeData: input.resumeData });
       } catch (error) {
         if (error instanceof AISDKError || error instanceof OllamaError) {
           throw new ORPCError("BAD_GATEWAY", { message: error.message });
@@ -178,7 +210,7 @@ export const aiRouter = {
       }
     }),
 
-  tailorResume: gatedAIProcedure
+  tailorResume: aiProcedure
     .route({
       method: "POST",
       path: "/ai/tailor-resume",
@@ -186,7 +218,7 @@ export const aiRouter = {
       operationId: "tailorResume",
       summary: "Auto-tailor resume for a job posting",
       description:
-        "Uses AI to automatically tailor a resume for a specific job posting. Rewrites the summary, adjusts experience descriptions, and curates skills for ATS optimization. Returns structured modifications as a simplified output object. Requires authentication and AI credentials.",
+        "Uses AI to automatically tailor a resume for a specific job posting. Rewrites the summary, adjusts experience descriptions, and curates skills for ATS optimization. Returns structured modifications as a simplified output object. AI credentials are required in BYO mode and ignored in managed mode. Requires authentication.",
       successDescription: "Structured tailoring output returned successfully.",
     })
     .input(
@@ -207,9 +239,10 @@ export const aiRouter = {
         status: 400,
       },
     })
-    .handler(async ({ input }) => {
+    .handler(async ({ context, input }) => {
       try {
-        return await aiService.tailorResume(input);
+        const credentials = resolveAICredentials(context.aiMode, input);
+        return await aiService.tailorResume({ ...credentials, resumeData: input.resumeData, job: input.job });
       } catch (error) {
         if (error instanceof AISDKError || error instanceof OllamaError) {
           throw new ORPCError("BAD_GATEWAY", { message: error.message });

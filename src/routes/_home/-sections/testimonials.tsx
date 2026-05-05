@@ -148,12 +148,7 @@ export function Testimonials() {
         </p>
       </motion.div>
 
-      <div
-        className="relative"
-        role="region"
-        aria-label={t`Depoimentos de usuários`}
-        aria-live="off"
-      >
+      <div className="relative" role="region" aria-label={t`Depoimentos de usuários`} aria-live="off">
         {/* Left fade */}
         <div className="pointer-events-none absolute inset-s-0 top-0 bottom-0 z-10 w-16 bg-linear-to-r from-background to-transparent sm:w-24 md:w-32 lg:w-48" />
 

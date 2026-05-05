@@ -1,6 +1,7 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
+import { ORPCError } from "@orpc/client";
 import { streamToEventIterator } from "@orpc/server";
 import {
   convertToModelMessages,
@@ -13,6 +14,7 @@ import {
   type UIMessage,
 } from "ai";
 import { createOllama } from "ai-sdk-ollama";
+import { eq } from "drizzle-orm";
 import { jsonrepair } from "jsonrepair";
 import { match } from "ts-pattern";
 import z, { flattenError, ZodError } from "zod";
@@ -31,8 +33,11 @@ import {
   patchResumeDescription,
   patchResumeInputSchema,
 } from "@/integrations/ai/tools/patch-resume";
+import { db } from "@/integrations/drizzle/client";
+import { user } from "@/integrations/drizzle/schema";
 import { defaultResumeData, resumeDataSchema } from "@/schema/resume/data";
 import { type TailorOutput, tailorOutputSchema } from "@/schema/tailor";
+import { env } from "@/utils/env";
 import { isObject } from "@/utils/sanitize";
 
 const aiExtractionTemplate = {
@@ -289,19 +294,23 @@ function normalizeResumeDataForSchema(data: Record<string, unknown>) {
   return { ...data, sections: normalizedSections };
 }
 
-export const aiProviderSchema = z.enum(["ollama", "openai", "gemini", "anthropic", "vercel-ai-gateway"]);
+export const aiProviderSchema = z.enum(["ollama", "openai", "gemini", "anthropic", "vercel-ai-gateway", "openrouter"]);
 
 type AIProvider = z.infer<typeof aiProviderSchema>;
 
-type GetModelInput = {
+export type ResolvedAICredentials = {
   provider: AIProvider;
   model: string;
   apiKey: string;
   baseURL: string;
 };
 
+type GetModelInput = ResolvedAICredentials;
+
 const MAX_AI_FILE_BYTES = 10 * 1024 * 1024; // 10MB
 const MAX_AI_FILE_BASE64_CHARS = Math.ceil((MAX_AI_FILE_BYTES * 4) / 3) + 4;
+
+export const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 function getModel(input: GetModelInput) {
   const { provider, model, apiKey } = input;
@@ -313,22 +322,71 @@ function getModel(input: GetModelInput) {
     .with("anthropic", () => createAnthropic({ apiKey, baseURL }).languageModel(model))
     .with("vercel-ai-gateway", () => createGateway({ apiKey, baseURL }).languageModel(model))
     .with("gemini", () => createGoogleGenerativeAI({ apiKey, baseURL }).languageModel(model))
+    .with("openrouter", () => createOpenAI({ apiKey, baseURL: baseURL ?? OPENROUTER_BASE_URL }).chat(model))
     .exhaustive();
 }
 
+// BYO credentials sent from the client. All fields optional so managed-mode
+// requests (which omit them entirely) still pass validation.
 export const aiCredentialsSchema = z.object({
-  provider: aiProviderSchema,
-  model: z.string(),
-  apiKey: z.string(),
-  baseURL: z.string(),
+  provider: aiProviderSchema.optional(),
+  model: z.string().optional(),
+  apiKey: z.string().optional(),
+  baseURL: z.string().optional(),
 });
+
+export type AICredentialsInput = z.infer<typeof aiCredentialsSchema>;
+
+export type AIMode = "byo" | "managed";
+
+// Cheap multimodal default used when managed-mode requests don't specify a model.
+export const DEFAULT_MANAGED_MODEL = "google/gemini-2.0-flash-001";
+
+export async function isPremiumUser(userId: string): Promise<boolean> {
+  const [row] = await db
+    .select({ plan: user.plan, planExpiresAt: user.planExpiresAt })
+    .from(user)
+    .where(eq(user.id, userId))
+    .limit(1);
+  if (!row || row.plan !== "premium") return false;
+  if (row.planExpiresAt && row.planExpiresAt < new Date()) return false;
+  return true;
+}
+
+export function resolveAICredentials(aiMode: AIMode, input: AICredentialsInput): ResolvedAICredentials {
+  if (aiMode === "managed") {
+    if (!env.OPENROUTER_API_KEY) {
+      throw new ORPCError("INTERNAL_SERVER_ERROR", {
+        message: "Managed AI is not configured on this server.",
+      });
+    }
+    return {
+      provider: "openrouter",
+      model: input.model || DEFAULT_MANAGED_MODEL,
+      apiKey: env.OPENROUTER_API_KEY,
+      baseURL: OPENROUTER_BASE_URL,
+    };
+  }
+
+  if (!input.provider || !input.apiKey || !input.model) {
+    throw new ORPCError("BAD_REQUEST", {
+      message: "AI provider, model, and API key are required.",
+    });
+  }
+  return {
+    provider: input.provider,
+    model: input.model,
+    apiKey: input.apiKey,
+    baseURL: input.baseURL ?? "",
+  };
+}
 
 export const fileInputSchema = z.object({
   name: z.string(),
   data: z.string().max(MAX_AI_FILE_BASE64_CHARS, "File is too large. Maximum size is 10MB."), // base64 encoded
 });
 
-type TestConnectionInput = z.infer<typeof aiCredentialsSchema>;
+type TestConnectionInput = ResolvedAICredentials;
 
 async function testConnection(input: TestConnectionInput): Promise<boolean> {
   const RESPONSE_OK = "1";
@@ -342,7 +400,7 @@ async function testConnection(input: TestConnectionInput): Promise<boolean> {
   return result.output === RESPONSE_OK;
 }
 
-type ParsePdfInput = z.infer<typeof aiCredentialsSchema> & {
+type ParsePdfInput = ResolvedAICredentials & {
   file: z.infer<typeof fileInputSchema>;
 };
 
@@ -391,7 +449,7 @@ async function parsePdf(input: ParsePdfInput): Promise<ResumeData> {
   return parseAndValidateResumeJson(result.text);
 }
 
-type ParseDocxInput = z.infer<typeof aiCredentialsSchema> & {
+type ParseDocxInput = ResolvedAICredentials & {
   file: z.infer<typeof fileInputSchema>;
   mediaType: "application/msword" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 };
@@ -416,7 +474,7 @@ function buildChatSystemPrompt(resumeData: ResumeData): string {
   return chatSystemPromptTemplate.replace("{{RESUME_DATA}}", JSON.stringify(resumeData, null, 2));
 }
 
-type ChatInput = z.infer<typeof aiCredentialsSchema> & {
+type ChatInput = ResolvedAICredentials & {
   messages: UIMessage[];
   resumeData: ResumeData;
 };
@@ -459,7 +517,7 @@ function buildTailorSystemPrompt(resumeData: ResumeData, job: JobResult): string
     .replace("{{JOB_SKILLS}}", (job.job_required_skills || []).join(", ") || "None specified.");
 }
 
-type TailorResumeInput = z.infer<typeof aiCredentialsSchema> & {
+type TailorResumeInput = ResolvedAICredentials & {
   resumeData: ResumeData;
   job: JobResult;
 };

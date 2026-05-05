@@ -10,6 +10,7 @@ import { env } from "@/utils/env";
 import { auth, verifyOAuthToken } from "../auth/config";
 import { db } from "../drizzle/client";
 import { user } from "../drizzle/schema";
+import { isPremiumUser } from "./services/ai";
 
 interface ORPCContext {
   locale: Locale;
@@ -86,16 +87,45 @@ export const protectedProcedure = publicProcedure.use(async ({ context, next }) 
 });
 
 /**
- * Authenticated procedure for AI endpoints. Rejects requests when AI features
- * are globally disabled via FLAG_DISABLE_AI. This is the choke point that will
- * be replaced with a per-user premium check once subscriptions are wired up.
+ * Authenticated procedure for AI endpoints. Decides per-request whether to
+ * route through BYO (user-supplied credentials) or managed (server's
+ * OPENROUTER_API_KEY, gated to plan === "premium") based on FLAG_AI_MODE
+ * and the user's plan. Adds `aiMode` to context so handlers can resolve
+ * credentials via `resolveAICredentials`.
  */
-export const gatedAIProcedure = protectedProcedure.use(async ({ context, next }) => {
+export const aiProcedure = protectedProcedure.use(async ({ context, next }) => {
   if (env.FLAG_DISABLE_AI) {
     throw new ORPCError("FORBIDDEN", { message: "AI features are currently disabled" });
   }
 
-  return next({ context });
+  const flagMode = env.FLAG_AI_MODE;
+  let aiMode: "byo" | "managed";
+
+  if (flagMode === "byo") {
+    aiMode = "byo";
+  } else {
+    const isPremium = await isPremiumUser(context.user.id);
+
+    if (flagMode === "managed") {
+      if (!isPremium) {
+        throw new ORPCError("FORBIDDEN", {
+          message: "AI features require a Premium plan.",
+        });
+      }
+      aiMode = "managed";
+    } else {
+      // "both" — premium gets managed, free falls back to BYO
+      aiMode = isPremium ? "managed" : "byo";
+    }
+  }
+
+  if (aiMode === "managed" && !env.OPENROUTER_API_KEY) {
+    throw new ORPCError("INTERNAL_SERVER_ERROR", {
+      message: "Managed AI is not configured on this server.",
+    });
+  }
+
+  return next({ context: { ...context, aiMode } });
 });
 
 /**

@@ -98,14 +98,27 @@ export const env = createEnv({
     SENTRY_ENVIRONMENT: z.string().min(1).optional(),
     SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1).default(0),
 
+    // AI providers
+    OPENROUTER_API_KEY: z.string().min(1).optional(),
+
     // Feature Flags
     FLAG_DEBUG_PRINTER: z.stringbool().default(false),
     FLAG_DISABLE_SIGNUPS: z.stringbool().default(false),
     FLAG_DISABLE_EMAIL_AUTH: z.stringbool().default(false),
     FLAG_DISABLE_IMAGE_PROCESSING: z.stringbool().default(false),
-    FLAG_DISABLE_AI: z.stringbool().default(true),
+    // Emergency kill-switch for all AI endpoints. Default off; set to "true" to disable.
+    FLAG_DISABLE_AI: z.stringbool().default(false),
+    // Selects how AI requests are credentialed.
+    //   "byo"     — every user supplies their own provider/key (self-host default)
+    //   "managed" — server uses OPENROUTER_API_KEY; gated to plan === "premium"
+    //   "both"    — premium users get managed; free users fall back to BYO
+    FLAG_AI_MODE: z.enum(["byo", "managed", "both"]).default("byo"),
   },
 });
+
+if (isProduction && env.FLAG_AI_MODE !== "byo" && !env.OPENROUTER_API_KEY) {
+  throw new Error(`FLAG_AI_MODE="${env.FLAG_AI_MODE}" requires OPENROUTER_API_KEY to be set in production.`);
+}
 
 if (isProduction && env.EMAIL_TRANSPORT === "smtp") {
   const missing = [

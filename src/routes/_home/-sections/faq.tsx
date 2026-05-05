@@ -31,8 +31,8 @@ const getFaqItems = (): FAQItemData[] => [
     answer: (
       <Trans>
         Sim, o Currículos IA está disponível em português do Brasil e em outros idiomas. Você pode escolher o idioma nas
-        configurações ou usar o seletor de idioma no topo da página. Se não encontrar o seu idioma, ou quiser melhorar as
-        traduções existentes, você pode{" "}
+        configurações ou usar o seletor de idioma no topo da página. Se não encontrar o seu idioma, ou quiser melhorar
+        as traduções existentes, você pode{" "}
         <a
           href={crowdinUrl}
           target="_blank"

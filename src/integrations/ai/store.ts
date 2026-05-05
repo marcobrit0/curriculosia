@@ -8,8 +8,13 @@ export type AIProvider = "vercel-ai-gateway" | "openai" | "gemini" | "anthropic"
 
 type TestStatus = "unverified" | "success" | "failure";
 
+// Local preference for which credential path to use. Authoritative dispatch
+// happens server-side based on FLAG_AI_MODE + plan; this is only a UX hint.
+export type AIMode = "byo" | "managed";
+
 type AIStoreState = {
   enabled: boolean;
+  mode: AIMode;
   provider: AIProvider;
   model: string;
   apiKey: string;
@@ -20,6 +25,7 @@ type AIStoreState = {
 type AIStoreActions = {
   canEnable: () => boolean;
   setEnabled: (value: boolean) => void;
+  setMode: (value: AIMode) => void;
   set: (fn: (draft: WritableDraft<AIStoreState>) => void) => void;
   reset: () => void;
 };
@@ -28,6 +34,7 @@ type AIStore = AIStoreState & AIStoreActions;
 
 const initialState: AIStoreState = {
   enabled: false,
+  mode: "byo",
   provider: "openai",
   model: "",
   apiKey: "",
@@ -63,7 +70,8 @@ export const useAIStore = create<AIStore>()(
       },
       reset: () => set(() => initialState),
       canEnable: () => {
-        const { testStatus } = get();
+        const { mode, testStatus } = get();
+        if (mode === "managed") return true;
         return testStatus === "success";
       },
       setEnabled: (value: boolean) => {
@@ -73,12 +81,24 @@ export const useAIStore = create<AIStore>()(
           draft.enabled = value;
         });
       },
+      setMode: (value: AIMode) => {
+        set((draft) => {
+          if (draft.mode === value) return;
+          draft.mode = value;
+          // Switching mode invalidates the BYO test result; let the user re-enable.
+          draft.enabled = value === "managed";
+          if (value === "byo") {
+            draft.testStatus = "unverified";
+          }
+        });
+      },
     })),
     {
       name: "ai-store",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         enabled: state.enabled,
+        mode: state.mode,
         provider: state.provider,
         model: state.model,
         apiKey: state.apiKey,
