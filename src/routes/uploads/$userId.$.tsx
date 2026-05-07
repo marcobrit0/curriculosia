@@ -3,9 +3,6 @@ import { createHash } from "node:crypto";
 import { basename, extname, normalize } from "node:path";
 
 import { getStorageService, inferContentType } from "@/integrations/orpc/services/storage";
-import { env } from "@/utils/env";
-
-const storageService = getStorageService();
 
 export const Route = createFileRoute("/uploads/$userId/$")({
   server: { handlers: { GET: handler } },
@@ -25,6 +22,8 @@ async function handler({ request }: { request: Request }) {
 
   if (!isValidPath(userId) || !isValidPathSegments(filePath)) return new Response("Forbidden", { status: 403 });
 
+  const storageService = getStorageService();
+
   // Build the full storage key: uploads/{userId}/{filePath}
   const key = `uploads/${userId}/${filePath}`;
   const storedFile = await storageService.read(key);
@@ -39,12 +38,14 @@ async function handler({ request }: { request: Request }) {
   if (isNotModified(request.headers, etag)) return makeNotModifiedResponse(etag);
 
   const shouldForceDownload = [".pdf"].includes(ext);
+  const { env } = await import("@/utils/env");
   const headers = buildResponseHeaders({
     filename,
     storedFile,
     contentType,
     etag,
     shouldForceDownload,
+    appUrl: env.APP_URL,
   });
 
   const buffer = toArrayBuffer(storedFile.data);
@@ -114,6 +115,7 @@ type BuildResponseHeaderArgs = {
   contentType: string;
   etag: string;
   shouldForceDownload: boolean;
+  appUrl: string;
 };
 
 /**
@@ -125,6 +127,7 @@ function buildResponseHeaders({
   contentType,
   etag,
   shouldForceDownload,
+  appUrl,
 }: BuildResponseHeaderArgs): Headers {
   const headers = new Headers();
 
@@ -146,7 +149,7 @@ function buildResponseHeaders({
   headers.set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox;");
   headers.set("X-Frame-Options", "DENY");
   headers.set("X-Download-Options", "noopen");
-  headers.set("Access-Control-Allow-Origin", env.APP_URL);
+  headers.set("Access-Control-Allow-Origin", appUrl);
 
   return headers;
 }

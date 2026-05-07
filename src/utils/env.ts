@@ -1,6 +1,7 @@
 import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
 
+const isServer = typeof window === "undefined";
 const isProduction = process.env.NODE_ENV === "production";
 
 const PLACEHOLDER_AUTH_SECRET = "change-me-to-a-secure-secret-key-in-production";
@@ -129,11 +130,11 @@ export const env = createEnv({
   },
 });
 
-if (isProduction && env.FLAG_AI_MODE !== "byo" && !env.OPENROUTER_API_KEY) {
+if (isServer && isProduction && env.FLAG_AI_MODE !== "byo" && !env.OPENROUTER_API_KEY) {
   throw new Error(`FLAG_AI_MODE="${env.FLAG_AI_MODE}" requires OPENROUTER_API_KEY to be set in production.`);
 }
 
-if (env.BILLING_ENABLED) {
+if (isServer && env.BILLING_ENABLED) {
   const missingBilling = [
     ["STRIPE_SECRET_KEY", env.STRIPE_SECRET_KEY],
     ["STRIPE_WEBHOOK_SECRET", env.STRIPE_WEBHOOK_SECRET],
@@ -149,7 +150,7 @@ if (env.BILLING_ENABLED) {
   }
 }
 
-if (isProduction && env.EMAIL_TRANSPORT === "smtp") {
+if (isServer && isProduction && env.EMAIL_TRANSPORT === "smtp") {
   const missing = [
     ["SMTP_HOST", env.SMTP_HOST],
     ["SMTP_USER", env.SMTP_USER],

@@ -4,8 +4,6 @@ import z from "zod";
 import { protectedProcedure } from "../context";
 import { getStorageService, isImageFile, processImageForUpload, uploadFile } from "../services/storage";
 
-const storageService = getStorageService();
-
 const fileSchema = z.file().max(10 * 1024 * 1024, "File size must be less than 10MB");
 
 const filenameSchema = z.object({
@@ -91,6 +89,7 @@ export const storageRouter = {
       },
     })
     .handler(async ({ context, input }): Promise<void> => {
+      const storageService = getStorageService();
       const requestedKey = normalizeKey(input.filename);
       const key = requestedKey.startsWith("uploads/")
         ? requestedKey
